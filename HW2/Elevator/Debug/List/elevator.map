@@ -1,0 +1,39 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+cabins_states                                                                     0x0260       2
+cabins_floors                                                                     0x0262       2
+cabins_up_stops                                                                   0x0264      10
+cabins_down_stops                                                                 0x026E      10
+threshold                                                                         0x0278       2
+flag                                                                              0x027A       2
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+counter0                                                                          R5           1
+counter1                                                                          R4           1
+seconds0                                                                          R7           1
+seconds1                                                                          R6           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+timer0_ovf_isr                                                                    0x0005D    232
+timer2_ovf_isr                                                                    0x00145    263
+LCD_Char                                                                          0x0024F     27
+LCD_Init                                                                          0x0026A     18
+LCD_String                                                                        0x0027C     27
+LCD_String_xy                                                                     0x00297     30
+LCD_Clear                                                                         0x002B5      6
+off_LED                                                                           0x002BB     47
+calc_distance_time                                                                0x002EA    323
+check_out_buttons                                                                 0x0042D    149
+check_in_buttons                                                                  0x004C2     99
+update_lcd                                                                        0x00525    164
+move_cabin_states                                                                 0x005C9     89
+main                                                                              0x00622     79

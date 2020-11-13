@@ -1,0 +1,4774 @@
+
+AVRASM ver. 2.1.30  D:\University\Courses\Semester 8\Embedded Systems\HWs\HW2\Elevator\Debug\List\elevator.asm Fri Apr 10 22:03:08 2020
+
+D:\University\Courses\Semester 8\Embedded Systems\HWs\HW2\Elevator\Debug\List\elevator.asm(1088): warning: Register r5 already defined by the .DEF directive
+D:\University\Courses\Semester 8\Embedded Systems\HWs\HW2\Elevator\Debug\List\elevator.asm(1089): warning: Register r4 already defined by the .DEF directive
+D:\University\Courses\Semester 8\Embedded Systems\HWs\HW2\Elevator\Debug\List\elevator.asm(1090): warning: Register r7 already defined by the .DEF directive
+D:\University\Courses\Semester 8\Embedded Systems\HWs\HW2\Elevator\Debug\List\elevator.asm(1091): warning: Register r6 already defined by the .DEF directive
+                 
+                 
+                 ;CodeVisionAVR C Compiler V3.12 Advanced
+                 ;(C) Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
+                 ;http://www.hpinfotech.com
+                 
+                 ;Build configuration    : Debug
+                 ;Chip type              : ATmega32
+                 ;Program type           : Application
+                 ;Clock frequency        : 8.000000 MHz
+                 ;Memory model           : Small
+                 ;Optimize for           : Size
+                 ;(s)printf features     : int, width
+                 ;(s)scanf features      : int, width
+                 ;External RAM size      : 0
+                 ;Data Stack size        : 512 byte(s)
+                 ;Heap size              : 0 byte(s)
+                 ;Promote 'char' to 'int': Yes
+                 ;'char' is unsigned     : Yes
+                 ;8 bit enums            : Yes
+                 ;Global 'const' stored in FLASH: Yes
+                 ;Enhanced function parameter passing: Yes
+                 ;Enhanced core instructions: On
+                 ;Automatic register allocation for global variables: On
+                 ;Smart register allocation: On
+                 
+                 	#define _MODEL_SMALL_
+                 
+                 	#pragma AVRPART ADMIN PART_NAME ATmega32
+                 	#pragma AVRPART MEMORY PROG_FLASH 32768
+                 	#pragma AVRPART MEMORY EEPROM 1024
+                 	#pragma AVRPART MEMORY INT_SRAM SIZE 2048
+                 	#pragma AVRPART MEMORY INT_SRAM START_ADDR 0x60
+                 
+                 	#define CALL_SUPPORTED 1
+                 
+                 	.LISTMAC
+                 	.EQU UDRE=0x5
+                 	.EQU RXC=0x7
+                 	.EQU USR=0xB
+                 	.EQU UDR=0xC
+                 	.EQU SPSR=0xE
+                 	.EQU SPDR=0xF
+                 	.EQU EERE=0x0
+                 	.EQU EEWE=0x1
+                 	.EQU EEMWE=0x2
+                 	.EQU EECR=0x1C
+                 	.EQU EEDR=0x1D
+                 	.EQU EEARL=0x1E
+                 	.EQU EEARH=0x1F
+                 	.EQU WDTCR=0x21
+                 	.EQU MCUCR=0x35
+                 	.EQU GICR=0x3B
+                 	.EQU SPL=0x3D
+                 	.EQU SPH=0x3E
+                 	.EQU SREG=0x3F
+                 
+                 	.DEF R0X0=R0
+                 	.DEF R0X1=R1
+                 	.DEF R0X2=R2
+                 	.DEF R0X3=R3
+                 	.DEF R0X4=R4
+                 	.DEF R0X5=R5
+                 	.DEF R0X6=R6
+                 	.DEF R0X7=R7
+                 	.DEF R0X8=R8
+                 	.DEF R0X9=R9
+                 	.DEF R0XA=R10
+                 	.DEF R0XB=R11
+                 	.DEF R0XC=R12
+                 	.DEF R0XD=R13
+                 	.DEF R0XE=R14
+                 	.DEF R0XF=R15
+                 	.DEF R0X10=R16
+                 	.DEF R0X11=R17
+                 	.DEF R0X12=R18
+                 	.DEF R0X13=R19
+                 	.DEF R0X14=R20
+                 	.DEF R0X15=R21
+                 	.DEF R0X16=R22
+                 	.DEF R0X17=R23
+                 	.DEF R0X18=R24
+                 	.DEF R0X19=R25
+                 	.DEF R0X1A=R26
+                 	.DEF R0X1B=R27
+                 	.DEF R0X1C=R28
+                 	.DEF R0X1D=R29
+                 	.DEF R0X1E=R30
+                 	.DEF R0X1F=R31
+                 
+                 	.EQU __SRAM_START=0x0060
+                 	.EQU __SRAM_END=0x085F
+                 	.EQU __DSTACK_SIZE=0x0200
+                 	.EQU __HEAP_SIZE=0x0000
+                 	.EQU __CLEAR_SRAM_SIZE=__SRAM_END-__SRAM_START+1
+                 
+                 	.MACRO __CPD1N
+                 	CPI  R30,LOW(@0)
+                 	LDI  R26,HIGH(@0)
+                 	CPC  R31,R26
+                 	LDI  R26,BYTE3(@0)
+                 	CPC  R22,R26
+                 	LDI  R26,BYTE4(@0)
+                 	CPC  R23,R26
+                 	.ENDM
+                 
+                 	.MACRO __CPD2N
+                 	CPI  R26,LOW(@0)
+                 	LDI  R30,HIGH(@0)
+                 	CPC  R27,R30
+                 	LDI  R30,BYTE3(@0)
+                 	CPC  R24,R30
+                 	LDI  R30,BYTE4(@0)
+                 	CPC  R25,R30
+                 	.ENDM
+                 
+                 	.MACRO __CPWRR
+                 	CP   R@0,R@2
+                 	CPC  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __CPWRN
+                 	CPI  R@0,LOW(@2)
+                 	LDI  R30,HIGH(@2)
+                 	CPC  R@1,R30
+                 	.ENDM
+                 
+                 	.MACRO __ADDB1MN
+                 	SUBI R30,LOW(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDB2MN
+                 	SUBI R26,LOW(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDW1MN
+                 	SUBI R30,LOW(-@0-(@1))
+                 	SBCI R31,HIGH(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDW2MN
+                 	SUBI R26,LOW(-@0-(@1))
+                 	SBCI R27,HIGH(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDW1FN
+                 	SUBI R30,LOW(-2*@0-(@1))
+                 	SBCI R31,HIGH(-2*@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDD1FN
+                 	SUBI R30,LOW(-2*@0-(@1))
+                 	SBCI R31,HIGH(-2*@0-(@1))
+                 	SBCI R22,BYTE3(-2*@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDD1N
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	SBCI R22,BYTE3(-@0)
+                 	SBCI R23,BYTE4(-@0)
+                 	.ENDM
+                 
+                 	.MACRO __ADDD2N
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	SBCI R24,BYTE3(-@0)
+                 	SBCI R25,BYTE4(-@0)
+                 	.ENDM
+                 
+                 	.MACRO __SUBD1N
+                 	SUBI R30,LOW(@0)
+                 	SBCI R31,HIGH(@0)
+                 	SBCI R22,BYTE3(@0)
+                 	SBCI R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __SUBD2N
+                 	SUBI R26,LOW(@0)
+                 	SBCI R27,HIGH(@0)
+                 	SBCI R24,BYTE3(@0)
+                 	SBCI R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ANDBMNN
+                 	LDS  R30,@0+(@1)
+                 	ANDI R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	.ENDM
+                 
+                 	.MACRO __ANDWMNN
+                 	LDS  R30,@0+(@1)
+                 	ANDI R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	LDS  R30,@0+(@1)+1
+                 	ANDI R30,HIGH(@2)
+                 	STS  @0+(@1)+1,R30
+                 	.ENDM
+                 
+                 	.MACRO __ANDD1N
+                 	ANDI R30,LOW(@0)
+                 	ANDI R31,HIGH(@0)
+                 	ANDI R22,BYTE3(@0)
+                 	ANDI R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ANDD2N
+                 	ANDI R26,LOW(@0)
+                 	ANDI R27,HIGH(@0)
+                 	ANDI R24,BYTE3(@0)
+                 	ANDI R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ORBMNN
+                 	LDS  R30,@0+(@1)
+                 	ORI  R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	.ENDM
+                 
+                 	.MACRO __ORWMNN
+                 	LDS  R30,@0+(@1)
+                 	ORI  R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	LDS  R30,@0+(@1)+1
+                 	ORI  R30,HIGH(@2)
+                 	STS  @0+(@1)+1,R30
+                 	.ENDM
+                 
+                 	.MACRO __ORD1N
+                 	ORI  R30,LOW(@0)
+                 	ORI  R31,HIGH(@0)
+                 	ORI  R22,BYTE3(@0)
+                 	ORI  R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ORD2N
+                 	ORI  R26,LOW(@0)
+                 	ORI  R27,HIGH(@0)
+                 	ORI  R24,BYTE3(@0)
+                 	ORI  R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __DELAY_USB
+                 	LDI  R24,LOW(@0)
+                 __DELAY_USB_LOOP:
+                 	DEC  R24
+                 	BRNE __DELAY_USB_LOOP
+                 	.ENDM
+                 
+                 	.MACRO __DELAY_USW
+                 	LDI  R24,LOW(@0)
+                 	LDI  R25,HIGH(@0)
+                 __DELAY_USW_LOOP:
+                 	SBIW R24,1
+                 	BRNE __DELAY_USW_LOOP
+                 	.ENDM
+                 
+                 	.MACRO __GETD1S
+                 	LDD  R30,Y+@0
+                 	LDD  R31,Y+@0+1
+                 	LDD  R22,Y+@0+2
+                 	LDD  R23,Y+@0+3
+                 	.ENDM
+                 
+                 	.MACRO __GETD2S
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	LDD  R24,Y+@0+2
+                 	LDD  R25,Y+@0+3
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1S
+                 	STD  Y+@0,R30
+                 	STD  Y+@0+1,R31
+                 	STD  Y+@0+2,R22
+                 	STD  Y+@0+3,R23
+                 	.ENDM
+                 
+                 	.MACRO __PUTD2S
+                 	STD  Y+@0,R26
+                 	STD  Y+@0+1,R27
+                 	STD  Y+@0+2,R24
+                 	STD  Y+@0+3,R25
+                 	.ENDM
+                 
+                 	.MACRO __PUTDZ2
+                 	STD  Z+@0,R26
+                 	STD  Z+@0+1,R27
+                 	STD  Z+@0+2,R24
+                 	STD  Z+@0+3,R25
+                 	.ENDM
+                 
+                 	.MACRO __CLRD1S
+                 	STD  Y+@0,R30
+                 	STD  Y+@0+1,R30
+                 	STD  Y+@0+2,R30
+                 	STD  Y+@0+3,R30
+                 	.ENDM
+                 
+                 	.MACRO __POINTB1MN
+                 	LDI  R30,LOW(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTW1MN
+                 	LDI  R30,LOW(@0+(@1))
+                 	LDI  R31,HIGH(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTD1M
+                 	LDI  R30,LOW(@0)
+                 	LDI  R31,HIGH(@0)
+                 	LDI  R22,BYTE3(@0)
+                 	LDI  R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __POINTW1FN
+                 	LDI  R30,LOW(2*@0+(@1))
+                 	LDI  R31,HIGH(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTD1FN
+                 	LDI  R30,LOW(2*@0+(@1))
+                 	LDI  R31,HIGH(2*@0+(@1))
+                 	LDI  R22,BYTE3(2*@0+(@1))
+                 	LDI  R23,BYTE4(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTB2MN
+                 	LDI  R26,LOW(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTW2MN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTW2FN
+                 	LDI  R26,LOW(2*@0+(@1))
+                 	LDI  R27,HIGH(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTD2FN
+                 	LDI  R26,LOW(2*@0+(@1))
+                 	LDI  R27,HIGH(2*@0+(@1))
+                 	LDI  R24,BYTE3(2*@0+(@1))
+                 	LDI  R25,BYTE4(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTBRM
+                 	LDI  R@0,LOW(@1)
+                 	.ENDM
+                 
+                 	.MACRO __POINTWRM
+                 	LDI  R@0,LOW(@2)
+                 	LDI  R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __POINTBRMN
+                 	LDI  R@0,LOW(@1+(@2))
+                 	.ENDM
+                 
+                 	.MACRO __POINTWRMN
+                 	LDI  R@0,LOW(@2+(@3))
+                 	LDI  R@1,HIGH(@2+(@3))
+                 	.ENDM
+                 
+                 	.MACRO __POINTWRFN
+                 	LDI  R@0,LOW(@2*2+(@3))
+                 	LDI  R@1,HIGH(@2*2+(@3))
+                 	.ENDM
+                 
+                 	.MACRO __GETD1N
+                 	LDI  R30,LOW(@0)
+                 	LDI  R31,HIGH(@0)
+                 	LDI  R22,BYTE3(@0)
+                 	LDI  R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __GETD2N
+                 	LDI  R26,LOW(@0)
+                 	LDI  R27,HIGH(@0)
+                 	LDI  R24,BYTE3(@0)
+                 	LDI  R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __GETB1MN
+                 	LDS  R30,@0+(@1)
+                 	.ENDM
+                 
+                 	.MACRO __GETB1HMN
+                 	LDS  R31,@0+(@1)
+                 	.ENDM
+                 
+                 	.MACRO __GETW1MN
+                 	LDS  R30,@0+(@1)
+                 	LDS  R31,@0+(@1)+1
+                 	.ENDM
+                 
+                 	.MACRO __GETD1MN
+                 	LDS  R30,@0+(@1)
+                 	LDS  R31,@0+(@1)+1
+                 	LDS  R22,@0+(@1)+2
+                 	LDS  R23,@0+(@1)+3
+                 	.ENDM
+                 
+                 	.MACRO __GETBRMN
+                 	LDS  R@0,@1+(@2)
+                 	.ENDM
+                 
+                 	.MACRO __GETWRMN
+                 	LDS  R@0,@2+(@3)
+                 	LDS  R@1,@2+(@3)+1
+                 	.ENDM
+                 
+                 	.MACRO __GETWRZ
+                 	LDD  R@0,Z+@2
+                 	LDD  R@1,Z+@2+1
+                 	.ENDM
+                 
+                 	.MACRO __GETD2Z
+                 	LDD  R26,Z+@0
+                 	LDD  R27,Z+@0+1
+                 	LDD  R24,Z+@0+2
+                 	LDD  R25,Z+@0+3
+                 	.ENDM
+                 
+                 	.MACRO __GETB2MN
+                 	LDS  R26,@0+(@1)
+                 	.ENDM
+                 
+                 	.MACRO __GETW2MN
+                 	LDS  R26,@0+(@1)
+                 	LDS  R27,@0+(@1)+1
+                 	.ENDM
+                 
+                 	.MACRO __GETD2MN
+                 	LDS  R26,@0+(@1)
+                 	LDS  R27,@0+(@1)+1
+                 	LDS  R24,@0+(@1)+2
+                 	LDS  R25,@0+(@1)+3
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1MN
+                 	STS  @0+(@1),R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1MN
+                 	STS  @0+(@1),R30
+                 	STS  @0+(@1)+1,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1MN
+                 	STS  @0+(@1),R30
+                 	STS  @0+(@1)+1,R31
+                 	STS  @0+(@1)+2,R22
+                 	STS  @0+(@1)+3,R23
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1EN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMWRB
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1EN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMWRW
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1EN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMWRD
+                 	.ENDM
+                 
+                 	.MACRO __PUTBR0MN
+                 	STS  @0+(@1),R0
+                 	.ENDM
+                 
+                 	.MACRO __PUTBMRN
+                 	STS  @0+(@1),R@2
+                 	.ENDM
+                 
+                 	.MACRO __PUTWMRN
+                 	STS  @0+(@1),R@2
+                 	STS  @0+(@1)+1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __PUTBZR
+                 	STD  Z+@1,R@0
+                 	.ENDM
+                 
+                 	.MACRO __PUTWZR
+                 	STD  Z+@2,R@0
+                 	STD  Z+@2+1,R@1
+                 	.ENDM
+                 
+                 	.MACRO __GETW1R
+                 	MOV  R30,R@0
+                 	MOV  R31,R@1
+                 	.ENDM
+                 
+                 	.MACRO __GETW2R
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	.ENDM
+                 
+                 	.MACRO __GETWRN
+                 	LDI  R@0,LOW(@2)
+                 	LDI  R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1R
+                 	MOV  R@0,R30
+                 	MOV  R@1,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTW2R
+                 	MOV  R@0,R26
+                 	MOV  R@1,R27
+                 	.ENDM
+                 
+                 	.MACRO __ADDWRN
+                 	SUBI R@0,LOW(-@2)
+                 	SBCI R@1,HIGH(-@2)
+                 	.ENDM
+                 
+                 	.MACRO __ADDWRR
+                 	ADD  R@0,R@2
+                 	ADC  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __SUBWRN
+                 	SUBI R@0,LOW(@2)
+                 	SBCI R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __SUBWRR
+                 	SUB  R@0,R@2
+                 	SBC  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __ANDWRN
+                 	ANDI R@0,LOW(@2)
+                 	ANDI R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __ANDWRR
+                 	AND  R@0,R@2
+                 	AND  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __ORWRN
+                 	ORI  R@0,LOW(@2)
+                 	ORI  R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __ORWRR
+                 	OR   R@0,R@2
+                 	OR   R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __EORWRR
+                 	EOR  R@0,R@2
+                 	EOR  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __GETWRS
+                 	LDD  R@0,Y+@2
+                 	LDD  R@1,Y+@2+1
+                 	.ENDM
+                 
+                 	.MACRO __PUTBSR
+                 	STD  Y+@1,R@0
+                 	.ENDM
+                 
+                 	.MACRO __PUTWSR
+                 	STD  Y+@2,R@0
+                 	STD  Y+@2+1,R@1
+                 	.ENDM
+                 
+                 	.MACRO __MOVEWRR
+                 	MOV  R@0,R@2
+                 	MOV  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __INWR
+                 	IN   R@0,@2
+                 	IN   R@1,@2+1
+                 	.ENDM
+                 
+                 	.MACRO __OUTWR
+                 	OUT  @2+1,R@1
+                 	OUT  @2,R@0
+                 	.ENDM
+                 
+                 	.MACRO __CALL1MN
+                 	LDS  R30,@0+(@1)
+                 	LDS  R31,@0+(@1)+1
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __CALL1FN
+                 	LDI  R30,LOW(2*@0+(@1))
+                 	LDI  R31,HIGH(2*@0+(@1))
+                 	CALL __GETW1PF
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __CALL2EN
+                 	PUSH R26
+                 	PUSH R27
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMRDW
+                 	POP  R27
+                 	POP  R26
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __CALL2EX
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	CALL __EEPROMRDD
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __GETW1STACK
+                 	IN   R30,SPL
+                 	IN   R31,SPH
+                 	ADIW R30,@0+1
+                 	LD   R0,Z+
+                 	LD   R31,Z
+                 	MOV  R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETD1STACK
+                 	IN   R30,SPL
+                 	IN   R31,SPH
+                 	ADIW R30,@0+1
+                 	LD   R0,Z+
+                 	LD   R1,Z+
+                 	LD   R22,Z
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __NBST
+                 	BST  R@0,@1
+                 	IN   R30,SREG
+                 	LDI  R31,0x40
+                 	EOR  R30,R31
+                 	OUT  SREG,R30
+                 	.ENDM
+                 
+                 
+                 	.MACRO __PUTB1SN
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SN
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SN
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1SNS
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	ADIW R26,@1
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SNS
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	ADIW R26,@1
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SNS
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	ADIW R26,@1
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1PMN
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1PMN
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1PMN
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1PMNS
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	ADIW R26,@1
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1PMNS
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	ADIW R26,@1
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1PMNS
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	ADIW R26,@1
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RN
+                 	MOVW R26,R@0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RN
+                 	MOVW R26,R@0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RN
+                 	MOVW R26,R@0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RNS
+                 	MOVW R26,R@0
+                 	ADIW R26,@1
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RNS
+                 	MOVW R26,R@0
+                 	ADIW R26,@1
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RNS
+                 	MOVW R26,R@0
+                 	ADIW R26,@1
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RON
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RON
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RON
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RONS
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	ADIW R26,@2
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RONS
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	ADIW R26,@2
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RONS
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	ADIW R26,@2
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 
+                 	.MACRO __GETB1SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R30,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETB1HSX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R31,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETW1SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R0,Z+
+                 	LD   R31,Z
+                 	MOV  R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETD1SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R0,Z+
+                 	LD   R1,Z+
+                 	LD   R22,Z+
+                 	LD   R23,Z
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETB2SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R26,X
+                 	.ENDM
+                 
+                 	.MACRO __GETW2SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETD2SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R1,X+
+                 	LD   R24,X+
+                 	LD   R25,X
+                 	MOVW R26,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETBRSX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@1)
+                 	SBCI R31,HIGH(-@1)
+                 	LD   R@0,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETWRSX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@2)
+                 	SBCI R31,HIGH(-@2)
+                 	LD   R@0,Z+
+                 	LD   R@1,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETBRSX2
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	LD   R@0,X
+                 	.ENDM
+                 
+                 	.MACRO __GETWRSX2
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	LD   R@0,X+
+                 	LD   R@1,X
+                 	.ENDM
+                 
+                 	.MACRO __LSLW8SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R31,Z
+                 	CLR  R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X+,R31
+                 	ST   X+,R22
+                 	ST   X,R23
+                 	.ENDM
+                 
+                 	.MACRO __CLRW1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __CLRD1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X+,R30
+                 	ST   X+,R30
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTB2SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	ST   Z,R26
+                 	.ENDM
+                 
+                 	.MACRO __PUTW2SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	ST   Z+,R26
+                 	ST   Z,R27
+                 	.ENDM
+                 
+                 	.MACRO __PUTD2SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	ST   Z+,R26
+                 	ST   Z+,R27
+                 	ST   Z+,R24
+                 	ST   Z,R25
+                 	.ENDM
+                 
+                 	.MACRO __PUTBSRX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@1)
+                 	SBCI R31,HIGH(-@1)
+                 	ST   Z,R@0
+                 	.ENDM
+                 
+                 	.MACRO __PUTWSRX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@2)
+                 	SBCI R31,HIGH(-@2)
+                 	ST   Z+,R@0
+                 	ST   Z,R@1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1SNX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SNX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SNX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X+,R31
+                 	ST   X+,R22
+                 	ST   X,R23
+                 	.ENDM
+                 
+                 	.MACRO __MULBRR
+                 	MULS R@0,R@1
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __MULBRRU
+                 	MUL  R@0,R@1
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __MULBRR0
+                 	MULS R@0,R@1
+                 	.ENDM
+                 
+                 	.MACRO __MULBRRU0
+                 	MUL  R@0,R@1
+                 	.ENDM
+                 
+                 	.MACRO __MULBNWRU
+                 	LDI  R26,@2
+                 	MUL  R26,R@0
+                 	MOVW R30,R0
+                 	MUL  R26,R@1
+                 	ADD  R31,R0
+                 	.ENDM
+                 
+                 ;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
+                 	.DEF _counter0=R5
+                 	.DEF _counter1=R4
+                 	.DEF _seconds0=R7
+                 	.DEF _seconds1=R6
+                 
+                 	.CSEG
+                 	.ORG 0x00
+                 
+                 ;START OF CODE MARKER
+                 __START_OF_CODE:
+                 
+                 ;INTERRUPT VECTORS
+000000 940c 0030 	JMP  __RESET
+000002 940c 0000 	JMP  0x00
+000004 940c 0000 	JMP  0x00
+000006 940c 0000 	JMP  0x00
+000008 940c 0000 	JMP  0x00
+00000a 940c 0145 	JMP  _timer2_ovf_isr
+00000c 940c 0000 	JMP  0x00
+00000e 940c 0000 	JMP  0x00
+000010 940c 0000 	JMP  0x00
+000012 940c 0000 	JMP  0x00
+000014 940c 0000 	JMP  0x00
+000016 940c 005d 	JMP  _timer0_ovf_isr
+000018 940c 0000 	JMP  0x00
+00001a 940c 0000 	JMP  0x00
+00001c 940c 0000 	JMP  0x00
+00001e 940c 0000 	JMP  0x00
+000020 940c 0000 	JMP  0x00
+000022 940c 0000 	JMP  0x00
+000024 940c 0000 	JMP  0x00
+000026 940c 0000 	JMP  0x00
+000028 940c 0000 	JMP  0x00
+                 
+                 ;GLOBAL REGISTER VARIABLES INITIALIZATION
+                 __REG_VARS:
+00002a 0000
+00002b 0000      	.DB  0x0,0x0,0x0,0x0
+                 
+                 
+                 __GLOBAL_INI_TBL:
+00002c 0004      	.DW  0x04
+00002d 0004      	.DW  0x04
+00002e 0054      	.DW  __REG_VARS*2
+                 
+                 _0xFFFFFFFF:
+00002f 0000      	.DW  0
+                 
+                 #define __GLOBAL_INI_TBL_PRESENT 1
+                 
+                 __RESET:
+000030 94f8      	CLI
+000031 27ee      	CLR  R30
+000032 bbec      	OUT  EECR,R30
+                 
+                 ;INTERRUPT VECTORS ARE PLACED
+                 ;AT THE START OF FLASH
+000033 e0f1      	LDI  R31,1
+000034 bffb      	OUT  GICR,R31
+000035 bfeb      	OUT  GICR,R30
+000036 bfe5      	OUT  MCUCR,R30
+                 
+                 ;CLEAR R2-R14
+000037 e08d      	LDI  R24,(14-2)+1
+000038 e0a2      	LDI  R26,2
+000039 27bb      	CLR  R27
+                 __CLEAR_REG:
+00003a 93ed      	ST   X+,R30
+00003b 958a      	DEC  R24
+00003c f7e9      	BRNE __CLEAR_REG
+                 
+                 ;CLEAR SRAM
+00003d e080      	LDI  R24,LOW(__CLEAR_SRAM_SIZE)
+00003e e098      	LDI  R25,HIGH(__CLEAR_SRAM_SIZE)
+00003f e6a0      	LDI  R26,__SRAM_START
+                 __CLEAR_SRAM:
+000040 93ed      	ST   X+,R30
+000041 9701      	SBIW R24,1
+000042 f7e9      	BRNE __CLEAR_SRAM
+                 
+                 ;GLOBAL VARIABLES INITIALIZATION
+000043 e5e8      	LDI  R30,LOW(__GLOBAL_INI_TBL*2)
+000044 e0f0      	LDI  R31,HIGH(__GLOBAL_INI_TBL*2)
+                 __GLOBAL_INI_NEXT:
+000045 9185      	LPM  R24,Z+
+000046 9195      	LPM  R25,Z+
+000047 9700      	SBIW R24,0
+000048 f061      	BREQ __GLOBAL_INI_END
+000049 91a5      	LPM  R26,Z+
+00004a 91b5      	LPM  R27,Z+
+00004b 9005      	LPM  R0,Z+
+00004c 9015      	LPM  R1,Z+
+00004d 01bf      	MOVW R22,R30
+00004e 01f0      	MOVW R30,R0
+                 __GLOBAL_INI_LOOP:
+00004f 9005      	LPM  R0,Z+
+000050 920d      	ST   X+,R0
+000051 9701      	SBIW R24,1
+000052 f7e1      	BRNE __GLOBAL_INI_LOOP
+000053 01fb      	MOVW R30,R22
+000054 cff0      	RJMP __GLOBAL_INI_NEXT
+                 __GLOBAL_INI_END:
+                 
+                 ;HARDWARE STACK POINTER INITIALIZATION
+000055 e5ef      	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
+000056 bfed      	OUT  SPL,R30
+000057 e0e8      	LDI  R30,HIGH(__SRAM_END-__HEAP_SIZE)
+000058 bfee      	OUT  SPH,R30
+                 
+                 ;DATA STACK POINTER INITIALIZATION
+000059 e6c0      	LDI  R28,LOW(__SRAM_START+__DSTACK_SIZE)
+00005a e0d2      	LDI  R29,HIGH(__SRAM_START+__DSTACK_SIZE)
+                 
+00005b 940c 0622 	JMP  _main
+                 
+                 	.ESEG
+                 	.ORG 0
+                 
+                 	.DSEG
+                 	.ORG 0x260
+                 
+                 	.CSEG
+                 ;/*******************************************************
+                 ;This program was created by the
+                 ;CodeWizardAVR V3.12 Advanced
+                 ;Automatic Program Generator
+                 ;© Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
+                 ;http://www.hpinfotech.com
+                 ;
+                 ;Project : Elevator -Embedded Course
+                 ;Version :
+                 ;Date    : 3/29/2020
+                 ;Author  :
+                 ;Company :
+                 ;Comments:
+                 ;
+                 ;
+                 ;Chip type               : ATmega32
+                 ;Program type            : Application
+                 ;AVR Core Clock frequency: 8.000000 MHz
+                 ;Memory model            : Small
+                 ;External RAM size       : 0
+                 ;Data Stack size         : 512
+                 ;*******************************************************/
+                 ;
+                 ;#include <mega32.h>
+                 	#ifndef __SLEEP_DEFINED__
+                 	#define __SLEEP_DEFINED__
+                 	.EQU __se_bit=0x80
+                 	.EQU __sm_mask=0x70
+                 	.EQU __sm_powerdown=0x20
+                 	.EQU __sm_powersave=0x30
+                 	.EQU __sm_standby=0x60
+                 	.EQU __sm_ext_standby=0x70
+                 	.EQU __sm_adc_noise_red=0x10
+                 	.SET power_ctrl_reg=mcucr
+                 	#endif
+                 ;#include <delay.h>
+                 ;#include <io.h>>
+                 ;// Declare your global variables here
+                 ;#define LCD_Dir  DDRA            /* Define LCD data port direction */
+                 ;#define LCD_Port PORTA            /* Define LCD data port */
+                 ;#define RS PORTA2                /* Define Register Select pin */
+                 ;#define EN PORTA3                 /* Define Enable signal pin */
+                 ;
+                 ;unsigned char cabins_states[2];
+                 ;
+                 ;void LCD_Char( unsigned char data );
+                 ;void LCD_String_xy (char row, char pos, char *str);
+                 ;void off_LED(char floor, char dir);
+                 ;unsigned char cabins_floors[2];
+                 ;unsigned char cabins_up_stops[2][5];
+                 ;unsigned char cabins_down_stops[2][5];
+                 ;unsigned char counter0 = 0;
+                 ;unsigned char counter1 = 0;
+                 ;unsigned char seconds0 = 0;
+                 ;unsigned char seconds1 = 0;
+                 ;unsigned char threshold[2];
+                 ;unsigned char flag[2];
+                 ;
+                 ;#define clocks_per_a_sec 30
+                 ;
+                 ;// Timer 0 overflow interrupt service routine
+                 ;interrupt [TIM0_OVF] void timer0_ovf_isr(void)
+                 ; 0000 0034 {
+                 
+                 	.CSEG
+                 _timer0_ovf_isr:
+                 ; .FSTART _timer0_ovf_isr
+00005d d613      	RCALL SUBOPT_0x0
+                 ; 0000 0035     unsigned char i = 0;
+                 ; 0000 0036     // Reinitialize Timer 0 value
+                 ; 0000 0037     TCNT0=0x83;
+                 ;	i -> R17
+00005e bfe2      	OUT  0x32,R30
+                 ; 0000 0038     // Place your code here
+                 ; 0000 0039     counter0 += 1;
+00005f 9453      	INC  R5
+                 ; 0000 003A     if (counter0 == clocks_per_a_sec){
+000060 e1ee      	LDI  R30,LOW(30)
+000061 15e5      	CP   R30,R5
+000062 f009      	BREQ PC+2
+000063 c0e0      	RJMP _0x3
+                 ; 0000 003B         counter0 = 0;
+000064 2455      	CLR  R5
+                 ; 0000 003C         seconds0 += 1;
+000065 9473      	INC  R7
+                 ; 0000 003D         if (seconds0 == threshold[0]){
+000066 91e0 0278 	LDS  R30,_threshold
+000068 15e7      	CP   R30,R7
+000069 f009      	BREQ PC+2
+00006a c0d9      	RJMP _0x4
+                 ; 0000 003E             seconds0 = 0;
+00006b 2477      	CLR  R7
+                 ; 0000 003F             flag[0] = 0;
+00006c e0e0      	LDI  R30,LOW(0)
+00006d 93e0 027a 	STS  _flag,R30
+                 ; 0000 0040             if (threshold[0] == 3 || threshold[0] == 0){
+00006f 91a0 0278 	LDS  R26,_threshold
+000071 30a3      	CPI  R26,LOW(0x3)
+000072 f019      	BREQ _0x6
+000073 30a0      	CPI  R26,LOW(0x0)
+000074 f009      	BREQ _0x6
+000075 c081      	RJMP _0x5
+                 _0x6:
+                 ; 0000 0041                 if (cabins_states[0] == 'u'){
+000076 91a0 0260 	LDS  R26,_cabins_states
+000078 37a5      	CPI  R26,LOW(0x75)
+000079 f5e1      	BRNE _0x8
+                 ; 0000 0042                     cabins_up_stops[0][cabins_floors[0]] = 0;
+00007a 91e0 0262 	LDS  R30,_cabins_floors
+00007c d605      	RCALL SUBOPT_0x1
+                 ; 0000 0043                     off_LED(cabins_floors[0], 'u');
+00007d 91e0 0262 	LDS  R30,_cabins_floors
+00007f 93ea      	ST   -Y,R30
+000080 e7a5      	LDI  R26,LOW(117)
+000081 d239      	RCALL _off_LED
+                 ; 0000 0044                     for (i = cabins_floors[0]; i < 5; i++){
+000082 9110 0262 	LDS  R17,_cabins_floors
+                 _0xA:
+000084 3015      	CPI  R17,5
+000085 f468      	BRSH _0xB
+                 ; 0000 0045                         if (cabins_up_stops[0][i] == 1){
+000086 d601      	RCALL SUBOPT_0x2
+000087 f449      	BRNE _0xC
+                 ; 0000 0046                             flag[0] = 1;
+000088 d606      	RCALL SUBOPT_0x3
+                 ; 0000 0047                             cabins_floors[0] += 1;
+                 ; 0000 0048                             if (cabins_floors[0] == i){
+000089 f419      	BRNE _0xD
+                 ; 0000 0049                                 off_LED(i, 'u');
+00008a d610      	RCALL SUBOPT_0x4
+                 ; 0000 004A                                 cabins_up_stops[0][i] = 0;
+                 ; 0000 004B                                 threshold[0] = 10;
+00008b e0ea      	LDI  R30,LOW(10)
+00008c c001      	RJMP _0x14F
+                 ; 0000 004C                             }
+                 ; 0000 004D                             else
+                 _0xD:
+                 ; 0000 004E                                 threshold[0] = 3;
+00008d e0e3      	LDI  R30,LOW(3)
+                 _0x14F:
+00008e 93e0 0278 	STS  _threshold,R30
+                 ; 0000 004F                             break;
+000090 c002      	RJMP _0xB
+                 ; 0000 0050                         }
+                 ; 0000 0051                     }
+                 _0xC:
+000091 5f1f      	SUBI R17,-1
+000092 cff1      	RJMP _0xA
+                 _0xB:
+                 ; 0000 0052                     if (flag[0] == 0){
+000093 91e0 027a 	LDS  R30,_flag
+000095 30e0      	CPI  R30,0
+000096 f4c9      	BRNE _0xF
+                 ; 0000 0053                         for (i = 5; i >= cabins_floors[0] && i < 255; i--){
+000097 e015      	LDI  R17,LOW(5)
+                 _0x11:
+000098 91e0 0262 	LDS  R30,_cabins_floors
+00009a 171e      	CP   R17,R30
+00009b f010      	BRLO _0x13
+00009c 3f1f      	CPI  R17,255
+00009d f008      	BRLO _0x14
+                 _0x13:
+00009e c011      	RJMP _0x12
+                 _0x14:
+                 ; 0000 0054                             if (cabins_down_stops[0][i] == 1){
+00009f d600      	RCALL SUBOPT_0x5
+0000a0 81a0      	LD   R26,Z
+0000a1 30a1      	CPI  R26,LOW(0x1)
+0000a2 f459      	BRNE _0x15
+                 ; 0000 0055                                 flag[0] = 1;
+0000a3 d5eb      	RCALL SUBOPT_0x3
+                 ; 0000 0056                                 cabins_floors[0] += 1;
+                 ; 0000 0057                                 if (cabins_floors[0] == i){
+0000a4 f429      	BRNE _0x16
+                 ; 0000 0058                                     off_LED(i, 'd');
+0000a5 d5ff      	RCALL SUBOPT_0x6
+                 ; 0000 0059                                     cabins_down_stops[0][i] = 0;
+0000a6 e0a0      	LDI  R26,LOW(0)
+0000a7 83a0      	STD  Z+0,R26
+                 ; 0000 005A                                     threshold[0] = 10;
+0000a8 e0ea      	LDI  R30,LOW(10)
+0000a9 c001      	RJMP _0x150
+                 ; 0000 005B                                 }
+                 ; 0000 005C                                 else
+                 _0x16:
+                 ; 0000 005D                                     threshold[0] = 3;
+0000aa e0e3      	LDI  R30,LOW(3)
+                 _0x150:
+0000ab 93e0 0278 	STS  _threshold,R30
+                 ; 0000 005E                                 break;
+0000ad c002      	RJMP _0x12
+                 ; 0000 005F                             }
+                 ; 0000 0060                         }
+                 _0x15:
+0000ae 5011      	SUBI R17,1
+0000af cfe8      	RJMP _0x11
+                 _0x12:
+                 ; 0000 0061                     }
+                 ; 0000 0062                     if (flag[0] == 0){
+                 _0xF:
+0000b0 91e0 027a 	LDS  R30,_flag
+0000b2 30e0      	CPI  R30,0
+0000b3 f409      	BRNE _0x18
+                 ; 0000 0063                         TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+0000b4 d5f4      	RCALL SUBOPT_0x7
+                 ; 0000 0064                         TCNT0=0x00;
+                 ; 0000 0065                         cabins_states[0] = 's';
+                 ; 0000 0066                     }
+                 ; 0000 0067                 }
+                 _0x18:
+                 ; 0000 0068                 else if (cabins_states[0] == 'd'){
+0000b5 c040      	RJMP _0x19
+                 _0x8:
+0000b6 91a0 0260 	LDS  R26,_cabins_states
+0000b8 36a4      	CPI  R26,LOW(0x64)
+0000b9 f5e1      	BRNE _0x1A
+                 ; 0000 0069                     cabins_down_stops[0][cabins_floors[0]] = 0;
+0000ba 91e0 0262 	LDS  R30,_cabins_floors
+0000bc e0f0      	LDI  R31,0
+0000bd 59e2      	SUBI R30,LOW(-_cabins_down_stops)
+0000be 4ffd      	SBCI R31,HIGH(-_cabins_down_stops)
+0000bf e0a0      	LDI  R26,LOW(0)
+0000c0 83a0      	STD  Z+0,R26
+                 ; 0000 006A                     off_LED(cabins_floors[0], 'd');
+0000c1 91e0 0262 	LDS  R30,_cabins_floors
+0000c3 93ea      	ST   -Y,R30
+0000c4 e6a4      	LDI  R26,LOW(100)
+0000c5 d1f5      	RCALL _off_LED
+                 ; 0000 006B                     for (i = cabins_floors[0]; i < 255; i--)
+0000c6 9110 0262 	LDS  R17,_cabins_floors
+                 _0x1C:
+0000c8 3f1f      	CPI  R17,255
+0000c9 f488      	BRSH _0x1D
+                 ; 0000 006C                         if (cabins_down_stops[0][i] == 1){
+0000ca d5d5      	RCALL SUBOPT_0x5
+0000cb 81a0      	LD   R26,Z
+0000cc 30a1      	CPI  R26,LOW(0x1)
+0000cd f459      	BRNE _0x1E
+                 ; 0000 006D                             flag[0] = 1;
+0000ce d5e1      	RCALL SUBOPT_0x8
+                 ; 0000 006E                             cabins_floors[0] -= 1;
+                 ; 0000 006F                             if (cabins_floors[0] == i){
+0000cf f429      	BRNE _0x1F
+                 ; 0000 0070                                 off_LED(i, 'd');
+0000d0 d5d4      	RCALL SUBOPT_0x6
+                 ; 0000 0071                                 cabins_down_stops[0][i] = 0;
+0000d1 e0a0      	LDI  R26,LOW(0)
+0000d2 83a0      	STD  Z+0,R26
+                 ; 0000 0072                                 threshold[0] = 10;
+0000d3 e0ea      	LDI  R30,LOW(10)
+0000d4 c001      	RJMP _0x151
+                 ; 0000 0073                             }
+                 ; 0000 0074                             else
+                 _0x1F:
+                 ; 0000 0075                                 threshold[0] = 3;
+0000d5 e0e3      	LDI  R30,LOW(3)
+                 _0x151:
+0000d6 93e0 0278 	STS  _threshold,R30
+                 ; 0000 0076                             break;
+0000d8 c002      	RJMP _0x1D
+                 ; 0000 0077                         }
+                 ; 0000 0078                     if (flag[0] == 0){
+                 _0x1E:
+0000d9 5011      	SUBI R17,1
+0000da cfed      	RJMP _0x1C
+                 _0x1D:
+0000db 91e0 027a 	LDS  R30,_flag
+0000dd 30e0      	CPI  R30,0
+0000de f491      	BRNE _0x21
+                 ; 0000 0079                         for (i = 0; i <= cabins_floors[0]; i++){
+0000df e010      	LDI  R17,LOW(0)
+                 _0x23:
+0000e0 91e0 0262 	LDS  R30,_cabins_floors
+0000e2 17e1      	CP   R30,R17
+0000e3 f068      	BRLO _0x24
+                 ; 0000 007A                             if (cabins_up_stops[0][i] == 1){
+0000e4 d5a3      	RCALL SUBOPT_0x2
+0000e5 f449      	BRNE _0x25
+                 ; 0000 007B                                 flag[0] = 1;
+0000e6 d5c9      	RCALL SUBOPT_0x8
+                 ; 0000 007C                                 cabins_floors[0] -= 1;
+                 ; 0000 007D                                 if (cabins_floors[0] == i){
+0000e7 f419      	BRNE _0x26
+                 ; 0000 007E                                     off_LED(i, 'u');
+0000e8 d5b2      	RCALL SUBOPT_0x4
+                 ; 0000 007F                                     cabins_up_stops[0][i] = 0;
+                 ; 0000 0080                                     threshold[0] = 10;
+0000e9 e0ea      	LDI  R30,LOW(10)
+0000ea c001      	RJMP _0x152
+                 ; 0000 0081                                 }
+                 ; 0000 0082                                 else
+                 _0x26:
+                 ; 0000 0083                                     threshold[0] = 3;
+0000eb e0e3      	LDI  R30,LOW(3)
+                 _0x152:
+0000ec 93e0 0278 	STS  _threshold,R30
+                 ; 0000 0084                                 break;
+0000ee c002      	RJMP _0x24
+                 ; 0000 0085                             }
+                 ; 0000 0086                         }
+                 _0x25:
+0000ef 5f1f      	SUBI R17,-1
+0000f0 cfef      	RJMP _0x23
+                 _0x24:
+                 ; 0000 0087                     }
+                 ; 0000 0088                     if (flag[0] == 0){
+                 _0x21:
+0000f1 91e0 027a 	LDS  R30,_flag
+0000f3 30e0      	CPI  R30,0
+0000f4 f409      	BRNE _0x28
+                 ; 0000 0089                         TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+0000f5 d5b3      	RCALL SUBOPT_0x7
+                 ; 0000 008A                         TCNT0=0x00;
+                 ; 0000 008B                         cabins_states[0] = 's';
+                 ; 0000 008C                     }
+                 ; 0000 008D                 }
+                 _0x28:
+                 ; 0000 008E             }
+                 _0x1A:
+                 _0x19:
+                 ; 0000 008F             else{
+0000f6 c04d      	RJMP _0x29
+                 _0x5:
+                 ; 0000 0090                 if (cabins_states[0] == 'u'){
+0000f7 91a0 0260 	LDS  R26,_cabins_states
+0000f9 37a5      	CPI  R26,LOW(0x75)
+0000fa f519      	BRNE _0x2A
+                 ; 0000 0091                     for (i = cabins_floors[0]; i < 5; i++){
+0000fb 9110 0262 	LDS  R17,_cabins_floors
+                 _0x2C:
+0000fd 3015      	CPI  R17,5
+0000fe f430      	BRSH _0x2D
+                 ; 0000 0092                         if (cabins_up_stops[0][i] == 1){
+0000ff d588      	RCALL SUBOPT_0x2
+000100 f411      	BRNE _0x2E
+                 ; 0000 0093                             threshold[0] = 3;
+000101 d5ba      	RCALL SUBOPT_0x9
+                 ; 0000 0094                             flag[0] = 1;
+                 ; 0000 0095                             break;
+000102 c002      	RJMP _0x2D
+                 ; 0000 0096                         }
+                 ; 0000 0097                     }
+                 _0x2E:
+000103 5f1f      	SUBI R17,-1
+000104 cff8      	RJMP _0x2C
+                 _0x2D:
+                 ; 0000 0098                     if (flag[0] == 0){
+000105 91e0 027a 	LDS  R30,_flag
+000107 30e0      	CPI  R30,0
+000108 f479      	BRNE _0x2F
+                 ; 0000 0099                         for (i = cabins_floors[0]; i < 255; i--){
+000109 9110 0262 	LDS  R17,_cabins_floors
+                 _0x31:
+00010b 3f1f      	CPI  R17,255
+00010c f458      	BRSH _0x32
+                 ; 0000 009A                             if (cabins_down_stops[0][i] == 1){
+00010d d592      	RCALL SUBOPT_0x5
+00010e 81a0      	LD   R26,Z
+00010f 30a1      	CPI  R26,LOW(0x1)
+000110 f429      	BRNE _0x33
+                 ; 0000 009B                                 cabins_states[0] = 'd';
+000111 e6e4      	LDI  R30,LOW(100)
+000112 93e0 0260 	STS  _cabins_states,R30
+                 ; 0000 009C                                 threshold[0] = 3;
+000114 d5a7      	RCALL SUBOPT_0x9
+                 ; 0000 009D                                 flag[0] = 1;
+                 ; 0000 009E                                 break;
+000115 c002      	RJMP _0x32
+                 ; 0000 009F                             }
+                 ; 0000 00A0                         }
+                 _0x33:
+000116 5011      	SUBI R17,1
+000117 cff3      	RJMP _0x31
+                 _0x32:
+                 ; 0000 00A1                     }
+                 ; 0000 00A2                     if (flag[0] == 0){
+                 _0x2F:
+000118 91e0 027a 	LDS  R30,_flag
+00011a 30e0      	CPI  R30,0
+00011b f409      	BRNE _0x34
+                 ; 0000 00A3                         //stop timer
+                 ; 0000 00A4                         TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+00011c d58c      	RCALL SUBOPT_0x7
+                 ; 0000 00A5                         TCNT0=0x00;
+                 ; 0000 00A6                         cabins_states[0] = 's';
+                 ; 0000 00A7                     }
+                 ; 0000 00A8                 }
+                 _0x34:
+                 ; 0000 00A9                 else if (cabins_states[0] == 'd'){
+00011d c026      	RJMP _0x35
+                 _0x2A:
+00011e 91a0 0260 	LDS  R26,_cabins_states
+000120 36a4      	CPI  R26,LOW(0x64)
+000121 f511      	BRNE _0x36
+                 ; 0000 00AA                     for (i = cabins_floors[0]; i < 255; i--)
+000122 9110 0262 	LDS  R17,_cabins_floors
+                 _0x38:
+000124 3f1f      	CPI  R17,255
+000125 f440      	BRSH _0x39
+                 ; 0000 00AB                         if (cabins_down_stops[0][i] == 1){
+000126 d579      	RCALL SUBOPT_0x5
+000127 81a0      	LD   R26,Z
+000128 30a1      	CPI  R26,LOW(0x1)
+000129 f411      	BRNE _0x3A
+                 ; 0000 00AC                             threshold[0] = 3;
+00012a d591      	RCALL SUBOPT_0x9
+                 ; 0000 00AD                             flag[0] = 1;
+                 ; 0000 00AE                             break;
+00012b c002      	RJMP _0x39
+                 ; 0000 00AF                         }
+                 ; 0000 00B0                     if (flag[0] == 0){
+                 _0x3A:
+00012c 5011      	SUBI R17,1
+00012d cff6      	RJMP _0x38
+                 _0x39:
+00012e 91e0 027a 	LDS  R30,_flag
+000130 30e0      	CPI  R30,0
+000131 f469      	BRNE _0x3B
+                 ; 0000 00B1                         for (i = cabins_floors[0]; i < 5 ; i++)
+000132 9110 0262 	LDS  R17,_cabins_floors
+                 _0x3D:
+000134 3015      	CPI  R17,5
+000135 f448      	BRSH _0x3E
+                 ; 0000 00B2                             if (cabins_up_stops[0][i] == 1){
+000136 d551      	RCALL SUBOPT_0x2
+000137 f429      	BRNE _0x3F
+                 ; 0000 00B3                                 cabins_states[0] = 'u';
+000138 e7e5      	LDI  R30,LOW(117)
+000139 93e0 0260 	STS  _cabins_states,R30
+                 ; 0000 00B4                                 threshold[0] = 3;
+00013b d580      	RCALL SUBOPT_0x9
+                 ; 0000 00B5                                 flag[0] = 1;
+                 ; 0000 00B6                                 break;
+00013c c002      	RJMP _0x3E
+                 ; 0000 00B7                             }
+                 ; 0000 00B8                     }
+                 _0x3F:
+00013d 5f1f      	SUBI R17,-1
+00013e cff5      	RJMP _0x3D
+                 _0x3E:
+                 ; 0000 00B9                     if (flag[0] == 0){
+                 _0x3B:
+00013f 91e0 027a 	LDS  R30,_flag
+000141 30e0      	CPI  R30,0
+000142 f409      	BRNE _0x40
+                 ; 0000 00BA                         //stop timer
+                 ; 0000 00BB                         TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+000143 d565      	RCALL SUBOPT_0x7
+                 ; 0000 00BC                         TCNT0=0x00;
+                 ; 0000 00BD                         cabins_states[0] = 's';
+                 ; 0000 00BE                     }
+                 ; 0000 00BF                 }
+                 _0x40:
+                 ; 0000 00C0             }
+                 _0x36:
+                 _0x35:
+                 _0x29:
+                 ; 0000 00C1         }
+                 ; 0000 00C2     }
+                 _0x4:
+                 ; 0000 00C3 }
+                 _0x3:
+000144 c0f8      	RJMP _0x15F
+                 ; .FEND
+                 ;
+                 ;interrupt [TIM2_OVF] void timer2_ovf_isr(void)
+                 ; 0000 00C6 {
+                 _timer2_ovf_isr:
+                 ; .FSTART _timer2_ovf_isr
+000145 d52b      	RCALL SUBOPT_0x0
+                 ; 0000 00C7     unsigned char i = 0;
+                 ; 0000 00C8     // Reinitialize Timer 2 value
+                 ; 0000 00C9     TCNT2=0x83;
+                 ;	i -> R17
+000146 bde4      	OUT  0x24,R30
+                 ; 0000 00CA     // Place your code here
+                 ; 0000 00CB     counter1 += 1;
+000147 9443      	INC  R4
+                 ; 0000 00CC     if (counter1 == clocks_per_a_sec){
+000148 e1ee      	LDI  R30,LOW(30)
+000149 15e4      	CP   R30,R4
+00014a f009      	BREQ PC+2
+00014b c0f1      	RJMP _0x41
+                 ; 0000 00CD         counter1 = 0;
+00014c 2444      	CLR  R4
+                 ; 0000 00CE         seconds1 += 1;
+00014d 9463      	INC  R6
+                 ; 0000 00CF         if (seconds1 == threshold[1]){
+                +
+00014e 91e0 0279+LDS R30 , _threshold + ( 1 )
+                 	__GETB1MN _threshold,1
+000150 15e6      	CP   R30,R6
+000151 f009      	BREQ PC+2
+000152 c0ea      	RJMP _0x42
+                 ; 0000 00D0             seconds1 = 0;
+000153 2466      	CLR  R6
+                 ; 0000 00D1             flag[1] = 0;
+000154 e0e0      	LDI  R30,LOW(0)
+                +
+000155 93e0 027b+STS _flag + ( 1 ) , R30
+                 	__PUTB1MN _flag,1
+                 ; 0000 00D2             if (threshold[1] == 3 || threshold[1] == 0){
+                +
+000157 91a0 0279+LDS R26 , _threshold + ( 1 )
+                 	__GETB2MN _threshold,1
+000159 30a3      	CPI  R26,LOW(0x3)
+00015a f029      	BREQ _0x44
+                +
+00015b 91a0 0279+LDS R26 , _threshold + ( 1 )
+                 	__GETB2MN _threshold,1
+00015d 30a0      	CPI  R26,LOW(0x0)
+00015e f009      	BREQ _0x44
+00015f c08c      	RJMP _0x43
+                 _0x44:
+                 ; 0000 00D3                 if (cabins_states[1] == 'u'){
+                +
+000160 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+000162 37a5      	CPI  R26,LOW(0x75)
+000163 f009      	BREQ PC+2
+000164 c041      	RJMP _0x46
+                 ; 0000 00D4                     cabins_up_stops[1][cabins_floors[1]] = 0;
+                +
+000165 e6a9     +LDI R26 , LOW ( _cabins_up_stops + ( 5 ) )
+000166 e0b2     +LDI R27 , HIGH ( _cabins_up_stops + ( 5 ) )
+                 	__POINTW2MN _cabins_up_stops,5
+000167 d55b      	RCALL SUBOPT_0xA
+                 ; 0000 00D5                     off_LED(cabins_floors[1], 'u');
+000168 e7a5      	LDI  R26,LOW(117)
+000169 d151      	RCALL _off_LED
+                 ; 0000 00D6                     for (i = cabins_floors[1]; i < 5; i++){
+                +
+00016a 9110 0263+LDS R17 , _cabins_floors + ( 1 )
+                 	__GETBRMN 17,_cabins_floors,1
+                 _0x48:
+00016c 3015      	CPI  R17,5
+00016d f498      	BRSH _0x49
+                 ; 0000 00D7                         if (cabins_up_stops[1][i] == 1){
+00016e d55f      	RCALL SUBOPT_0xB
+00016f 91ac      	LD   R26,X
+000170 30a1      	CPI  R26,LOW(0x1)
+000171 f469      	BRNE _0x4A
+                 ; 0000 00D8                             flag[1] = 1;
+000172 d561      	RCALL SUBOPT_0xC
+                 ; 0000 00D9                             cabins_floors[1] += 1;
+                 ; 0000 00DA                             if (cabins_floors[1] == i){
+000173 f439      	BRNE _0x4B
+                 ; 0000 00DB                                 off_LED(i, 'u');
+000174 931a      	ST   -Y,R17
+000175 e7a5      	LDI  R26,LOW(117)
+000176 d144      	RCALL _off_LED
+                 ; 0000 00DC                                 cabins_up_stops[1][i] = 0;
+000177 d556      	RCALL SUBOPT_0xB
+000178 93ec      	ST   X,R30
+                 ; 0000 00DD                                 threshold[1] = 10;
+000179 e0ea      	LDI  R30,LOW(10)
+00017a c001      	RJMP _0x153
+                 ; 0000 00DE                             }
+                 ; 0000 00DF                             else
+                 _0x4B:
+                 ; 0000 00E0                                 threshold[1] = 3;
+00017b e0e3      	LDI  R30,LOW(3)
+                 _0x153:
+                +
+00017c 93e0 0279+STS _threshold + ( 1 ) , R30
+                 	__PUTB1MN _threshold,1
+                 ; 0000 00E1                             break;
+00017e c002      	RJMP _0x49
+                 ; 0000 00E2                         }
+                 ; 0000 00E3                     }
+                 _0x4A:
+00017f 5f1f      	SUBI R17,-1
+000180 cfeb      	RJMP _0x48
+                 _0x49:
+                 ; 0000 00E4                     if (flag[1] == 0){
+                +
+000181 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+000183 30e0      	CPI  R30,0
+000184 f4d9      	BRNE _0x4D
+                 ; 0000 00E5                         for (i = 5; i >= cabins_floors[1] && i < 255; i--){
+000185 e015      	LDI  R17,LOW(5)
+                 _0x4F:
+                +
+000186 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+000188 171e      	CP   R17,R30
+000189 f010      	BRLO _0x51
+00018a 3f1f      	CPI  R17,255
+00018b f008      	BRLO _0x52
+                 _0x51:
+00018c c013      	RJMP _0x50
+                 _0x52:
+                 ; 0000 00E6                             if (cabins_down_stops[1][i] == 1){
+00018d d552      	RCALL SUBOPT_0xD
+00018e 91ac      	LD   R26,X
+00018f 30a1      	CPI  R26,LOW(0x1)
+000190 f469      	BRNE _0x53
+                 ; 0000 00E7                                 flag[1] = 1;
+000191 d542      	RCALL SUBOPT_0xC
+                 ; 0000 00E8                                 cabins_floors[1] += 1;
+                 ; 0000 00E9                                 if (cabins_floors[1] == i){
+000192 f439      	BRNE _0x54
+                 ; 0000 00EA                                     off_LED(i, 'd');
+000193 931a      	ST   -Y,R17
+000194 e6a4      	LDI  R26,LOW(100)
+000195 d125      	RCALL _off_LED
+                 ; 0000 00EB                                     cabins_down_stops[1][i] = 0;
+000196 d549      	RCALL SUBOPT_0xD
+000197 93ec      	ST   X,R30
+                 ; 0000 00EC                                     threshold[1] = 10;
+000198 e0ea      	LDI  R30,LOW(10)
+000199 c001      	RJMP _0x154
+                 ; 0000 00ED                                 }
+                 ; 0000 00EE                                 else
+                 _0x54:
+                 ; 0000 00EF                                     threshold[1] = 3;
+00019a e0e3      	LDI  R30,LOW(3)
+                 _0x154:
+                +
+00019b 93e0 0279+STS _threshold + ( 1 ) , R30
+                 	__PUTB1MN _threshold,1
+                 ; 0000 00F0                                 break;
+00019d c002      	RJMP _0x50
+                 ; 0000 00F1                             }
+                 ; 0000 00F2                         }
+                 _0x53:
+00019e 5011      	SUBI R17,1
+00019f cfe6      	RJMP _0x4F
+                 _0x50:
+                 ; 0000 00F3                     }
+                 ; 0000 00F4                     if (flag[1] == 0){
+                 _0x4D:
+                +
+0001a0 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+0001a2 30e0      	CPI  R30,0
+0001a3 f409      	BRNE _0x56
+                 ; 0000 00F5                         //stop timer
+                 ; 0000 00F6                         TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+0001a4 d541      	RCALL SUBOPT_0xE
+                 ; 0000 00F7                         TCNT2=0x00;
+                 ; 0000 00F8                         cabins_states[1] = 's';
+                 ; 0000 00F9                     }
+                 ; 0000 00FA                 }
+                 _0x56:
+                 ; 0000 00FB                 else if (cabins_states[1] == 'd'){
+0001a5 c045      	RJMP _0x57
+                 _0x46:
+                +
+0001a6 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+0001a8 36a4      	CPI  R26,LOW(0x64)
+0001a9 f009      	BREQ PC+2
+0001aa c040      	RJMP _0x58
+                 ; 0000 00FC                     cabins_down_stops[1][cabins_floors[1]] = 0;
+                +
+0001ab e7a3     +LDI R26 , LOW ( _cabins_down_stops + ( 5 ) )
+0001ac e0b2     +LDI R27 , HIGH ( _cabins_down_stops + ( 5 ) )
+                 	__POINTW2MN _cabins_down_stops,5
+0001ad d515      	RCALL SUBOPT_0xA
+                 ; 0000 00FD                     off_LED(cabins_floors[1], 'd');
+0001ae e6a4      	LDI  R26,LOW(100)
+0001af d10b      	RCALL _off_LED
+                 ; 0000 00FE                     for (i = cabins_floors[1]; i < 255; i--){
+                +
+0001b0 9110 0263+LDS R17 , _cabins_floors + ( 1 )
+                 	__GETBRMN 17,_cabins_floors,1
+                 _0x5A:
+0001b2 3f1f      	CPI  R17,255
+0001b3 f498      	BRSH _0x5B
+                 ; 0000 00FF                         if (cabins_down_stops[1][i] == 1){
+0001b4 d52b      	RCALL SUBOPT_0xD
+0001b5 91ac      	LD   R26,X
+0001b6 30a1      	CPI  R26,LOW(0x1)
+0001b7 f469      	BRNE _0x5C
+                 ; 0000 0100                             cabins_floors[1] -= 1;
+0001b8 d534      	RCALL SUBOPT_0xF
+                 ; 0000 0101                             if (cabins_floors[1] == i){
+0001b9 f439      	BRNE _0x5D
+                 ; 0000 0102                                 cabins_down_stops[1][i] = 0;
+0001ba d525      	RCALL SUBOPT_0xD
+0001bb 93ec      	ST   X,R30
+                 ; 0000 0103                                 off_LED(i, 'd');
+0001bc 931a      	ST   -Y,R17
+0001bd e6a4      	LDI  R26,LOW(100)
+0001be d0fc      	RCALL _off_LED
+                 ; 0000 0104                                 threshold[1] = 10;
+0001bf e0ea      	LDI  R30,LOW(10)
+0001c0 c001      	RJMP _0x155
+                 ; 0000 0105                             }
+                 ; 0000 0106                             else
+                 _0x5D:
+                 ; 0000 0107                                 threshold[1] = 3;
+0001c1 e0e3      	LDI  R30,LOW(3)
+                 _0x155:
+                +
+0001c2 93e0 0279+STS _threshold + ( 1 ) , R30
+                 	__PUTB1MN _threshold,1
+                 ; 0000 0108                             break;
+0001c4 c002      	RJMP _0x5B
+                 ; 0000 0109                         }
+                 ; 0000 010A                     }
+                 _0x5C:
+0001c5 5011      	SUBI R17,1
+0001c6 cfeb      	RJMP _0x5A
+                 _0x5B:
+                 ; 0000 010B                     if (flag[1] == 0){
+                +
+0001c7 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+0001c9 30e0      	CPI  R30,0
+0001ca f4d9      	BRNE _0x5F
+                 ; 0000 010C                         for (i = 0; i <= cabins_floors[1]; i++){
+0001cb e010      	LDI  R17,LOW(0)
+                 _0x61:
+                +
+0001cc 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+0001ce 17e1      	CP   R30,R17
+0001cf f0b0      	BRLO _0x62
+                 ; 0000 010D                             if (cabins_up_stops[1][i] == 1){
+0001d0 d4fd      	RCALL SUBOPT_0xB
+0001d1 91ac      	LD   R26,X
+0001d2 30a1      	CPI  R26,LOW(0x1)
+0001d3 f481      	BRNE _0x63
+                 ; 0000 010E                                 flag[1] = 1;
+0001d4 e0e1      	LDI  R30,LOW(1)
+                +
+0001d5 93e0 027b+STS _flag + ( 1 ) , R30
+                 	__PUTB1MN _flag,1
+                 ; 0000 010F                                 cabins_floors[1] -= 1;
+0001d7 d515      	RCALL SUBOPT_0xF
+                 ; 0000 0110                                 if (cabins_floors[1] == i){
+0001d8 f439      	BRNE _0x64
+                 ; 0000 0111                                     cabins_up_stops[1][i] = 0;
+0001d9 d4f4      	RCALL SUBOPT_0xB
+0001da 93ec      	ST   X,R30
+                 ; 0000 0112                                     off_LED(i, 'u');
+0001db 931a      	ST   -Y,R17
+0001dc e7a5      	LDI  R26,LOW(117)
+0001dd d0dd      	RCALL _off_LED
+                 ; 0000 0113                                     threshold[1] = 10;
+0001de e0ea      	LDI  R30,LOW(10)
+0001df c001      	RJMP _0x156
+                 ; 0000 0114                                 }
+                 ; 0000 0115                                 else
+                 _0x64:
+                 ; 0000 0116                                     threshold[1] = 3;
+0001e0 e0e3      	LDI  R30,LOW(3)
+                 _0x156:
+                +
+0001e1 93e0 0279+STS _threshold + ( 1 ) , R30
+                 	__PUTB1MN _threshold,1
+                 ; 0000 0117                                 break;
+0001e3 c002      	RJMP _0x62
+                 ; 0000 0118                             }
+                 ; 0000 0119                         }
+                 _0x63:
+0001e4 5f1f      	SUBI R17,-1
+0001e5 cfe6      	RJMP _0x61
+                 _0x62:
+                 ; 0000 011A                     }
+                 ; 0000 011B                     if (flag[1] == 0){
+                 _0x5F:
+                +
+0001e6 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+0001e8 30e0      	CPI  R30,0
+0001e9 f409      	BRNE _0x66
+                 ; 0000 011C                         //stop timer
+                 ; 0000 011D                         TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+0001ea d4fb      	RCALL SUBOPT_0xE
+                 ; 0000 011E                         TCNT2=0x00;
+                 ; 0000 011F                         cabins_states[1] = 's';
+                 ; 0000 0120                     }
+                 ; 0000 0121                 }
+                 _0x66:
+                 ; 0000 0122             }
+                 _0x58:
+                 _0x57:
+                 ; 0000 0123             else{
+0001eb c051      	RJMP _0x67
+                 _0x43:
+                 ; 0000 0124                 if (cabins_states[1] == 'u'){
+                +
+0001ec 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+0001ee 37a5      	CPI  R26,LOW(0x75)
+0001ef f529      	BRNE _0x68
+                 ; 0000 0125                     for (i = cabins_floors[1]; i < 5; i++){
+                +
+0001f0 9110 0263+LDS R17 , _cabins_floors + ( 1 )
+                 	__GETBRMN 17,_cabins_floors,1
+                 _0x6A:
+0001f2 3015      	CPI  R17,5
+0001f3 f440      	BRSH _0x6B
+                 ; 0000 0126                         if (cabins_up_stops[1][i] == 1){
+0001f4 d4d9      	RCALL SUBOPT_0xB
+0001f5 91ac      	LD   R26,X
+0001f6 30a1      	CPI  R26,LOW(0x1)
+0001f7 f411      	BRNE _0x6C
+                 ; 0000 0127                             threshold[1] = 3;
+0001f8 d4fd      	RCALL SUBOPT_0x10
+                 ; 0000 0128                             flag[1] = 1;
+                 ; 0000 0129                             break;
+0001f9 c002      	RJMP _0x6B
+                 ; 0000 012A                         }
+                 ; 0000 012B                     }
+                 _0x6C:
+0001fa 5f1f      	SUBI R17,-1
+0001fb cff6      	RJMP _0x6A
+                 _0x6B:
+                 ; 0000 012C                     if (flag[1] == 0){
+                +
+0001fc 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+0001fe 30e0      	CPI  R30,0
+0001ff f479      	BRNE _0x6D
+                 ; 0000 012D                         for (i = cabins_floors[1]; i < 255; i--){
+                +
+000200 9110 0263+LDS R17 , _cabins_floors + ( 1 )
+                 	__GETBRMN 17,_cabins_floors,1
+                 _0x6F:
+000202 3f1f      	CPI  R17,255
+000203 f458      	BRSH _0x70
+                 ; 0000 012E                             if (cabins_down_stops[1][i] == 1){
+000204 d4db      	RCALL SUBOPT_0xD
+000205 91ac      	LD   R26,X
+000206 30a1      	CPI  R26,LOW(0x1)
+000207 f429      	BRNE _0x71
+                 ; 0000 012F                                 cabins_states[1] = 'd';
+000208 e6e4      	LDI  R30,LOW(100)
+                +
+000209 93e0 0261+STS _cabins_states + ( 1 ) , R30
+                 	__PUTB1MN _cabins_states,1
+                 ; 0000 0130                                 threshold[1] = 3;
+00020b d4ea      	RCALL SUBOPT_0x10
+                 ; 0000 0131                                 flag[1] = 1;
+                 ; 0000 0132                                 break;
+00020c c002      	RJMP _0x70
+                 ; 0000 0133                             }
+                 ; 0000 0134                         }
+                 _0x71:
+00020d 5011      	SUBI R17,1
+00020e cff3      	RJMP _0x6F
+                 _0x70:
+                 ; 0000 0135                     }
+                 ; 0000 0136                     if (flag[1] == 0){
+                 _0x6D:
+                +
+00020f 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+000211 30e0      	CPI  R30,0
+000212 f409      	BRNE _0x72
+                 ; 0000 0137                         //stop timer
+                 ; 0000 0138                         TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+000213 d4d2      	RCALL SUBOPT_0xE
+                 ; 0000 0139                         TCNT2=0x00;
+                 ; 0000 013A                         cabins_states[1] = 's';
+                 ; 0000 013B                     }
+                 ; 0000 013C                 }
+                 _0x72:
+                 ; 0000 013D                 else if (cabins_states[1] == 'd'){
+000214 c028      	RJMP _0x73
+                 _0x68:
+                +
+000215 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+000217 36a4      	CPI  R26,LOW(0x64)
+000218 f521      	BRNE _0x74
+                 ; 0000 013E                     for (i = cabins_floors[1]; i < 255; i--)
+                +
+000219 9110 0263+LDS R17 , _cabins_floors + ( 1 )
+                 	__GETBRMN 17,_cabins_floors,1
+                 _0x76:
+00021b 3f1f      	CPI  R17,255
+00021c f440      	BRSH _0x77
+                 ; 0000 013F                         if (cabins_down_stops[1][i] == 1){
+00021d d4c2      	RCALL SUBOPT_0xD
+00021e 91ac      	LD   R26,X
+00021f 30a1      	CPI  R26,LOW(0x1)
+000220 f411      	BRNE _0x78
+                 ; 0000 0140                             threshold[1] = 3;
+000221 d4d4      	RCALL SUBOPT_0x10
+                 ; 0000 0141                             flag[1] = 1;
+                 ; 0000 0142                             break;
+000222 c002      	RJMP _0x77
+                 ; 0000 0143                         }
+                 ; 0000 0144                     if (flag[1] == 0){
+                 _0x78:
+000223 5011      	SUBI R17,1
+000224 cff6      	RJMP _0x76
+                 _0x77:
+                +
+000225 91e0 027b+LDS R30 , _flag + ( 1 )
+                 	__GETB1MN _flag,1
+000227 30e0      	CPI  R30,0
+000228 f479      	BRNE _0x79
+                 ; 0000 0145                         for (i = cabins_floors[1]; i < 5 ; i++)
+                +
+000229 9110 0263+LDS R17 , _cabins_floors + ( 1 )
+                 	__GETBRMN 17,_cabins_floors,1
+                 _0x7B:
+00022b 3015      	CPI  R17,5
+00022c f458      	BRSH _0x7C
+                 ; 0000 0146                             if (cabins_up_stops[1][i] == 1){
+00022d d4a0      	RCALL SUBOPT_0xB
+00022e 91ac      	LD   R26,X
+00022f 30a1      	CPI  R26,LOW(0x1)
+000230 f429      	BRNE _0x7D
+                 ; 0000 0147                                 cabins_states[1] = 'u';
+000231 e7e5      	LDI  R30,LOW(117)
+                +
+000232 93e0 0261+STS _cabins_states + ( 1 ) , R30
+                 	__PUTB1MN _cabins_states,1
+                 ; 0000 0148                                 threshold[1] = 3;
+000234 d4c1      	RCALL SUBOPT_0x10
+                 ; 0000 0149                                 flag[1] = 1;
+                 ; 0000 014A                                 break;
+000235 c002      	RJMP _0x7C
+                 ; 0000 014B                             }
+                 ; 0000 014C                     }
+                 _0x7D:
+000236 5f1f      	SUBI R17,-1
+000237 cff3      	RJMP _0x7B
+                 _0x7C:
+                 ; 0000 014D                     if (flag[0] == 0){
+                 _0x79:
+000238 91e0 027a 	LDS  R30,_flag
+00023a 30e0      	CPI  R30,0
+00023b f409      	BRNE _0x7E
+                 ; 0000 014E                         //stop timer
+                 ; 0000 014F                             TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+00023c d4a9      	RCALL SUBOPT_0xE
+                 ; 0000 0150                             TCNT2=0x00;
+                 ; 0000 0151                             cabins_states[1] = 's';
+                 ; 0000 0152                     }
+                 ; 0000 0153                 }
+                 _0x7E:
+                 ; 0000 0154             }
+                 _0x74:
+                 _0x73:
+                 _0x67:
+                 ; 0000 0155         }
+                 ; 0000 0156     }
+                 _0x42:
+                 ; 0000 0157 }
+                 _0x41:
+                 _0x15F:
+00023d 9119      	LD   R17,Y+
+00023e 91e9      	LD   R30,Y+
+00023f bfef      	OUT  SREG,R30
+000240 91f9      	LD   R31,Y+
+000241 91e9      	LD   R30,Y+
+000242 91b9      	LD   R27,Y+
+000243 91a9      	LD   R26,Y+
+000244 9199      	LD   R25,Y+
+000245 9189      	LD   R24,Y+
+000246 9179      	LD   R23,Y+
+000247 9169      	LD   R22,Y+
+000248 90f9      	LD   R15,Y+
+000249 9019      	LD   R1,Y+
+00024a 9009      	LD   R0,Y+
+00024b 9518      	RETI
+                 ; .FEND
+                 ;
+                 ;void LCD_Command( unsigned char cmnd )
+                 ; 0000 015A {
+                 _LCD_Command:
+                 ; .FSTART _LCD_Command
+                 ; 0000 015B     LCD_Port = (LCD_Port & 0x0F) | (cmnd & 0xF0); /* sending upper nibble */
+00024c d4b0      	RCALL SUBOPT_0x11
+                 ;	cmnd -> Y+0
+                 ; 0000 015C     LCD_Port &= ~ (1<<RS);        /* RS=0, command reg. */
+00024d 98da      	CBI  0x1B,2
+                 ; 0000 015D     LCD_Port |= (1<<EN);        /* Enable pulse */
+00024e c002      	RJMP _0x2000003
+                 ; 0000 015E     delay_us(1);
+                 ; 0000 015F     LCD_Port &= ~ (1<<EN);
+                 ; 0000 0160 
+                 ; 0000 0161     delay_us(200);
+                 ; 0000 0162 
+                 ; 0000 0163     LCD_Port = (LCD_Port & 0x0F) | (cmnd << 4);  /* sending lower nibble */
+                 ; 0000 0164     LCD_Port |= (1<<EN);
+                 ; 0000 0165     delay_us(1);
+                 ; 0000 0166     LCD_Port &= ~ (1<<EN);
+                 ; 0000 0167     delay_ms(2);
+                 ; 0000 0168 }
+                 ; .FEND
+                 ;
+                 ;
+                 ;void LCD_Char( unsigned char data )
+                 ; 0000 016C {
+                 _LCD_Char:
+                 ; .FSTART _LCD_Char
+                 ; 0000 016D     LCD_Port = (LCD_Port & 0x0F) | (data & 0xF0); /* sending upper nibble */
+00024f d4ad      	RCALL SUBOPT_0x11
+                 ;	data -> Y+0
+                 ; 0000 016E     LCD_Port |= (1<<RS);        /* RS=1, data reg. */
+000250 9ada      	SBI  0x1B,2
+                 ; 0000 016F     LCD_Port|= (1<<EN);
+                 _0x2000003:
+000251 9adb      	SBI  0x1B,3
+                 ; 0000 0170     delay_us(1);
+                +
+000252 e083     +LDI R24 , LOW ( 3 )
+                +__DELAY_USB_LOOP :
+000253 958a     +DEC R24
+000254 f7f1     +BRNE __DELAY_USB_LOOP
+                 	__DELAY_USB 3
+                 ; 0000 0171     LCD_Port &= ~ (1<<EN);
+000255 98db      	CBI  0x1B,3
+                 ; 0000 0172 
+                 ; 0000 0173     delay_us(200);
+                +
+000256 e980     +LDI R24 , LOW ( 400 )
+000257 e091     +LDI R25 , HIGH ( 400 )
+                +__DELAY_USW_LOOP :
+000258 9701     +SBIW R24 , 1
+000259 f7f1     +BRNE __DELAY_USW_LOOP
+                 	__DELAY_USW 400
+                 ; 0000 0174 
+                 ; 0000 0175     LCD_Port = (LCD_Port & 0x0F) | (data << 4); /* sending lower nibble */
+00025a b3eb      	IN   R30,0x1B
+00025b 70ef      	ANDI R30,LOW(0xF)
+00025c 2fae      	MOV  R26,R30
+00025d 81e8      	LD   R30,Y
+00025e 95e2      	SWAP R30
+00025f 7fe0      	ANDI R30,0xF0
+000260 2bea      	OR   R30,R26
+000261 bbeb      	OUT  0x1B,R30
+                 ; 0000 0176     LCD_Port |= (1<<EN);
+000262 9adb      	SBI  0x1B,3
+                 ; 0000 0177     delay_us(1);
+                +
+000263 e083     +LDI R24 , LOW ( 3 )
+                +__DELAY_USB_LOOP :
+000264 958a     +DEC R24
+000265 f7f1     +BRNE __DELAY_USB_LOOP
+                 	__DELAY_USB 3
+                 ; 0000 0178     LCD_Port &= ~ (1<<EN);
+000266 98db      	CBI  0x1B,3
+                 ; 0000 0179     delay_ms(2);
+000267 d49e      	RCALL SUBOPT_0x12
+                 ; 0000 017A }
+000268 9621      	ADIW R28,1
+000269 9508      	RET
+                 ; .FEND
+                 ;
+                 ;void LCD_Init (void)            /* LCD Initialize function */
+                 ; 0000 017D {
+                 _LCD_Init:
+                 ; .FSTART _LCD_Init
+                 ; 0000 017E     LCD_Dir = 0xFF;            /* Make LCD port direction as o/p */
+00026a efef      	LDI  R30,LOW(255)
+00026b bbea      	OUT  0x1A,R30
+                 ; 0000 017F     delay_ms(20);            /* LCD Power ON delay always >15ms */
+00026c e1a4      	LDI  R26,LOW(20)
+00026d e0b0      	LDI  R27,0
+00026e 940e 077b 	CALL _delay_ms
+                 ; 0000 0180 
+                 ; 0000 0181     LCD_Command(0x02);        /* send for 4 bit initialization of LCD  */
+000270 e0a2      	LDI  R26,LOW(2)
+000271 dfda      	RCALL _LCD_Command
+                 ; 0000 0182     LCD_Command(0x28);              /* 2 line, 5*7 matrix in 4-bit mode */
+000272 e2a8      	LDI  R26,LOW(40)
+000273 dfd8      	RCALL _LCD_Command
+                 ; 0000 0183     LCD_Command(0x0c);              /* Display on cursor off*/
+000274 e0ac      	LDI  R26,LOW(12)
+000275 dfd6      	RCALL _LCD_Command
+                 ; 0000 0184     LCD_Command(0x06);              /* Increment cursor (shift cursor to right)*/
+000276 e0a6      	LDI  R26,LOW(6)
+000277 dfd4      	RCALL _LCD_Command
+                 ; 0000 0185     LCD_Command(0x01);              /* Clear display screen*/
+000278 e0a1      	LDI  R26,LOW(1)
+000279 dfd2      	RCALL _LCD_Command
+                 ; 0000 0186     delay_ms(2);
+00027a d48b      	RCALL SUBOPT_0x12
+                 ; 0000 0187 }
+00027b 9508      	RET
+                 ; .FEND
+                 ;
+                 ;
+                 ;void LCD_String (char *str)		/* Send string to LCD function */
+                 ; 0000 018B {
+                 _LCD_String:
+                 ; .FSTART _LCD_String
+                 ; 0000 018C 	int i;
+                 ; 0000 018D 	for(i=0;str[i]!=0;i++)		/* Send each char of string till the NULL */
+00027c 93ba      	ST   -Y,R27
+00027d 93aa      	ST   -Y,R26
+00027e 931a      	ST   -Y,R17
+00027f 930a      	ST   -Y,R16
+                 ;	*str -> Y+2
+                 ;	i -> R16,R17
+                +
+000280 e000     +LDI R16 , LOW ( 0 )
+000281 e010     +LDI R17 , HIGH ( 0 )
+                 	__GETWRN 16,17,0
+                 _0x80:
+000282 01f8      	MOVW R30,R16
+000283 81aa      	LDD  R26,Y+2
+000284 81bb      	LDD  R27,Y+2+1
+000285 0fae      	ADD  R26,R30
+000286 1fbf      	ADC  R27,R31
+000287 91ec      	LD   R30,X
+000288 30e0      	CPI  R30,0
+000289 f051      	BREQ _0x81
+                 ; 0000 018E 	{
+                 ; 0000 018F 		LCD_Char (str[i]);
+00028a 01f8      	MOVW R30,R16
+00028b 81aa      	LDD  R26,Y+2
+00028c 81bb      	LDD  R27,Y+2+1
+00028d 0fae      	ADD  R26,R30
+00028e 1fbf      	ADC  R27,R31
+00028f 91ac      	LD   R26,X
+000290 dfbe      	RCALL _LCD_Char
+                 ; 0000 0190 	}
+                +
+000291 5f0f     +SUBI R16 , LOW ( - 1 )
+000292 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+000293 cfee      	RJMP _0x80
+                 _0x81:
+                 ; 0000 0191 }
+000294 8119      	LDD  R17,Y+1
+000295 8108      	LDD  R16,Y+0
+000296 c01c      	RJMP _0x2000002
+                 ; .FEND
+                 ;
+                 ;void LCD_String_xy (char row, char pos, char *str)	/* Send string to LCD with xy position */
+                 ; 0000 0194 {
+                 _LCD_String_xy:
+                 ; .FSTART _LCD_String_xy
+                 ; 0000 0195 	if (row == 0 && pos<16)
+000297 93ba      	ST   -Y,R27
+000298 93aa      	ST   -Y,R26
+                 ;	row -> Y+3
+                 ;	pos -> Y+2
+                 ;	*str -> Y+0
+000299 81ab      	LDD  R26,Y+3
+00029a 30a0      	CPI  R26,LOW(0x0)
+00029b f419      	BRNE _0x83
+00029c 81aa      	LDD  R26,Y+2
+00029d 31a0      	CPI  R26,LOW(0x10)
+00029e f008      	BRLO _0x84
+                 _0x83:
+00029f c004      	RJMP _0x82
+                 _0x84:
+                 ; 0000 0196 	LCD_Command((pos & 0x0F)|0x80);	/* Command of first row and required position<16 */
+0002a0 81ea      	LDD  R30,Y+2
+0002a1 70ef      	ANDI R30,LOW(0xF)
+0002a2 68e0      	ORI  R30,0x80
+0002a3 c00a      	RJMP _0x157
+                 ; 0000 0197 	else if (row == 1 && pos<16)
+                 _0x82:
+0002a4 81ab      	LDD  R26,Y+3
+0002a5 30a1      	CPI  R26,LOW(0x1)
+0002a6 f419      	BRNE _0x87
+0002a7 81aa      	LDD  R26,Y+2
+0002a8 31a0      	CPI  R26,LOW(0x10)
+0002a9 f008      	BRLO _0x88
+                 _0x87:
+0002aa c005      	RJMP _0x86
+                 _0x88:
+                 ; 0000 0198 	LCD_Command((pos & 0x0F)|0xC0);	/* Command of first row and required position<16 */
+0002ab 81ea      	LDD  R30,Y+2
+0002ac 70ef      	ANDI R30,LOW(0xF)
+0002ad 6ce0      	ORI  R30,LOW(0xC0)
+                 _0x157:
+0002ae 2fae      	MOV  R26,R30
+0002af df9c      	RCALL _LCD_Command
+                 ; 0000 0199 	LCD_String(str);		/* Call LCD string function */
+                 _0x86:
+0002b0 81a8      	LD   R26,Y
+0002b1 81b9      	LDD  R27,Y+1
+0002b2 dfc9      	RCALL _LCD_String
+                 ; 0000 019A }
+                 _0x2000002:
+0002b3 9624      	ADIW R28,4
+0002b4 9508      	RET
+                 ; .FEND
+                 ;
+                 ;void LCD_Clear()
+                 ; 0000 019D {
+                 _LCD_Clear:
+                 ; .FSTART _LCD_Clear
+                 ; 0000 019E 	LCD_Command (0x01);		/* Clear display */
+0002b5 e0a1      	LDI  R26,LOW(1)
+0002b6 df95      	RCALL _LCD_Command
+                 ; 0000 019F 	delay_ms(2);
+0002b7 d44e      	RCALL SUBOPT_0x12
+                 ; 0000 01A0 	LCD_Command (0x80);		/* Cursor at home position */
+0002b8 e8a0      	LDI  R26,LOW(128)
+0002b9 df92      	RCALL _LCD_Command
+                 ; 0000 01A1 }
+0002ba 9508      	RET
+                 ; .FEND
+                 ;
+                 ;
+                 ;void off_LED(char floor, char dir){
+                 ; 0000 01A4 void off_LED(char floor, char dir){
+                 _off_LED:
+                 ; .FSTART _off_LED
+                 ; 0000 01A5     switch (floor) {
+0002bb 93aa      	ST   -Y,R26
+                 ;	floor -> Y+1
+                 ;	dir -> Y+0
+0002bc 81e9      	LDD  R30,Y+1
+0002bd e0f0      	LDI  R31,0
+                 ; 0000 01A6         case 0:{
+0002be 9730      	SBIW R30,0
+0002bf f411      	BRNE _0x8C
+                 ; 0000 01A7             PORTD &= ~(1<<0);
+0002c0 9890      	CBI  0x12,0
+                 ; 0000 01A8             break;
+0002c1 c026      	RJMP _0x8B
+                 ; 0000 01A9         }
+                 ; 0000 01AA         case 1:{
+                 _0x8C:
+0002c2 30e1      	CPI  R30,LOW(0x1)
+0002c3 e0a0      	LDI  R26,HIGH(0x1)
+0002c4 07fa      	CPC  R31,R26
+0002c5 f439      	BRNE _0x8D
+                 ; 0000 01AB             if (dir == 'u')
+0002c6 81a8      	LD   R26,Y
+0002c7 37a5      	CPI  R26,LOW(0x75)
+0002c8 f411      	BRNE _0x8E
+                 ; 0000 01AC                 PORTD &= ~(1<<1);
+0002c9 9891      	CBI  0x12,1
+                 ; 0000 01AD             else
+0002ca c001      	RJMP _0x8F
+                 _0x8E:
+                 ; 0000 01AE                 PORTD &= ~(1<<2);
+0002cb 9892      	CBI  0x12,2
+                 ; 0000 01AF             break;
+                 _0x8F:
+0002cc c01b      	RJMP _0x8B
+                 ; 0000 01B0         }
+                 ; 0000 01B1         case 2:{
+                 _0x8D:
+0002cd 30e2      	CPI  R30,LOW(0x2)
+0002ce e0a0      	LDI  R26,HIGH(0x2)
+0002cf 07fa      	CPC  R31,R26
+0002d0 f439      	BRNE _0x90
+                 ; 0000 01B2             if (dir == 'u')
+0002d1 81a8      	LD   R26,Y
+0002d2 37a5      	CPI  R26,LOW(0x75)
+0002d3 f411      	BRNE _0x91
+                 ; 0000 01B3                 PORTD &= ~(1<<3);
+0002d4 9893      	CBI  0x12,3
+                 ; 0000 01B4             else
+0002d5 c001      	RJMP _0x92
+                 _0x91:
+                 ; 0000 01B5                 PORTD &= ~(1<<4);
+0002d6 9894      	CBI  0x12,4
+                 ; 0000 01B6             break;
+                 _0x92:
+0002d7 c010      	RJMP _0x8B
+                 ; 0000 01B7         }
+                 ; 0000 01B8         case 3:{
+                 _0x90:
+0002d8 30e3      	CPI  R30,LOW(0x3)
+0002d9 e0a0      	LDI  R26,HIGH(0x3)
+0002da 07fa      	CPC  R31,R26
+0002db f439      	BRNE _0x93
+                 ; 0000 01B9             if (dir == 'u')
+0002dc 81a8      	LD   R26,Y
+0002dd 37a5      	CPI  R26,LOW(0x75)
+0002de f411      	BRNE _0x94
+                 ; 0000 01BA                 PORTD &= ~(1<<5);
+0002df 9895      	CBI  0x12,5
+                 ; 0000 01BB             else
+0002e0 c001      	RJMP _0x95
+                 _0x94:
+                 ; 0000 01BC                 PORTD &= ~(1<<6);
+0002e1 9896      	CBI  0x12,6
+                 ; 0000 01BD             break;
+                 _0x95:
+0002e2 c005      	RJMP _0x8B
+                 ; 0000 01BE         }
+                 ; 0000 01BF         case 4:{
+                 _0x93:
+0002e3 30e4      	CPI  R30,LOW(0x4)
+0002e4 e0a0      	LDI  R26,HIGH(0x4)
+0002e5 07fa      	CPC  R31,R26
+0002e6 f409      	BRNE _0x8B
+                 ; 0000 01C0             PORTD &= ~(1<<7);
+0002e7 9897      	CBI  0x12,7
+                 ; 0000 01C1             break;
+                 ; 0000 01C2         }
+                 ; 0000 01C3     };
+                 _0x8B:
+                 ; 0000 01C4 }
+0002e8 9622      	ADIW R28,2
+0002e9 9508      	RET
+                 ; .FEND
+                 ;
+                 ;unsigned char calc_distance_time(unsigned char cabin_number, unsigned char floor, unsigned char direction){
+                 ; 0000 01C6 unsigned char calc_distance_time(unsigned char cabin_number, unsigned char floor, unsigned char direction){
+                 _calc_distance_time:
+                 ; .FSTART _calc_distance_time
+                 ; 0000 01C7     unsigned char distance = 0;
+                 ; 0000 01C8     unsigned char i = 0;
+                 ; 0000 01C9     unsigned char limit_up = 4;
+                 ; 0000 01CA     unsigned char limit_down = 0;
+                 ; 0000 01CB     if (direction == 'u'){
+0002ea 93aa      	ST   -Y,R26
+0002eb 940e 07b5 	CALL __SAVELOCR4
+                 ;	cabin_number -> Y+6
+                 ;	floor -> Y+5
+                 ;	direction -> Y+4
+                 ;	distance -> R17
+                 ;	i -> R16
+                 ;	limit_up -> R19
+                 ;	limit_down -> R18
+0002ed e010      	LDI  R17,0
+0002ee e000      	LDI  R16,0
+0002ef e034      	LDI  R19,4
+0002f0 e020      	LDI  R18,0
+0002f1 81ac      	LDD  R26,Y+4
+0002f2 37a5      	CPI  R26,LOW(0x75)
+0002f3 f009      	BREQ PC+2
+0002f4 c099      	RJMP _0x97
+                 ; 0000 01CC         if (cabins_states[cabin_number]=='u'){
+0002f5 d414      	RCALL SUBOPT_0x13
+0002f6 37a5      	CPI  R26,LOW(0x75)
+0002f7 f009      	BREQ PC+2
+0002f8 c052      	RJMP _0x98
+                 ; 0000 01CD             if (floor >= cabins_floors[cabin_number]){
+0002f9 d416      	RCALL SUBOPT_0x14
+0002fa 81e0      	LD   R30,Z
+0002fb 81ad      	LDD  R26,Y+5
+0002fc 17ae      	CP   R26,R30
+0002fd f080      	BRLO _0x99
+                 ; 0000 01CE                 distance = 3*(floor-cabins_floors[cabin_number]);
+0002fe d411      	RCALL SUBOPT_0x14
+0002ff 81a0      	LD   R26,Z
+000300 81ed      	LDD  R30,Y+5
+000301 d413      	RCALL SUBOPT_0x15
+                 ; 0000 01CF                 for (i = cabins_floors[cabin_number]+1; i <= floor; i++){
+000302 81e0      	LD   R30,Z
+000303 5fef      	SUBI R30,-LOW(1)
+000304 2f0e      	MOV  R16,R30
+                 _0x9B:
+000305 81ed      	LDD  R30,Y+5
+000306 17e0      	CP   R30,R16
+000307 f028      	BRLO _0x9C
+                 ; 0000 01D0                     if (cabins_up_stops[i] == 1)
+000308 d411      	RCALL SUBOPT_0x16
+000309 f409      	BRNE _0x9D
+                 ; 0000 01D1                         distance += 10;
+00030a 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 01D2                 }
+                 _0x9D:
+00030b 5f0f      	SUBI R16,-1
+00030c cff8      	RJMP _0x9B
+                 _0x9C:
+                 ; 0000 01D3             }
+                 ; 0000 01D4             else{
+00030d c03c      	RJMP _0x9E
+                 _0x99:
+                 ; 0000 01D5                 for (i = cabins_floors[cabin_number]; i < 5; i++){
+00030e d401      	RCALL SUBOPT_0x14
+00030f 8100      	LD   R16,Z
+                 _0xA0:
+000310 3005      	CPI  R16,5
+000311 f428      	BRSH _0xA1
+                 ; 0000 01D6                     if (cabins_up_stops[i] == 1)
+000312 d407      	RCALL SUBOPT_0x16
+000313 f409      	BRNE _0xA2
+                 ; 0000 01D7                         limit_up = i;
+000314 2f30      	MOV  R19,R16
+                 ; 0000 01D8                 }
+                 _0xA2:
+000315 5f0f      	SUBI R16,-1
+000316 cff9      	RJMP _0xA0
+                 _0xA1:
+                 ; 0000 01D9                 for (i = cabins_floors[cabin_number]+1; i <= limit_up; i++){
+000317 d3f8      	RCALL SUBOPT_0x14
+000318 81e0      	LD   R30,Z
+000319 5fef      	SUBI R30,-LOW(1)
+00031a 2f0e      	MOV  R16,R30
+                 _0xA4:
+00031b 1730      	CP   R19,R16
+00031c f030      	BRLO _0xA5
+                 ; 0000 01DA                     if (cabins_up_stops[i] == 1)
+00031d d3fc      	RCALL SUBOPT_0x16
+00031e f409      	BRNE _0xA6
+                 ; 0000 01DB                         distance += 10;
+00031f 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 01DC                     distance += 3;
+                 _0xA6:
+000320 5f1d      	SUBI R17,-LOW(3)
+                 ; 0000 01DD                 }
+000321 5f0f      	SUBI R16,-1
+000322 cff8      	RJMP _0xA4
+                 _0xA5:
+                 ; 0000 01DE                 for (i = limit_up; i < 255; i--){
+000323 2f03      	MOV  R16,R19
+                 _0xA8:
+000324 3f0f      	CPI  R16,255
+000325 f428      	BRSH _0xA9
+                 ; 0000 01DF                     if (cabins_down_stops[i] == 1)
+000326 d3fc      	RCALL SUBOPT_0x17
+000327 f409      	BRNE _0xAA
+                 ; 0000 01E0                         limit_down = i;
+000328 2f20      	MOV  R18,R16
+                 ; 0000 01E1                 }
+                 _0xAA:
+000329 5001      	SUBI R16,1
+00032a cff9      	RJMP _0xA8
+                 _0xA9:
+                 ; 0000 01E2                 for (i = limit_up-1; i >= limit_down && i < 255; i--){
+00032b 2fe3      	MOV  R30,R19
+00032c 50e1      	SUBI R30,LOW(1)
+00032d 2f0e      	MOV  R16,R30
+                 _0xAC:
+00032e 1702      	CP   R16,R18
+00032f f010      	BRLO _0xAE
+000330 3f0f      	CPI  R16,255
+000331 f008      	BRLO _0xAF
+                 _0xAE:
+000332 c006      	RJMP _0xAD
+                 _0xAF:
+                 ; 0000 01E3                     if (cabins_down_stops[i] == 1)
+000333 d3ef      	RCALL SUBOPT_0x17
+000334 f409      	BRNE _0xB0
+                 ; 0000 01E4                         distance += 10;
+000335 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 01E5                     distance += 3;
+                 _0xB0:
+000336 5f1d      	SUBI R17,-LOW(3)
+                 ; 0000 01E6                 }
+000337 5001      	SUBI R16,1
+000338 cff5      	RJMP _0xAC
+                 _0xAD:
+                 ; 0000 01E7                 distance += 3*(floor-limit_down)?limit_down<=floor:3*(limit_down-floor);
+000339 81ad      	LDD  R26,Y+5
+00033a 27bb      	CLR  R27
+00033b 2fe2      	MOV  R30,R18
+00033c d3ef      	RCALL SUBOPT_0x18
+00033d 9730      	SBIW R30,0
+00033e f029      	BREQ _0xB1
+00033f 81ed      	LDD  R30,Y+5
+000340 2fa2      	MOV  R26,R18
+000341 940e 078e 	CALL __LEB12U
+000343 c004      	RJMP _0xB2
+                 _0xB1:
+000344 2fa2      	MOV  R26,R18
+000345 27bb      	CLR  R27
+000346 81ed      	LDD  R30,Y+5
+000347 d3e4      	RCALL SUBOPT_0x18
+                 _0xB2:
+000348 0f1e      	ADD  R17,R30
+                 ; 0000 01E8                 distance += 10;
+000349 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 01E9             }
+                 _0x9E:
+                 ; 0000 01EA         }
+                 ; 0000 01EB         else if (cabins_states[cabin_number]=='d'){
+00034a c042      	RJMP _0xB4
+                 _0x98:
+00034b d3be      	RCALL SUBOPT_0x13
+00034c 36a4      	CPI  R26,LOW(0x64)
+00034d f569      	BRNE _0xB5
+                 ; 0000 01EC             for (i = cabins_floors[cabin_number]; i < 255; i--){
+00034e d3c1      	RCALL SUBOPT_0x14
+00034f 8100      	LD   R16,Z
+                 _0xB7:
+000350 3f0f      	CPI  R16,255
+000351 f428      	BRSH _0xB8
+                 ; 0000 01ED                 if (cabins_down_stops[i] == 1)
+000352 d3d0      	RCALL SUBOPT_0x17
+000353 f409      	BRNE _0xB9
+                 ; 0000 01EE                     limit_down = i;
+000354 2f20      	MOV  R18,R16
+                 ; 0000 01EF             }
+                 _0xB9:
+000355 5001      	SUBI R16,1
+000356 cff9      	RJMP _0xB7
+                 _0xB8:
+                 ; 0000 01F0             for (i = cabins_floors[cabin_number]-1; i >= limit_down && i < 255; i--){
+000357 d3b8      	RCALL SUBOPT_0x14
+000358 81e0      	LD   R30,Z
+000359 50e1      	SUBI R30,LOW(1)
+00035a 2f0e      	MOV  R16,R30
+                 _0xBB:
+00035b 1702      	CP   R16,R18
+00035c f010      	BRLO _0xBD
+00035d 3f0f      	CPI  R16,255
+00035e f008      	BRLO _0xBE
+                 _0xBD:
+00035f c006      	RJMP _0xBC
+                 _0xBE:
+                 ; 0000 01F1                 if (cabins_down_stops[i] == 1)
+000360 d3c2      	RCALL SUBOPT_0x17
+000361 f409      	BRNE _0xBF
+                 ; 0000 01F2                     distance += 10;
+000362 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 01F3                 distance += 3;
+                 _0xBF:
+000363 5f1d      	SUBI R17,-LOW(3)
+                 ; 0000 01F4             }
+000364 5001      	SUBI R16,1
+000365 cff5      	RJMP _0xBB
+                 _0xBC:
+                 ; 0000 01F5             if (floor >= limit_down){
+000366 81ad      	LDD  R26,Y+5
+000367 17a2      	CP   R26,R18
+000368 f068      	BRLO _0xC0
+                 ; 0000 01F6                 distance = 3*(floor-limit_down)+10;
+000369 81ed      	LDD  R30,Y+5
+00036a 1be2      	SUB  R30,R18
+00036b d3ca      	RCALL SUBOPT_0x19
+                 ; 0000 01F7                 for (i = limit_down; i <= floor; i++){
+00036c 2f02      	MOV  R16,R18
+                 _0xC2:
+00036d 81ed      	LDD  R30,Y+5
+00036e 17e0      	CP   R30,R16
+00036f f028      	BRLO _0xC3
+                 ; 0000 01F8                     if (cabins_up_stops[i] == 1)
+000370 d3a9      	RCALL SUBOPT_0x16
+000371 f409      	BRNE _0xC4
+                 ; 0000 01F9                         distance += 10;
+000372 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 01FA                 }
+                 _0xC4:
+000373 5f0f      	SUBI R16,-1
+000374 cff8      	RJMP _0xC2
+                 _0xC3:
+                 ; 0000 01FB             }
+                 ; 0000 01FC             else{
+000375 c004      	RJMP _0xC5
+                 _0xC0:
+                 ; 0000 01FD                 distance = 3*(limit_down-floor)+10;
+000376 81ad      	LDD  R26,Y+5
+000377 2fe2      	MOV  R30,R18
+000378 1bea      	SUB  R30,R26
+000379 d3bc      	RCALL SUBOPT_0x19
+                 ; 0000 01FE             }
+                 _0xC5:
+                 ; 0000 01FF         }
+                 ; 0000 0200         else{
+00037a c012      	RJMP _0xC6
+                 _0xB5:
+                 ; 0000 0201             if (cabins_floors[cabin_number]<=floor){
+00037b d394      	RCALL SUBOPT_0x14
+00037c 81a0      	LD   R26,Z
+00037d 81ed      	LDD  R30,Y+5
+00037e 17ea      	CP   R30,R26
+00037f f020      	BRLO _0xC7
+                 ; 0000 0202                 distance += 3*(floor-cabins_floors[cabin_number]);
+000380 d38f      	RCALL SUBOPT_0x14
+000381 81a0      	LD   R26,Z
+000382 81ed      	LDD  R30,Y+5
+000383 c003      	RJMP _0x158
+                 ; 0000 0203             }
+                 ; 0000 0204             else{
+                 _0xC7:
+                 ; 0000 0205                 distance += 3*(cabins_floors[cabin_number]-floor);
+000384 d38b      	RCALL SUBOPT_0x14
+000385 81e0      	LD   R30,Z
+000386 81ad      	LDD  R26,Y+5
+                 _0x158:
+000387 1bea      	SUB  R30,R26
+000388 e0a3      	LDI  R26,LOW(3)
+000389 02ea      	MULS R30,R26
+00038a 01f0      	MOVW R30,R0
+00038b 0f1e      	ADD  R17,R30
+                 ; 0000 0206             }
+                 ; 0000 0207             distance += 10;
+00038c 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0208         }
+                 _0xC6:
+                 _0xB4:
+                 ; 0000 0209     }
+                 ; 0000 020A     else{
+00038d c09a      	RJMP _0xC9
+                 _0x97:
+                 ; 0000 020B         if (cabins_states[cabin_number]=='d'){
+00038e d37b      	RCALL SUBOPT_0x13
+00038f 36a4      	CPI  R26,LOW(0x64)
+000390 f009      	BREQ PC+2
+000391 c055      	RJMP _0xCA
+                 ; 0000 020C             if (floor <= cabins_floors[cabin_number]){
+000392 d37d      	RCALL SUBOPT_0x14
+000393 81e0      	LD   R30,Z
+000394 81ad      	LDD  R26,Y+5
+000395 17ea      	CP   R30,R26
+000396 f098      	BRLO _0xCB
+                 ; 0000 020D                 distance = 3*(cabins_floors[cabin_number]-floor);
+000397 d378      	RCALL SUBOPT_0x14
+000398 81e0      	LD   R30,Z
+000399 81ad      	LDD  R26,Y+5
+00039a d37a      	RCALL SUBOPT_0x15
+                 ; 0000 020E                 for (i = cabins_floors[cabin_number]-1; i >= floor && i < 255; i--){
+00039b 81e0      	LD   R30,Z
+00039c 50e1      	SUBI R30,LOW(1)
+00039d 2f0e      	MOV  R16,R30
+                 _0xCD:
+00039e 81ed      	LDD  R30,Y+5
+00039f 170e      	CP   R16,R30
+0003a0 f010      	BRLO _0xCF
+0003a1 3f0f      	CPI  R16,255
+0003a2 f008      	BRLO _0xD0
+                 _0xCF:
+0003a3 c005      	RJMP _0xCE
+                 _0xD0:
+                 ; 0000 020F                     if (cabins_down_stops[i] == 1)
+0003a4 d37e      	RCALL SUBOPT_0x17
+0003a5 f409      	BRNE _0xD1
+                 ; 0000 0210                         distance += 10;
+0003a6 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0211                 }
+                 _0xD1:
+0003a7 5001      	SUBI R16,1
+0003a8 cff5      	RJMP _0xCD
+                 _0xCE:
+                 ; 0000 0212             }
+                 ; 0000 0213             else{
+0003a9 c03c      	RJMP _0xD2
+                 _0xCB:
+                 ; 0000 0214                 for (i = cabins_floors[cabin_number]; i < 255; i--){
+0003aa d365      	RCALL SUBOPT_0x14
+0003ab 8100      	LD   R16,Z
+                 _0xD4:
+0003ac 3f0f      	CPI  R16,255
+0003ad f428      	BRSH _0xD5
+                 ; 0000 0215                     if (cabins_down_stops[i] == 1)
+0003ae d374      	RCALL SUBOPT_0x17
+0003af f409      	BRNE _0xD6
+                 ; 0000 0216                         limit_down = i;
+0003b0 2f20      	MOV  R18,R16
+                 ; 0000 0217                 }
+                 _0xD6:
+0003b1 5001      	SUBI R16,1
+0003b2 cff9      	RJMP _0xD4
+                 _0xD5:
+                 ; 0000 0218                 for (i = cabins_floors[cabin_number]-1; i >= limit_down && i < 255; i--){
+0003b3 d35c      	RCALL SUBOPT_0x14
+0003b4 81e0      	LD   R30,Z
+0003b5 50e1      	SUBI R30,LOW(1)
+0003b6 2f0e      	MOV  R16,R30
+                 _0xD8:
+0003b7 1702      	CP   R16,R18
+0003b8 f010      	BRLO _0xDA
+0003b9 3f0f      	CPI  R16,255
+0003ba f008      	BRLO _0xDB
+                 _0xDA:
+0003bb c006      	RJMP _0xD9
+                 _0xDB:
+                 ; 0000 0219                     if (cabins_down_stops[i] == 1)
+0003bc d366      	RCALL SUBOPT_0x17
+0003bd f409      	BRNE _0xDC
+                 ; 0000 021A                         distance += 10;
+0003be 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 021B                     distance += 3;
+                 _0xDC:
+0003bf 5f1d      	SUBI R17,-LOW(3)
+                 ; 0000 021C                 }
+0003c0 5001      	SUBI R16,1
+0003c1 cff5      	RJMP _0xD8
+                 _0xD9:
+                 ; 0000 021D                 for (i = limit_down; i < 5; i++){
+0003c2 2f02      	MOV  R16,R18
+                 _0xDE:
+0003c3 3005      	CPI  R16,5
+0003c4 f428      	BRSH _0xDF
+                 ; 0000 021E                     if (cabins_up_stops[i] == 1)
+0003c5 d354      	RCALL SUBOPT_0x16
+0003c6 f409      	BRNE _0xE0
+                 ; 0000 021F                         limit_up = i;
+0003c7 2f30      	MOV  R19,R16
+                 ; 0000 0220                 }
+                 _0xE0:
+0003c8 5f0f      	SUBI R16,-1
+0003c9 cff9      	RJMP _0xDE
+                 _0xDF:
+                 ; 0000 0221                 for (i = limit_down+1; i <= limit_up; i++){
+0003ca 2fe2      	MOV  R30,R18
+0003cb 5fef      	SUBI R30,-LOW(1)
+0003cc 2f0e      	MOV  R16,R30
+                 _0xE2:
+0003cd 1730      	CP   R19,R16
+0003ce f030      	BRLO _0xE3
+                 ; 0000 0222                     if (cabins_up_stops[i] == 1)
+0003cf d34a      	RCALL SUBOPT_0x16
+0003d0 f409      	BRNE _0xE4
+                 ; 0000 0223                         distance += 10;
+0003d1 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0224                     distance += 3;
+                 _0xE4:
+0003d2 5f1d      	SUBI R17,-LOW(3)
+                 ; 0000 0225                 }
+0003d3 5f0f      	SUBI R16,-1
+0003d4 cff8      	RJMP _0xE2
+                 _0xE3:
+                 ; 0000 0226                 distance += 3*(floor-limit_up)?limit_up<=floor:3*(limit_up-floor);
+0003d5 81ad      	LDD  R26,Y+5
+0003d6 27bb      	CLR  R27
+0003d7 2fe3      	MOV  R30,R19
+0003d8 d353      	RCALL SUBOPT_0x18
+0003d9 9730      	SBIW R30,0
+0003da f029      	BREQ _0xE5
+0003db 81ed      	LDD  R30,Y+5
+0003dc 2fa3      	MOV  R26,R19
+0003dd 940e 078e 	CALL __LEB12U
+0003df c004      	RJMP _0xE6
+                 _0xE5:
+0003e0 2fa3      	MOV  R26,R19
+0003e1 27bb      	CLR  R27
+0003e2 81ed      	LDD  R30,Y+5
+0003e3 d348      	RCALL SUBOPT_0x18
+                 _0xE6:
+0003e4 0f1e      	ADD  R17,R30
+                 ; 0000 0227                 distance += 10;
+0003e5 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0228             }
+                 _0xD2:
+                 ; 0000 0229         }
+                 ; 0000 022A         else if (cabins_states[cabin_number]=='u'){
+0003e6 c041      	RJMP _0xE8
+                 _0xCA:
+0003e7 d322      	RCALL SUBOPT_0x13
+0003e8 37a5      	CPI  R26,LOW(0x75)
+0003e9 f561      	BRNE _0xE9
+                 ; 0000 022B             for (i = cabins_floors[cabin_number]; i < 5; i++){
+0003ea d325      	RCALL SUBOPT_0x14
+0003eb 8100      	LD   R16,Z
+                 _0xEB:
+0003ec 3005      	CPI  R16,5
+0003ed f428      	BRSH _0xEC
+                 ; 0000 022C                 if (cabins_up_stops[i] == 1)
+0003ee d32b      	RCALL SUBOPT_0x16
+0003ef f409      	BRNE _0xED
+                 ; 0000 022D                     limit_up = i;
+0003f0 2f30      	MOV  R19,R16
+                 ; 0000 022E             }
+                 _0xED:
+0003f1 5f0f      	SUBI R16,-1
+0003f2 cff9      	RJMP _0xEB
+                 _0xEC:
+                 ; 0000 022F             for (i = cabins_floors[cabin_number]+1; i <= limit_up; i++){
+0003f3 d31c      	RCALL SUBOPT_0x14
+0003f4 81e0      	LD   R30,Z
+0003f5 5fef      	SUBI R30,-LOW(1)
+0003f6 2f0e      	MOV  R16,R30
+                 _0xEF:
+0003f7 1730      	CP   R19,R16
+0003f8 f030      	BRLO _0xF0
+                 ; 0000 0230                 if (cabins_down_stops[i] == 1)
+0003f9 d329      	RCALL SUBOPT_0x17
+0003fa f409      	BRNE _0xF1
+                 ; 0000 0231                     distance += 10;
+0003fb 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0232                 distance += 3;
+                 _0xF1:
+0003fc 5f1d      	SUBI R17,-LOW(3)
+                 ; 0000 0233             }
+0003fd 5f0f      	SUBI R16,-1
+0003fe cff8      	RJMP _0xEF
+                 _0xF0:
+                 ; 0000 0234             if (floor <= limit_up){
+0003ff 81ad      	LDD  R26,Y+5
+000400 173a      	CP   R19,R26
+000401 f080      	BRLO _0xF2
+                 ; 0000 0235                 distance = 3*(limit_up-floor)+10;
+000402 2fe3      	MOV  R30,R19
+000403 1bea      	SUB  R30,R26
+000404 d331      	RCALL SUBOPT_0x19
+                 ; 0000 0236                 for (i = limit_up; i >= floor && i < 255; i--){
+000405 2f03      	MOV  R16,R19
+                 _0xF4:
+000406 81ed      	LDD  R30,Y+5
+000407 170e      	CP   R16,R30
+000408 f010      	BRLO _0xF6
+000409 3f0f      	CPI  R16,255
+00040a f008      	BRLO _0xF7
+                 _0xF6:
+00040b c005      	RJMP _0xF5
+                 _0xF7:
+                 ; 0000 0237                     if (cabins_down_stops[i] == 1)
+00040c d316      	RCALL SUBOPT_0x17
+00040d f409      	BRNE _0xF8
+                 ; 0000 0238                         distance += 10;
+00040e 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0239                 }
+                 _0xF8:
+00040f 5001      	SUBI R16,1
+000410 cff5      	RJMP _0xF4
+                 _0xF5:
+                 ; 0000 023A             }
+                 ; 0000 023B             else{
+000411 c003      	RJMP _0xF9
+                 _0xF2:
+                 ; 0000 023C                 distance = 3*(floor-limit_up)+10;
+000412 81ed      	LDD  R30,Y+5
+000413 1be3      	SUB  R30,R19
+000414 d321      	RCALL SUBOPT_0x19
+                 ; 0000 023D             }
+                 _0xF9:
+                 ; 0000 023E         }
+                 ; 0000 023F         else{
+000415 c012      	RJMP _0xFA
+                 _0xE9:
+                 ; 0000 0240             if (cabins_floors[cabin_number]<=floor){
+000416 d2f9      	RCALL SUBOPT_0x14
+000417 81a0      	LD   R26,Z
+000418 81ed      	LDD  R30,Y+5
+000419 17ea      	CP   R30,R26
+00041a f020      	BRLO _0xFB
+                 ; 0000 0241                 distance += 3*(floor-cabins_floors[cabin_number]);
+00041b d2f4      	RCALL SUBOPT_0x14
+00041c 81a0      	LD   R26,Z
+00041d 81ed      	LDD  R30,Y+5
+00041e c003      	RJMP _0x159
+                 ; 0000 0242             }
+                 ; 0000 0243             else{
+                 _0xFB:
+                 ; 0000 0244                 distance += 3*(cabins_floors[cabin_number]-floor);
+00041f d2f0      	RCALL SUBOPT_0x14
+000420 81e0      	LD   R30,Z
+000421 81ad      	LDD  R26,Y+5
+                 _0x159:
+000422 1bea      	SUB  R30,R26
+000423 e0a3      	LDI  R26,LOW(3)
+000424 02ea      	MULS R30,R26
+000425 01f0      	MOVW R30,R0
+000426 0f1e      	ADD  R17,R30
+                 ; 0000 0245             }
+                 ; 0000 0246             distance += 10;
+000427 5f16      	SUBI R17,-LOW(10)
+                 ; 0000 0247 
+                 ; 0000 0248         }
+                 _0xFA:
+                 _0xE8:
+                 ; 0000 0249     }
+                 _0xC9:
+                 ; 0000 024A     //LCD_Char(cabin_number);
+                 ; 0000 024B     //LCD_Char(' ');
+                 ; 0000 024C     //LCD_Char('0'+distance);
+                 ; 0000 024D     return distance;
+000428 2fe1      	MOV  R30,R17
+000429 940e 07ba 	CALL __LOADLOCR4
+00042b 9627      	ADIW R28,7
+00042c 9508      	RET
+                 ; 0000 024E }
+                 ; .FEND
+                 ;
+                 ;
+                 ;void check_out_buttons(){
+                 ; 0000 0251 void check_out_buttons(){
+                 _check_out_buttons:
+                 ; .FSTART _check_out_buttons
+                 ; 0000 0252     unsigned char cabin0_dist = 0;
+                 ; 0000 0253     unsigned char cabin1_dist = 0;
+                 ; 0000 0254     if (PINC & (1<<0)){
+00042d 931a      	ST   -Y,R17
+00042e 930a      	ST   -Y,R16
+                 ;	cabin0_dist -> R17
+                 ;	cabin1_dist -> R16
+00042f e010      	LDI  R17,0
+000430 e000      	LDI  R16,0
+000431 9b98      	SBIS 0x13,0
+000432 c010      	RJMP _0xFD
+                 ; 0000 0255         // up for zero
+                 ; 0000 0256         cabin0_dist = calc_distance_time(0, 0, 'u');
+000433 e0e0      	LDI  R30,LOW(0)
+000434 d307      	RCALL SUBOPT_0x1A
+000435 2f1e      	MOV  R17,R30
+                 ; 0000 0257         cabin1_dist = calc_distance_time(1, 0, 'u');
+000436 e0e1      	LDI  R30,LOW(1)
+000437 d304      	RCALL SUBOPT_0x1A
+000438 2f0e      	MOV  R16,R30
+                 ; 0000 0258         if (cabin1_dist < cabin0_dist){
+000439 1701      	CP   R16,R17
+00043a f420      	BRSH _0xFE
+                 ; 0000 0259             cabins_up_stops[1][0] = 1;
+00043b e0e1      	LDI  R30,LOW(1)
+                +
+00043c 93e0 0269+STS _cabins_up_stops + ( 5 ) , R30
+                 	__PUTB1MN _cabins_up_stops,5
+                 ; 0000 025A         }
+                 ; 0000 025B         else{
+00043e c003      	RJMP _0xFF
+                 _0xFE:
+                 ; 0000 025C             cabins_up_stops[0][0] = 1;
+00043f e0e1      	LDI  R30,LOW(1)
+000440 93e0 0264 	STS  _cabins_up_stops,R30
+                 ; 0000 025D         }
+                 _0xFF:
+                 ; 0000 025E         PORTD = PORTD | (1<<0);
+000442 9a90      	SBI  0x12,0
+                 ; 0000 025F     }
+                 ; 0000 0260     if (PINC & (1<<1)){
+                 _0xFD:
+000443 9b99      	SBIS 0x13,1
+000444 c010      	RJMP _0x100
+                 ; 0000 0261         // up for one
+                 ; 0000 0262         cabin0_dist = calc_distance_time(0, 1, 'u');
+000445 e0e0      	LDI  R30,LOW(0)
+000446 d2fa      	RCALL SUBOPT_0x1B
+000447 2f1e      	MOV  R17,R30
+                 ; 0000 0263         cabin1_dist = calc_distance_time(1, 1, 'u');
+000448 e0e1      	LDI  R30,LOW(1)
+000449 d2f7      	RCALL SUBOPT_0x1B
+00044a 2f0e      	MOV  R16,R30
+                 ; 0000 0264         if (cabin1_dist < cabin0_dist){
+00044b 1701      	CP   R16,R17
+00044c f420      	BRSH _0x101
+                 ; 0000 0265             cabins_up_stops[1][1] = 1;
+00044d e0e1      	LDI  R30,LOW(1)
+                +
+00044e 93e0 026a+STS _cabins_up_stops + ( 6 ) , R30
+                 	__PUTB1MN _cabins_up_stops,6
+                 ; 0000 0266         }
+                 ; 0000 0267         else{
+000450 c003      	RJMP _0x102
+                 _0x101:
+                 ; 0000 0268             cabins_up_stops[0][1] = 1;
+000451 e0e1      	LDI  R30,LOW(1)
+                +
+000452 93e0 0265+STS _cabins_up_stops + ( 1 ) , R30
+                 	__PUTB1MN _cabins_up_stops,1
+                 ; 0000 0269         }
+                 _0x102:
+                 ; 0000 026A         PORTD = PORTD | (1<<1);
+000454 9a91      	SBI  0x12,1
+                 ; 0000 026B     }
+                 ; 0000 026C     if (PINC & (1<<2)){
+                 _0x100:
+000455 9b9a      	SBIS 0x13,2
+000456 c010      	RJMP _0x103
+                 ; 0000 026D         // down for one
+                 ; 0000 026E         cabin0_dist = calc_distance_time(0, 1, 'd');
+000457 e0e0      	LDI  R30,LOW(0)
+000458 d2ed      	RCALL SUBOPT_0x1C
+000459 2f1e      	MOV  R17,R30
+                 ; 0000 026F         cabin1_dist = calc_distance_time(1, 1, 'd');
+00045a e0e1      	LDI  R30,LOW(1)
+00045b d2ea      	RCALL SUBOPT_0x1C
+00045c 2f0e      	MOV  R16,R30
+                 ; 0000 0270         if (cabin1_dist < cabin0_dist){
+00045d 1701      	CP   R16,R17
+00045e f420      	BRSH _0x104
+                 ; 0000 0271             cabins_down_stops[1][1] = 1;
+00045f e0e1      	LDI  R30,LOW(1)
+                +
+000460 93e0 0274+STS _cabins_down_stops + ( 6 ) , R30
+                 	__PUTB1MN _cabins_down_stops,6
+                 ; 0000 0272         }
+                 ; 0000 0273         else{
+000462 c003      	RJMP _0x105
+                 _0x104:
+                 ; 0000 0274             cabins_down_stops[0][1] = 1;
+000463 e0e1      	LDI  R30,LOW(1)
+                +
+000464 93e0 026f+STS _cabins_down_stops + ( 1 ) , R30
+                 	__PUTB1MN _cabins_down_stops,1
+                 ; 0000 0275         }
+                 _0x105:
+                 ; 0000 0276         PORTD = PORTD | (1<<2);
+000466 9a92      	SBI  0x12,2
+                 ; 0000 0277     }
+                 ; 0000 0278     if (PINC & (1<<3)){
+                 _0x103:
+000467 9b9b      	SBIS 0x13,3
+000468 c010      	RJMP _0x106
+                 ; 0000 0279         // up for two
+                 ; 0000 027A         cabin0_dist = calc_distance_time(0, 2, 'u');
+000469 e0e0      	LDI  R30,LOW(0)
+00046a d2e0      	RCALL SUBOPT_0x1D
+00046b 2f1e      	MOV  R17,R30
+                 ; 0000 027B         cabin1_dist = calc_distance_time(1, 2, 'u');
+00046c e0e1      	LDI  R30,LOW(1)
+00046d d2dd      	RCALL SUBOPT_0x1D
+00046e 2f0e      	MOV  R16,R30
+                 ; 0000 027C         if (cabin1_dist < cabin0_dist){
+00046f 1701      	CP   R16,R17
+000470 f420      	BRSH _0x107
+                 ; 0000 027D             cabins_up_stops[1][2] = 1;
+000471 e0e1      	LDI  R30,LOW(1)
+                +
+000472 93e0 026b+STS _cabins_up_stops + ( 7 ) , R30
+                 	__PUTB1MN _cabins_up_stops,7
+                 ; 0000 027E         }
+                 ; 0000 027F         else{
+000474 c003      	RJMP _0x108
+                 _0x107:
+                 ; 0000 0280             cabins_up_stops[0][2] = 1;
+000475 e0e1      	LDI  R30,LOW(1)
+                +
+000476 93e0 0266+STS _cabins_up_stops + ( 2 ) , R30
+                 	__PUTB1MN _cabins_up_stops,2
+                 ; 0000 0281         }
+                 _0x108:
+                 ; 0000 0282         PORTD = PORTD | (1<<3);
+000478 9a93      	SBI  0x12,3
+                 ; 0000 0283     }
+                 ; 0000 0284     if (PINC & (1<<4)){
+                 _0x106:
+000479 9b9c      	SBIS 0x13,4
+00047a c010      	RJMP _0x109
+                 ; 0000 0285         // down for two
+                 ; 0000 0286         cabin0_dist = calc_distance_time(0, 2, 'd');
+00047b e0e0      	LDI  R30,LOW(0)
+00047c d2d3      	RCALL SUBOPT_0x1E
+00047d 2f1e      	MOV  R17,R30
+                 ; 0000 0287         cabin1_dist = calc_distance_time(1, 2, 'd');
+00047e e0e1      	LDI  R30,LOW(1)
+00047f d2d0      	RCALL SUBOPT_0x1E
+000480 2f0e      	MOV  R16,R30
+                 ; 0000 0288         if (cabin1_dist < cabin0_dist){
+000481 1701      	CP   R16,R17
+000482 f420      	BRSH _0x10A
+                 ; 0000 0289             cabins_down_stops[1][2] = 1;
+000483 e0e1      	LDI  R30,LOW(1)
+                +
+000484 93e0 0275+STS _cabins_down_stops + ( 7 ) , R30
+                 	__PUTB1MN _cabins_down_stops,7
+                 ; 0000 028A         }
+                 ; 0000 028B         else{
+000486 c003      	RJMP _0x10B
+                 _0x10A:
+                 ; 0000 028C             cabins_down_stops[0][2] = 1;
+000487 e0e1      	LDI  R30,LOW(1)
+                +
+000488 93e0 0270+STS _cabins_down_stops + ( 2 ) , R30
+                 	__PUTB1MN _cabins_down_stops,2
+                 ; 0000 028D         }
+                 _0x10B:
+                 ; 0000 028E         PORTD = PORTD | (1<<4);
+00048a 9a94      	SBI  0x12,4
+                 ; 0000 028F     }
+                 ; 0000 0290     if (PINC & (1<<5)){
+                 _0x109:
+00048b 9b9d      	SBIS 0x13,5
+00048c c010      	RJMP _0x10C
+                 ; 0000 0291         // up for three
+                 ; 0000 0292         cabin0_dist = calc_distance_time(0, 3, 'u');
+00048d e0e0      	LDI  R30,LOW(0)
+00048e d2c6      	RCALL SUBOPT_0x1F
+00048f 2f1e      	MOV  R17,R30
+                 ; 0000 0293         cabin1_dist = calc_distance_time(1, 3, 'u');
+000490 e0e1      	LDI  R30,LOW(1)
+000491 d2c3      	RCALL SUBOPT_0x1F
+000492 2f0e      	MOV  R16,R30
+                 ; 0000 0294         if (cabin1_dist < cabin0_dist){
+000493 1701      	CP   R16,R17
+000494 f420      	BRSH _0x10D
+                 ; 0000 0295             cabins_up_stops[1][3] = 1;
+000495 e0e1      	LDI  R30,LOW(1)
+                +
+000496 93e0 026c+STS _cabins_up_stops + ( 8 ) , R30
+                 	__PUTB1MN _cabins_up_stops,8
+                 ; 0000 0296         }
+                 ; 0000 0297         else{
+000498 c003      	RJMP _0x10E
+                 _0x10D:
+                 ; 0000 0298             cabins_up_stops[0][3] = 1;
+000499 e0e1      	LDI  R30,LOW(1)
+                +
+00049a 93e0 0267+STS _cabins_up_stops + ( 3 ) , R30
+                 	__PUTB1MN _cabins_up_stops,3
+                 ; 0000 0299         }
+                 _0x10E:
+                 ; 0000 029A         PORTD = PORTD | (1<<5);
+00049c 9a95      	SBI  0x12,5
+                 ; 0000 029B     }
+                 ; 0000 029C     if (PINC & (1<<6)){
+                 _0x10C:
+00049d 9b9e      	SBIS 0x13,6
+00049e c010      	RJMP _0x10F
+                 ; 0000 029D         // down for three
+                 ; 0000 029E         cabin0_dist = calc_distance_time(0, 3, 'd');
+00049f e0e0      	LDI  R30,LOW(0)
+0004a0 d2b9      	RCALL SUBOPT_0x20
+0004a1 2f1e      	MOV  R17,R30
+                 ; 0000 029F         cabin1_dist = calc_distance_time(1, 3, 'd');
+0004a2 e0e1      	LDI  R30,LOW(1)
+0004a3 d2b6      	RCALL SUBOPT_0x20
+0004a4 2f0e      	MOV  R16,R30
+                 ; 0000 02A0         if (cabin1_dist < cabin0_dist){
+0004a5 1701      	CP   R16,R17
+0004a6 f420      	BRSH _0x110
+                 ; 0000 02A1             cabins_down_stops[1][3] = 1;
+0004a7 e0e1      	LDI  R30,LOW(1)
+                +
+0004a8 93e0 0276+STS _cabins_down_stops + ( 8 ) , R30
+                 	__PUTB1MN _cabins_down_stops,8
+                 ; 0000 02A2         }
+                 ; 0000 02A3         else{
+0004aa c003      	RJMP _0x111
+                 _0x110:
+                 ; 0000 02A4             cabins_down_stops[0][3] = 1;
+0004ab e0e1      	LDI  R30,LOW(1)
+                +
+0004ac 93e0 0271+STS _cabins_down_stops + ( 3 ) , R30
+                 	__PUTB1MN _cabins_down_stops,3
+                 ; 0000 02A5         }
+                 _0x111:
+                 ; 0000 02A6         PORTD = PORTD | (1<<6);
+0004ae 9a96      	SBI  0x12,6
+                 ; 0000 02A7     }
+                 ; 0000 02A8     if (PINC & (1<<7)){
+                 _0x10F:
+0004af 9b9f      	SBIS 0x13,7
+0004b0 c010      	RJMP _0x112
+                 ; 0000 02A9         // down for four
+                 ; 0000 02AA         cabin0_dist = calc_distance_time(0, 4, 'd');
+0004b1 e0e0      	LDI  R30,LOW(0)
+0004b2 d2ac      	RCALL SUBOPT_0x21
+0004b3 2f1e      	MOV  R17,R30
+                 ; 0000 02AB         cabin1_dist = calc_distance_time(1, 4, 'd');
+0004b4 e0e1      	LDI  R30,LOW(1)
+0004b5 d2a9      	RCALL SUBOPT_0x21
+0004b6 2f0e      	MOV  R16,R30
+                 ; 0000 02AC         if (cabin1_dist < cabin0_dist){
+0004b7 1701      	CP   R16,R17
+0004b8 f420      	BRSH _0x113
+                 ; 0000 02AD             cabins_down_stops[1][4] = 1;
+0004b9 e0e1      	LDI  R30,LOW(1)
+                +
+0004ba 93e0 0277+STS _cabins_down_stops + ( 9 ) , R30
+                 	__PUTB1MN _cabins_down_stops,9
+                 ; 0000 02AE         }
+                 ; 0000 02AF         else{
+0004bc c003      	RJMP _0x114
+                 _0x113:
+                 ; 0000 02B0             cabins_down_stops[0][4] = 1;
+0004bd e0e1      	LDI  R30,LOW(1)
+                +
+0004be 93e0 0272+STS _cabins_down_stops + ( 4 ) , R30
+                 	__PUTB1MN _cabins_down_stops,4
+                 ; 0000 02B1         }
+                 _0x114:
+                 ; 0000 02B2         PORTD = PORTD | (1<<7);
+0004c0 9a97      	SBI  0x12,7
+                 ; 0000 02B3     }
+                 ; 0000 02B4 
+                 ; 0000 02B5 }
+                 _0x112:
+0004c1 c15d      	RJMP _0x2000001
+                 ; .FEND
+                 ;
+                 ;void check_in_buttons(){
+                 ; 0000 02B7 void check_in_buttons(){
+                 _check_in_buttons:
+                 ; .FSTART _check_in_buttons
+                 ; 0000 02B8     if (PINB & (1<<0)){
+0004c2 9bb0      	SBIS 0x16,0
+0004c3 c003      	RJMP _0x115
+                 ; 0000 02B9         cabins_down_stops[0][0] = 1;
+0004c4 e0e1      	LDI  R30,LOW(1)
+0004c5 93e0 026e 	STS  _cabins_down_stops,R30
+                 ; 0000 02BA     }
+                 ; 0000 02BB     if (PINB & (1<<1)){
+                 _0x115:
+0004c7 9bb1      	SBIS 0x16,1
+0004c8 c00b      	RJMP _0x116
+                 ; 0000 02BC         if (cabins_floors[0] > 1)
+0004c9 91a0 0262 	LDS  R26,_cabins_floors
+0004cb 30a2      	CPI  R26,LOW(0x2)
+0004cc f020      	BRLO _0x117
+                 ; 0000 02BD             cabins_down_stops[0][1] = 1;
+0004cd e0e1      	LDI  R30,LOW(1)
+                +
+0004ce 93e0 026f+STS _cabins_down_stops + ( 1 ) , R30
+                 	__PUTB1MN _cabins_down_stops,1
+                 ; 0000 02BE         else
+0004d0 c003      	RJMP _0x118
+                 _0x117:
+                 ; 0000 02BF             cabins_up_stops[0][1] = 1;
+0004d1 e0e1      	LDI  R30,LOW(1)
+                +
+0004d2 93e0 0265+STS _cabins_up_stops + ( 1 ) , R30
+                 	__PUTB1MN _cabins_up_stops,1
+                 ; 0000 02C0     }
+                 _0x118:
+                 ; 0000 02C1     if (PINB & (1<<2)){
+                 _0x116:
+0004d4 9bb2      	SBIS 0x16,2
+0004d5 c00b      	RJMP _0x119
+                 ; 0000 02C2         if (cabins_floors[0] > 2)
+0004d6 91a0 0262 	LDS  R26,_cabins_floors
+0004d8 30a3      	CPI  R26,LOW(0x3)
+0004d9 f020      	BRLO _0x11A
+                 ; 0000 02C3             cabins_down_stops[0][2] = 1;
+0004da e0e1      	LDI  R30,LOW(1)
+                +
+0004db 93e0 0270+STS _cabins_down_stops + ( 2 ) , R30
+                 	__PUTB1MN _cabins_down_stops,2
+                 ; 0000 02C4         else
+0004dd c003      	RJMP _0x11B
+                 _0x11A:
+                 ; 0000 02C5             cabins_up_stops[0][2] = 1;
+0004de e0e1      	LDI  R30,LOW(1)
+                +
+0004df 93e0 0266+STS _cabins_up_stops + ( 2 ) , R30
+                 	__PUTB1MN _cabins_up_stops,2
+                 ; 0000 02C6     }
+                 _0x11B:
+                 ; 0000 02C7     if (PINB & (1<<3)){
+                 _0x119:
+0004e1 9bb3      	SBIS 0x16,3
+0004e2 c00b      	RJMP _0x11C
+                 ; 0000 02C8         if (cabins_floors[0] > 3)
+0004e3 91a0 0262 	LDS  R26,_cabins_floors
+0004e5 30a4      	CPI  R26,LOW(0x4)
+0004e6 f020      	BRLO _0x11D
+                 ; 0000 02C9             cabins_down_stops[0][3] = 1;
+0004e7 e0e1      	LDI  R30,LOW(1)
+                +
+0004e8 93e0 0271+STS _cabins_down_stops + ( 3 ) , R30
+                 	__PUTB1MN _cabins_down_stops,3
+                 ; 0000 02CA         else
+0004ea c003      	RJMP _0x11E
+                 _0x11D:
+                 ; 0000 02CB             cabins_up_stops[0][3] = 1;
+0004eb e0e1      	LDI  R30,LOW(1)
+                +
+0004ec 93e0 0267+STS _cabins_up_stops + ( 3 ) , R30
+                 	__PUTB1MN _cabins_up_stops,3
+                 ; 0000 02CC     }
+                 _0x11E:
+                 ; 0000 02CD     if (PINB & (1<<4)){
+                 _0x11C:
+0004ee 9bb4      	SBIS 0x16,4
+0004ef c003      	RJMP _0x11F
+                 ; 0000 02CE         cabins_down_stops[0][4] = 1;
+0004f0 e0e1      	LDI  R30,LOW(1)
+                +
+0004f1 93e0 0272+STS _cabins_down_stops + ( 4 ) , R30
+                 	__PUTB1MN _cabins_down_stops,4
+                 ; 0000 02CF     }
+                 ; 0000 02D0     if (PINB & (1<<5)){
+                 _0x11F:
+0004f3 9bb5      	SBIS 0x16,5
+0004f4 c003      	RJMP _0x120
+                 ; 0000 02D1         cabins_down_stops[1][0] = 1;
+0004f5 e0e1      	LDI  R30,LOW(1)
+                +
+0004f6 93e0 0273+STS _cabins_down_stops + ( 5 ) , R30
+                 	__PUTB1MN _cabins_down_stops,5
+                 ; 0000 02D2     }
+                 ; 0000 02D3     if (PINB & (1<<6)){
+                 _0x120:
+0004f8 9bb6      	SBIS 0x16,6
+0004f9 c00b      	RJMP _0x121
+                 ; 0000 02D4         if (cabins_floors[1] > 1)
+                +
+0004fa 91a0 0263+LDS R26 , _cabins_floors + ( 1 )
+                 	__GETB2MN _cabins_floors,1
+0004fc 30a2      	CPI  R26,LOW(0x2)
+0004fd f020      	BRLO _0x122
+                 ; 0000 02D5             cabins_down_stops[1][1] = 1;
+0004fe e0e1      	LDI  R30,LOW(1)
+                +
+0004ff 93e0 0274+STS _cabins_down_stops + ( 6 ) , R30
+                 	__PUTB1MN _cabins_down_stops,6
+                 ; 0000 02D6         else
+000501 c003      	RJMP _0x123
+                 _0x122:
+                 ; 0000 02D7             cabins_up_stops[1][1] = 1;
+000502 e0e1      	LDI  R30,LOW(1)
+                +
+000503 93e0 026a+STS _cabins_up_stops + ( 6 ) , R30
+                 	__PUTB1MN _cabins_up_stops,6
+                 ; 0000 02D8     }
+                 _0x123:
+                 ; 0000 02D9     if (PINB & (1<<7)){
+                 _0x121:
+000505 9bb7      	SBIS 0x16,7
+000506 c00b      	RJMP _0x124
+                 ; 0000 02DA         if (cabins_floors[1] > 2)
+                +
+000507 91a0 0263+LDS R26 , _cabins_floors + ( 1 )
+                 	__GETB2MN _cabins_floors,1
+000509 30a3      	CPI  R26,LOW(0x3)
+00050a f020      	BRLO _0x125
+                 ; 0000 02DB             cabins_down_stops[1][2] = 1;
+00050b e0e1      	LDI  R30,LOW(1)
+                +
+00050c 93e0 0275+STS _cabins_down_stops + ( 7 ) , R30
+                 	__PUTB1MN _cabins_down_stops,7
+                 ; 0000 02DC         else
+00050e c003      	RJMP _0x126
+                 _0x125:
+                 ; 0000 02DD             cabins_up_stops[1][2] = 1;
+00050f e0e1      	LDI  R30,LOW(1)
+                +
+000510 93e0 026b+STS _cabins_up_stops + ( 7 ) , R30
+                 	__PUTB1MN _cabins_up_stops,7
+                 ; 0000 02DE     }
+                 _0x126:
+                 ; 0000 02DF     if (PINA & (1<<0)){
+                 _0x124:
+000512 9bc8      	SBIS 0x19,0
+000513 c00b      	RJMP _0x127
+                 ; 0000 02E0         if (cabins_floors[1] > 3)
+                +
+000514 91a0 0263+LDS R26 , _cabins_floors + ( 1 )
+                 	__GETB2MN _cabins_floors,1
+000516 30a4      	CPI  R26,LOW(0x4)
+000517 f020      	BRLO _0x128
+                 ; 0000 02E1             cabins_down_stops[1][3] = 1;
+000518 e0e1      	LDI  R30,LOW(1)
+                +
+000519 93e0 0276+STS _cabins_down_stops + ( 8 ) , R30
+                 	__PUTB1MN _cabins_down_stops,8
+                 ; 0000 02E2         else
+00051b c003      	RJMP _0x129
+                 _0x128:
+                 ; 0000 02E3             cabins_up_stops[1][3] = 1;
+00051c e0e1      	LDI  R30,LOW(1)
+                +
+00051d 93e0 026c+STS _cabins_up_stops + ( 8 ) , R30
+                 	__PUTB1MN _cabins_up_stops,8
+                 ; 0000 02E4     }
+                 _0x129:
+                 ; 0000 02E5     if (PINA & (1<<1)){
+                 _0x127:
+00051f 9bc9      	SBIS 0x19,1
+000520 c003      	RJMP _0x12A
+                 ; 0000 02E6         cabins_down_stops[1][4] = 1;
+000521 e0e1      	LDI  R30,LOW(1)
+                +
+000522 93e0 0277+STS _cabins_down_stops + ( 9 ) , R30
+                 	__PUTB1MN _cabins_down_stops,9
+                 ; 0000 02E7     }
+                 ; 0000 02E8 }
+                 _0x12A:
+000524 9508      	RET
+                 ; .FEND
+                 ;
+                 ;void update_lcd(){
+                 ; 0000 02EA void update_lcd(){
+                 _update_lcd:
+                 ; .FSTART _update_lcd
+                 ; 0000 02EB     unsigned char string[2][17];
+                 ; 0000 02EC     string[0][0] = 'F';
+000525 97a2      	SBIW R28,34
+                 ;	string -> Y+0
+000526 e4e6      	LDI  R30,LOW(70)
+000527 83e8      	ST   Y,R30
+                 ; 0000 02ED     string[0][1] = 'l';
+000528 e6ec      	LDI  R30,LOW(108)
+000529 83e9      	STD  Y+1,R30
+                 ; 0000 02EE     string[0][2] = 'o';
+00052a e6ef      	LDI  R30,LOW(111)
+00052b 83ea      	STD  Y+2,R30
+                 ; 0000 02EF     string[0][3] = 'o';
+00052c 83eb      	STD  Y+3,R30
+                 ; 0000 02F0     string[0][4] = 'r';
+00052d e7e2      	LDI  R30,LOW(114)
+00052e 83ec      	STD  Y+4,R30
+                 ; 0000 02F1     string[0][5] = ':';
+00052f e3ea      	LDI  R30,LOW(58)
+000530 83ed      	STD  Y+5,R30
+                 ; 0000 02F2     string[0][6] = '0'+cabins_floors[0];
+000531 91e0 0262 	LDS  R30,_cabins_floors
+000533 5de0      	SUBI R30,-LOW(48)
+000534 83ee      	STD  Y+6,R30
+                 ; 0000 02F3     string[0][7] = ' ';
+000535 e2e0      	LDI  R30,LOW(32)
+000536 83ef      	STD  Y+7,R30
+                 ; 0000 02F4     string[0][8] = ' ';
+000537 87e8      	STD  Y+8,R30
+                 ; 0000 02F5     string[0][9] = ' ';
+000538 87e9      	STD  Y+9,R30
+                 ; 0000 02F6     string[0][10] = 'D';
+000539 e4e4      	LDI  R30,LOW(68)
+00053a 87ea      	STD  Y+10,R30
+                 ; 0000 02F7     string[0][11] = 'i';
+00053b e6e9      	LDI  R30,LOW(105)
+00053c 87eb      	STD  Y+11,R30
+                 ; 0000 02F8     string[0][12] = 'r';
+00053d e7e2      	LDI  R30,LOW(114)
+00053e 87ec      	STD  Y+12,R30
+                 ; 0000 02F9     string[0][13] = ':';
+00053f e3ea      	LDI  R30,LOW(58)
+000540 87ed      	STD  Y+13,R30
+                 ; 0000 02FA     if (cabins_states[0]=='u')
+000541 91a0 0260 	LDS  R26,_cabins_states
+000543 37a5      	CPI  R26,LOW(0x75)
+000544 f411      	BRNE _0x12B
+                 ; 0000 02FB         string[0][14] = 'U';
+000545 e5e5      	LDI  R30,LOW(85)
+000546 c007      	RJMP _0x15A
+                 ; 0000 02FC     else if (cabins_states[0]=='d')
+                 _0x12B:
+000547 91a0 0260 	LDS  R26,_cabins_states
+000549 36a4      	CPI  R26,LOW(0x64)
+00054a f411      	BRNE _0x12D
+                 ; 0000 02FD         string[0][14] = 'D';
+00054b e4e4      	LDI  R30,LOW(68)
+00054c c001      	RJMP _0x15A
+                 ; 0000 02FE     else
+                 _0x12D:
+                 ; 0000 02FF         string[0][14] = 'S';
+00054d e5e3      	LDI  R30,LOW(83)
+                 _0x15A:
+00054e 87ee      	STD  Y+14,R30
+                 ; 0000 0300     if (threshold[0] == 10 && cabins_states[0] != 's'){
+00054f 91a0 0278 	LDS  R26,_threshold
+000551 30aa      	CPI  R26,LOW(0xA)
+000552 f421      	BRNE _0x130
+000553 91a0 0260 	LDS  R26,_cabins_states
+000555 37a3      	CPI  R26,LOW(0x73)
+000556 f409      	BRNE _0x131
+                 _0x130:
+000557 c002      	RJMP _0x12F
+                 _0x131:
+                 ; 0000 0301         string[0][15] = '*';
+000558 e2ea      	LDI  R30,LOW(42)
+000559 c001      	RJMP _0x15B
+                 ; 0000 0302     }
+                 ; 0000 0303     else{
+                 _0x12F:
+                 ; 0000 0304         string[0][15] = ' ';
+00055a e2e0      	LDI  R30,LOW(32)
+                 _0x15B:
+00055b 87ef      	STD  Y+15,R30
+                 ; 0000 0305     }
+                 ; 0000 0306     string[0][16] = '\0';
+00055c e0e0      	LDI  R30,LOW(0)
+00055d 8be8      	STD  Y+16,R30
+                 ; 0000 0307 
+                 ; 0000 0308 
+                 ; 0000 0309     string[1][0] = 'F';
+00055e e4e6      	LDI  R30,LOW(70)
+00055f 8be9      	STD  Y+17,R30
+                 ; 0000 030A     string[1][1] = 'l';
+000560 01fe      	MOVW R30,R28
+000561 9672      	ADIW R30,18
+000562 e6ac      	LDI  R26,LOW(108)
+000563 83a0      	STD  Z+0,R26
+                 ; 0000 030B     string[1][2] = 'o';
+000564 01fe      	MOVW R30,R28
+000565 9673      	ADIW R30,19
+000566 e6af      	LDI  R26,LOW(111)
+000567 83a0      	STD  Z+0,R26
+                 ; 0000 030C     string[1][3] = 'o';
+000568 01fe      	MOVW R30,R28
+000569 9674      	ADIW R30,20
+00056a 83a0      	STD  Z+0,R26
+                 ; 0000 030D     string[1][4] = 'r';
+00056b 01fe      	MOVW R30,R28
+00056c 9675      	ADIW R30,21
+00056d e7a2      	LDI  R26,LOW(114)
+00056e 83a0      	STD  Z+0,R26
+                 ; 0000 030E     string[1][5] = ':';
+00056f 01fe      	MOVW R30,R28
+000570 9676      	ADIW R30,22
+000571 e3aa      	LDI  R26,LOW(58)
+000572 83a0      	STD  Z+0,R26
+                 ; 0000 030F     string[1][6] = '0'+cabins_floors[1];
+                +
+000573 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+000575 5de0      	SUBI R30,-LOW(48)
+000576 8bef      	STD  Y+23,R30
+                 ; 0000 0310     string[1][7] = ' ';
+000577 01fe      	MOVW R30,R28
+000578 9678      	ADIW R30,24
+000579 e2a0      	LDI  R26,LOW(32)
+00057a 83a0      	STD  Z+0,R26
+                 ; 0000 0311     string[1][8] = ' ';
+00057b 01fe      	MOVW R30,R28
+00057c 9679      	ADIW R30,25
+00057d 83a0      	STD  Z+0,R26
+                 ; 0000 0312     string[1][9] = ' ';
+00057e 01fe      	MOVW R30,R28
+00057f 967a      	ADIW R30,26
+000580 83a0      	STD  Z+0,R26
+                 ; 0000 0313     string[1][10] = 'D';
+000581 01fe      	MOVW R30,R28
+000582 967b      	ADIW R30,27
+000583 e4a4      	LDI  R26,LOW(68)
+000584 83a0      	STD  Z+0,R26
+                 ; 0000 0314     string[1][11] = 'i';
+000585 01fe      	MOVW R30,R28
+000586 967c      	ADIW R30,28
+000587 e6a9      	LDI  R26,LOW(105)
+000588 83a0      	STD  Z+0,R26
+                 ; 0000 0315     string[1][12] = 'r';
+000589 01fe      	MOVW R30,R28
+00058a 967d      	ADIW R30,29
+00058b e7a2      	LDI  R26,LOW(114)
+00058c 83a0      	STD  Z+0,R26
+                 ; 0000 0316     string[1][13] = ':';
+00058d 01fe      	MOVW R30,R28
+00058e 967e      	ADIW R30,30
+00058f e3aa      	LDI  R26,LOW(58)
+000590 83a0      	STD  Z+0,R26
+                 ; 0000 0317     if (cabins_states[1]=='u')
+                +
+000591 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+000593 37a5      	CPI  R26,LOW(0x75)
+000594 f421      	BRNE _0x133
+                 ; 0000 0318         string[1][14] = 'U';
+000595 01fe      	MOVW R30,R28
+000596 967f      	ADIW R30,31
+000597 e5a5      	LDI  R26,LOW(85)
+000598 c00b      	RJMP _0x15C
+                 ; 0000 0319     else if (cabins_states[1]=='d')
+                 _0x133:
+                +
+000599 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+00059b 36a4      	CPI  R26,LOW(0x64)
+00059c f421      	BRNE _0x135
+                 ; 0000 031A         string[1][14] = 'D';
+00059d 01fe      	MOVW R30,R28
+00059e 967f      	ADIW R30,31
+00059f e4a4      	LDI  R26,LOW(68)
+0005a0 c003      	RJMP _0x15C
+                 ; 0000 031B     else
+                 _0x135:
+                 ; 0000 031C         string[1][14] = 'S';
+0005a1 01fe      	MOVW R30,R28
+0005a2 967f      	ADIW R30,31
+0005a3 e5a3      	LDI  R26,LOW(83)
+                 _0x15C:
+0005a4 83a0      	STD  Z+0,R26
+                 ; 0000 031D     if (threshold[1] == 10 && cabins_states[1] != 's'){
+                +
+0005a5 91a0 0279+LDS R26 , _threshold + ( 1 )
+                 	__GETB2MN _threshold,1
+0005a7 30aa      	CPI  R26,LOW(0xA)
+0005a8 f421      	BRNE _0x138
+                +
+0005a9 91a0 0261+LDS R26 , _cabins_states + ( 1 )
+                 	__GETB2MN _cabins_states,1
+0005ab 37a3      	CPI  R26,LOW(0x73)
+0005ac f409      	BRNE _0x139
+                 _0x138:
+0005ad c004      	RJMP _0x137
+                 _0x139:
+                 ; 0000 031E         string[1][15] = '*';
+0005ae 01fe      	MOVW R30,R28
+0005af 96b0      	ADIW R30,32
+0005b0 e2aa      	LDI  R26,LOW(42)
+0005b1 c003      	RJMP _0x15D
+                 ; 0000 031F     }
+                 ; 0000 0320     else{
+                 _0x137:
+                 ; 0000 0321         string[1][15] = ' ';
+0005b2 01fe      	MOVW R30,R28
+0005b3 96b0      	ADIW R30,32
+0005b4 e2a0      	LDI  R26,LOW(32)
+                 _0x15D:
+0005b5 83a0      	STD  Z+0,R26
+                 ; 0000 0322     }string[1][16] = '\0';
+0005b6 01fe      	MOVW R30,R28
+0005b7 96b1      	ADIW R30,33
+0005b8 e0a0      	LDI  R26,LOW(0)
+0005b9 83a0      	STD  Z+0,R26
+                 ; 0000 0323 
+                 ; 0000 0324     LCD_String_xy(0, 0, string[0]);
+0005ba e0e0      	LDI  R30,LOW(0)
+0005bb 93ea      	ST   -Y,R30
+0005bc 93ea      	ST   -Y,R30
+0005bd 01de      	MOVW R26,R28
+0005be 9612      	ADIW R26,2
+0005bf dcd7      	RCALL _LCD_String_xy
+                 ; 0000 0325     LCD_String_xy(1, 0, string[1]);
+0005c0 e0e1      	LDI  R30,LOW(1)
+0005c1 93ea      	ST   -Y,R30
+0005c2 e0e0      	LDI  R30,LOW(0)
+0005c3 93ea      	ST   -Y,R30
+0005c4 01de      	MOVW R26,R28
+0005c5 9653      	ADIW R26,19
+0005c6 dcd0      	RCALL _LCD_String_xy
+                 ; 0000 0326 }
+0005c7 96a2      	ADIW R28,34
+0005c8 9508      	RET
+                 ; .FEND
+                 ;
+                 ;
+                 ;void move_cabin_states(){
+                 ; 0000 0329 void move_cabin_states(){
+                 _move_cabin_states:
+                 ; .FSTART _move_cabin_states
+                 ; 0000 032A     unsigned char i = 0;
+                 ; 0000 032B     unsigned char j = 0;
+                 ; 0000 032C     for (i=0; i<2; i++){
+0005c9 931a      	ST   -Y,R17
+0005ca 930a      	ST   -Y,R16
+                 ;	i -> R17
+                 ;	j -> R16
+0005cb e010      	LDI  R17,0
+0005cc e000      	LDI  R16,0
+0005cd e010      	LDI  R17,LOW(0)
+                 _0x13C:
+0005ce 3012      	CPI  R17,2
+0005cf f008      	BRLO PC+2
+0005d0 c04e      	RJMP _0x13D
+                 ; 0000 032D         if (cabins_states[i] == 's'){
+0005d1 d192      	RCALL SUBOPT_0x22
+0005d2 81a0      	LD   R26,Z
+0005d3 37a3      	CPI  R26,LOW(0x73)
+0005d4 f009      	BREQ PC+2
+0005d5 c047      	RJMP _0x13E
+                 ; 0000 032E             for (j = 0; j < 5; j++){
+0005d6 e000      	LDI  R16,LOW(0)
+                 _0x140:
+0005d7 3005      	CPI  R16,5
+0005d8 f008      	BRLO PC+2
+0005d9 c043      	RJMP _0x141
+                 ; 0000 032F                 if (cabins_up_stops[i][j] == 1 | cabins_down_stops[i][j] == 1){
+0005da d18e      	RCALL SUBOPT_0x23
+0005db e0e1      	LDI  R30,LOW(1)
+0005dc 940e 0789 	CALL __EQB12
+0005de 2f6e      	MOV  R22,R30
+0005df 01d0      	MOVW R26,R0
+0005e0 59a2      	SUBI R26,LOW(-_cabins_down_stops)
+0005e1 4fbd      	SBCI R27,HIGH(-_cabins_down_stops)
+0005e2 27ee      	CLR  R30
+0005e3 0fa0      	ADD  R26,R16
+0005e4 1fbe      	ADC  R27,R30
+0005e5 91ac      	LD   R26,X
+0005e6 e0e1      	LDI  R30,LOW(1)
+0005e7 940e 0789 	CALL __EQB12
+0005e9 2be6      	OR   R30,R22
+0005ea f181      	BREQ _0x142
+                 ; 0000 0330                     if (j > cabins_floors[i]) {
+0005eb 2fe1      	MOV  R30,R17
+0005ec e0f0      	LDI  R31,0
+0005ed 59ee      	SUBI R30,LOW(-_cabins_floors)
+0005ee 4ffd      	SBCI R31,HIGH(-_cabins_floors)
+0005ef 81e0      	LD   R30,Z
+0005f0 17e0      	CP   R30,R16
+0005f1 f420      	BRSH _0x143
+                 ; 0000 0331                         cabins_states[i] = 'u';
+0005f2 d171      	RCALL SUBOPT_0x22
+0005f3 e7a5      	LDI  R26,LOW(117)
+0005f4 d17f      	RCALL SUBOPT_0x24
+                 ; 0000 0332                         threshold[i] = 3;
+0005f5 c019      	RJMP _0x15E
+                 ; 0000 0333                     }
+                 ; 0000 0334                     else if (j < cabins_floors[i]){
+                 _0x143:
+0005f6 2fe1      	MOV  R30,R17
+0005f7 e0f0      	LDI  R31,0
+0005f8 59ee      	SUBI R30,LOW(-_cabins_floors)
+0005f9 4ffd      	SBCI R31,HIGH(-_cabins_floors)
+0005fa 81e0      	LD   R30,Z
+0005fb 170e      	CP   R16,R30
+0005fc f420      	BRSH _0x145
+                 ; 0000 0335                         cabins_states[i] = 'd';
+0005fd d166      	RCALL SUBOPT_0x22
+0005fe e6a4      	LDI  R26,LOW(100)
+0005ff d174      	RCALL SUBOPT_0x24
+                 ; 0000 0336                         threshold[i] = 3;
+000600 c00e      	RJMP _0x15E
+                 ; 0000 0337                     }
+                 ; 0000 0338                     else{
+                 _0x145:
+                 ; 0000 0339                         threshold[i] = 10;
+000601 2fe1      	MOV  R30,R17
+000602 e0f0      	LDI  R31,0
+000603 58e8      	SUBI R30,LOW(-_threshold)
+000604 4ffd      	SBCI R31,HIGH(-_threshold)
+000605 e0aa      	LDI  R26,LOW(10)
+000606 83a0      	STD  Z+0,R26
+                 ; 0000 033A                         if (cabins_up_stops[i][j] == 1){
+000607 d161      	RCALL SUBOPT_0x23
+000608 30a1      	CPI  R26,LOW(0x1)
+000609 f419      	BRNE _0x147
+                 ; 0000 033B                             cabins_states[i] = 'u';
+00060a d159      	RCALL SUBOPT_0x22
+00060b e7a5      	LDI  R26,LOW(117)
+00060c c002      	RJMP _0x15E
+                 ; 0000 033C                         }
+                 ; 0000 033D                         else{
+                 _0x147:
+                 ; 0000 033E                             cabins_states[i] = 'd';
+00060d d156      	RCALL SUBOPT_0x22
+00060e e6a4      	LDI  R26,LOW(100)
+                 _0x15E:
+00060f 83a0      	STD  Z+0,R26
+                 ; 0000 033F                         }
+                 ; 0000 0340                     }
+                 ; 0000 0341                     //TODO timer 3 seconds
+                 ; 0000 0342                     if (i == 0){
+000610 3010      	CPI  R17,0
+000611 f429      	BRNE _0x149
+                 ; 0000 0343                         //timer0
+                 ; 0000 0344                         //PORTD = PORTD | (1<<0);
+                 ; 0000 0345                         //threshold[0] = 3;
+                 ; 0000 0346                         TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (1<<CS02) | (0<<CS01) | (0<<CS00);
+000612 e0e4      	LDI  R30,LOW(4)
+000613 bfe3      	OUT  0x33,R30
+                 ; 0000 0347                         TCNT0=0x83;
+000614 e8e3      	LDI  R30,LOW(131)
+000615 bfe2      	OUT  0x32,R30
+                 ; 0000 0348                     }
+                 ; 0000 0349                     else{
+000616 c004      	RJMP _0x14A
+                 _0x149:
+                 ; 0000 034A                         //timer2
+                 ; 0000 034B                         //threshold[1] = 3;
+                 ; 0000 034C                         TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (1<<CS22) | (1<<CS21) | (0<<CS20);
+000617 e0e6      	LDI  R30,LOW(6)
+000618 bde5      	OUT  0x25,R30
+                 ; 0000 034D                         TCNT2=0x83;
+000619 e8e3      	LDI  R30,LOW(131)
+00061a bde4      	OUT  0x24,R30
+                 ; 0000 034E                     }
+                 _0x14A:
+                 ; 0000 034F                 }
+                 ; 0000 0350             }
+                 _0x142:
+00061b 5f0f      	SUBI R16,-1
+00061c cfba      	RJMP _0x140
+                 _0x141:
+                 ; 0000 0351         }
+                 ; 0000 0352     }
+                 _0x13E:
+00061d 5f1f      	SUBI R17,-1
+00061e cfaf      	RJMP _0x13C
+                 _0x13D:
+                 ; 0000 0353 }
+                 _0x2000001:
+00061f 9109      	LD   R16,Y+
+000620 9119      	LD   R17,Y+
+000621 9508      	RET
+                 ; .FEND
+                 ;
+                 ;
+                 ;void main(void)
+                 ; 0000 0357 {
+                 _main:
+                 ; .FSTART _main
+                 ; 0000 0358 // Declare your local variables here
+                 ; 0000 0359 
+                 ; 0000 035A // Input/Output Ports initialization
+                 ; 0000 035B // Port A initialization
+                 ; 0000 035C // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+                 ; 0000 035D DDRA=(0<<DDA7) | (0<<DDA6) | (0<<DDA5) | (0<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
+000622 e0e0      	LDI  R30,LOW(0)
+000623 bbea      	OUT  0x1A,R30
+                 ; 0000 035E // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+                 ; 0000 035F PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (0<<PORTA3) | (0<<PORTA2) | (0<<PORTA1) | (0<<PORTA0);
+000624 bbeb      	OUT  0x1B,R30
+                 ; 0000 0360 
+                 ; 0000 0361 // Port B initialization
+                 ; 0000 0362 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+                 ; 0000 0363 DDRB=(0<<DDB7) | (0<<DDB6) | (0<<DDB5) | (0<<DDB4) | (0<<DDB3) | (0<<DDB2) | (0<<DDB1) | (0<<DDB0);
+000625 bbe7      	OUT  0x17,R30
+                 ; 0000 0364 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+                 ; 0000 0365 PORTB=(0<<PORTB7) | (0<<PORTB6) | (0<<PORTB5) | (0<<PORTB4) | (0<<PORTB3) | (0<<PORTB2) | (0<<PORTB1) | (0<<PORTB0);
+000626 bbe8      	OUT  0x18,R30
+                 ; 0000 0366 
+                 ; 0000 0367 // Port C initialization
+                 ; 0000 0368 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+                 ; 0000 0369 DDRC=(0<<DDC7) | (0<<DDC6) | (0<<DDC5) | (0<<DDC4) | (0<<DDC3) | (0<<DDC2) | (0<<DDC1) | (0<<DDC0);
+000627 bbe4      	OUT  0x14,R30
+                 ; 0000 036A // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+                 ; 0000 036B PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
+000628 bbe5      	OUT  0x15,R30
+                 ; 0000 036C 
+                 ; 0000 036D // Port D initialization
+                 ; 0000 036E // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In
+                 ; 0000 036F DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<<DDD1) | (0<<DDD0);
+000629 bbe1      	OUT  0x11,R30
+                 ; 0000 0370 // State: Bit7=T Bit6=T Bit5=T Bit4=T Bit3=T Bit2=T Bit1=T Bit0=T
+                 ; 0000 0371 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
+00062a bbe2      	OUT  0x12,R30
+                 ; 0000 0372 
+                 ; 0000 0373 // Timer/Counter 0 initialization
+                 ; 0000 0374 // Clock source: System Clock
+                 ; 0000 0375 // Clock value: Timer 0 Stopped
+                 ; 0000 0376 // Mode: Normal top=0xFF
+                 ; 0000 0377 // OC0 output: Disconnected
+                 ; 0000 0378 TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (0<<CS01) | (0<<CS00);
+00062b bfe3      	OUT  0x33,R30
+                 ; 0000 0379 TCNT0=0x00;
+00062c bfe2      	OUT  0x32,R30
+                 ; 0000 037A OCR0=0x00;
+00062d bfec      	OUT  0x3C,R30
+                 ; 0000 037B 
+                 ; 0000 037C // Timer/Counter 1 initialization
+                 ; 0000 037D // Clock source: System Clock
+                 ; 0000 037E // Clock value: Timer1 Stopped
+                 ; 0000 037F // Mode: Normal top=0xFFFF
+                 ; 0000 0380 // OC1A output: Disconnected
+                 ; 0000 0381 // OC1B output: Disconnected
+                 ; 0000 0382 // Noise Canceler: Off
+                 ; 0000 0383 // Input Capture on Falling Edge
+                 ; 0000 0384 // Timer1 Overflow Interrupt: Off
+                 ; 0000 0385 // Input Capture Interrupt: Off
+                 ; 0000 0386 // Compare A Match Interrupt: Off
+                 ; 0000 0387 // Compare B Match Interrupt: Off
+                 ; 0000 0388 TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
+00062e bdef      	OUT  0x2F,R30
+                 ; 0000 0389 TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
+00062f bdee      	OUT  0x2E,R30
+                 ; 0000 038A TCNT1H=0x00;
+000630 bded      	OUT  0x2D,R30
+                 ; 0000 038B TCNT1L=0x00;
+000631 bdec      	OUT  0x2C,R30
+                 ; 0000 038C ICR1H=0x00;
+000632 bde7      	OUT  0x27,R30
+                 ; 0000 038D ICR1L=0x00;
+000633 bde6      	OUT  0x26,R30
+                 ; 0000 038E OCR1AH=0x00;
+000634 bdeb      	OUT  0x2B,R30
+                 ; 0000 038F OCR1AL=0x00;
+000635 bdea      	OUT  0x2A,R30
+                 ; 0000 0390 OCR1BH=0x00;
+000636 bde9      	OUT  0x29,R30
+                 ; 0000 0391 OCR1BL=0x00;
+000637 bde8      	OUT  0x28,R30
+                 ; 0000 0392 
+                 ; 0000 0393 // Timer/Counter 2 initialization
+                 ; 0000 0394 // Clock source: System Clock
+                 ; 0000 0395 // Clock value: Timer2 Stopped
+                 ; 0000 0396 // Mode: Normal top=0xFF
+                 ; 0000 0397 // OC2 output: Disconnected
+                 ; 0000 0398 ASSR=0<<AS2;
+000638 bde2      	OUT  0x22,R30
+                 ; 0000 0399 TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+000639 bde5      	OUT  0x25,R30
+                 ; 0000 039A TCNT2=0x00;
+00063a bde4      	OUT  0x24,R30
+                 ; 0000 039B OCR2=0x00;
+00063b bde3      	OUT  0x23,R30
+                 ; 0000 039C 
+                 ; 0000 039D // Timer(s)/Counter(s) Interrupt(s) initialization
+                 ; 0000 039E TIMSK=(0<<OCIE2) | (1<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (1<<TOIE0);
+00063c e4e1      	LDI  R30,LOW(65)
+00063d bfe9      	OUT  0x39,R30
+                 ; 0000 039F 
+                 ; 0000 03A0 // External Interrupt(s) initialization
+                 ; 0000 03A1 // INT0: Off
+                 ; 0000 03A2 // INT1: Off
+                 ; 0000 03A3 // INT2: Off
+                 ; 0000 03A4 MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
+00063e e0e0      	LDI  R30,LOW(0)
+00063f bfe5      	OUT  0x35,R30
+                 ; 0000 03A5 MCUCSR=(0<<ISC2);
+000640 bfe4      	OUT  0x34,R30
+                 ; 0000 03A6 
+                 ; 0000 03A7 // USART initialization
+                 ; 0000 03A8 // USART disabled
+                 ; 0000 03A9 UCSRB=(0<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
+000641 b9ea      	OUT  0xA,R30
+                 ; 0000 03AA 
+                 ; 0000 03AB // Analog Comparator initialization
+                 ; 0000 03AC // Analog Comparator: Off
+                 ; 0000 03AD // The Analog Comparator's positive input is
+                 ; 0000 03AE // connected to the AIN0 pin
+                 ; 0000 03AF // The Analog Comparator's negative input is
+                 ; 0000 03B0 // connected to the AIN1 pin
+                 ; 0000 03B1 ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
+000642 e8e0      	LDI  R30,LOW(128)
+000643 b9e8      	OUT  0x8,R30
+                 ; 0000 03B2 SFIOR=(0<<ACME);
+000644 e0e0      	LDI  R30,LOW(0)
+000645 bfe0      	OUT  0x30,R30
+                 ; 0000 03B3 
+                 ; 0000 03B4 // ADC initialization
+                 ; 0000 03B5 // ADC disabled
+                 ; 0000 03B6 ADCSRA=(0<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
+000646 b9e6      	OUT  0x6,R30
+                 ; 0000 03B7 
+                 ; 0000 03B8 // SPI initialization
+                 ; 0000 03B9 // SPI disabled
+                 ; 0000 03BA SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
+000647 b9ed      	OUT  0xD,R30
+                 ; 0000 03BB 
+                 ; 0000 03BC // TWI initialization
+                 ; 0000 03BD // TWI disabled
+                 ; 0000 03BE TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
+000648 bfe6      	OUT  0x36,R30
+                 ; 0000 03BF 
+                 ; 0000 03C0 // Global enable interrupts
+                 ; 0000 03C1 #asm("sei")
+000649 9478      	sei
+                 ; 0000 03C2 
+                 ; 0000 03C3 // PortD: LEDs for up and down
+                 ; 0000 03C4 // up for 0
+                 ; 0000 03C5 DDRD = DDRD | ( 1<<0);
+00064a 9a88      	SBI  0x11,0
+                 ; 0000 03C6 // up for 1
+                 ; 0000 03C7 DDRD = DDRD | ( 1<<1);
+00064b 9a89      	SBI  0x11,1
+                 ; 0000 03C8 // down for 1
+                 ; 0000 03C9 DDRD = DDRD | ( 1<<2);
+00064c 9a8a      	SBI  0x11,2
+                 ; 0000 03CA // up for 2
+                 ; 0000 03CB DDRD = DDRD | ( 1<<3);
+00064d 9a8b      	SBI  0x11,3
+                 ; 0000 03CC // down for 2
+                 ; 0000 03CD DDRD = DDRD | ( 1<<4);
+00064e 9a8c      	SBI  0x11,4
+                 ; 0000 03CE // up for 3
+                 ; 0000 03CF DDRD = DDRD | ( 1<<5);
+00064f 9a8d      	SBI  0x11,5
+                 ; 0000 03D0 // down for 3
+                 ; 0000 03D1 DDRD = DDRD | ( 1<<6);
+000650 9a8e      	SBI  0x11,6
+                 ; 0000 03D2 // up for 4
+                 ; 0000 03D3 DDRD = DDRD | ( 1<<7);
+000651 9a8f      	SBI  0x11,7
+                 ; 0000 03D4 
+                 ; 0000 03D5 // PortC: Buttons for up and down
+                 ; 0000 03D6 // up for 0
+                 ; 0000 03D7 DDRC = DDRC & ~(1<<0);
+000652 98a0      	CBI  0x14,0
+                 ; 0000 03D8 // up for 1
+                 ; 0000 03D9 DDRC = DDRC & ~(1<<1);
+000653 98a1      	CBI  0x14,1
+                 ; 0000 03DA // down for 1
+                 ; 0000 03DB DDRC = DDRC & ~(1<<2);
+000654 98a2      	CBI  0x14,2
+                 ; 0000 03DC // up for 2
+                 ; 0000 03DD DDRC = DDRC & ~(1<<3);
+000655 98a3      	CBI  0x14,3
+                 ; 0000 03DE // down for 2
+                 ; 0000 03DF DDRC = DDRC & ~(1<<4);
+000656 98a4      	CBI  0x14,4
+                 ; 0000 03E0 // up for 3
+                 ; 0000 03E1 DDRC = DDRC & ~(1<<5);
+000657 98a5      	CBI  0x14,5
+                 ; 0000 03E2 // down for 3
+                 ; 0000 03E3 DDRC = DDRC & ~(1<<6);
+000658 98a6      	CBI  0x14,6
+                 ; 0000 03E4 // down for 4
+                 ; 0000 03E5 DDRC = DDRC & ~(1<<7);
+000659 98a7      	CBI  0x14,7
+                 ; 0000 03E6 
+                 ; 0000 03E7 // PortB and PortA: Buttons in Cabins
+                 ; 0000 03E8 // Cab1, Floor0
+                 ; 0000 03E9 DDRB = DDRB & ~(1<<0);
+00065a 98b8      	CBI  0x17,0
+                 ; 0000 03EA // Cab1, Floor1
+                 ; 0000 03EB DDRB = DDRB & ~(1<<1);
+00065b 98b9      	CBI  0x17,1
+                 ; 0000 03EC // Cab1, Floor2
+                 ; 0000 03ED DDRB = DDRB & ~(1<<2);
+00065c 98ba      	CBI  0x17,2
+                 ; 0000 03EE // Cab1, Floor3
+                 ; 0000 03EF DDRB = DDRB & ~(1<<3);
+00065d 98bb      	CBI  0x17,3
+                 ; 0000 03F0 // Cab1, Floor4
+                 ; 0000 03F1 DDRB = DDRB & ~(1<<4);
+00065e 98bc      	CBI  0x17,4
+                 ; 0000 03F2 
+                 ; 0000 03F3 // Cab2, Floor0
+                 ; 0000 03F4 DDRB = DDRB & ~(1<<5);
+00065f 98bd      	CBI  0x17,5
+                 ; 0000 03F5 // Cab2, Floor1
+                 ; 0000 03F6 DDRB = DDRB & ~(1<<6);
+000660 98be      	CBI  0x17,6
+                 ; 0000 03F7 // Cab2, Floor2
+                 ; 0000 03F8 DDRB = DDRB & ~(1<<7);
+000661 98bf      	CBI  0x17,7
+                 ; 0000 03F9 // Cab2, Floor3
+                 ; 0000 03FA DDRA = DDRA & ~(1<<0);
+000662 98d0      	CBI  0x1A,0
+                 ; 0000 03FB // Cab2, Floor4
+                 ; 0000 03FC DDRA = DDRA & ~(1<<1);
+000663 98d1      	CBI  0x1A,1
+                 ; 0000 03FD 
+                 ; 0000 03FE LCD_Init();
+000664 dc05      	RCALL _LCD_Init
+                 ; 0000 03FF LCD_Clear();
+000665 dc4f      	RCALL _LCD_Clear
+                 ; 0000 0400 cabins_states[0] = 's';
+000666 e7e3      	LDI  R30,LOW(115)
+000667 93e0 0260 	STS  _cabins_states,R30
+                 ; 0000 0401 cabins_states[1] = 's';
+                +
+000669 93e0 0261+STS _cabins_states + ( 1 ) , R30
+                 	__PUTB1MN _cabins_states,1
+                 ; 0000 0402 while (1)
+                 _0x14B:
+                 ; 0000 0403       {
+                 ; 0000 0404       // Place your code here
+                 ; 0000 0405        check_out_buttons();
+00066b ddc1      	RCALL _check_out_buttons
+                 ; 0000 0406        check_in_buttons();
+00066c de55      	RCALL _check_in_buttons
+                 ; 0000 0407        move_cabin_states();
+00066d df5b      	RCALL _move_cabin_states
+                 ; 0000 0408        update_lcd();
+00066e deb6      	RCALL _update_lcd
+                 ; 0000 0409       }
+00066f cffb      	RJMP _0x14B
+                 ; 0000 040A }
+                 _0x14E:
+000670 cfff      	RJMP _0x14E
+                 ; .FEND
+                 
+                 	.DSEG
+                 _cabins_states:
+000260           	.BYTE 0x2
+                 _cabins_floors:
+000262           	.BYTE 0x2
+                 _cabins_up_stops:
+000264           	.BYTE 0xA
+                 _cabins_down_stops:
+00026e           	.BYTE 0xA
+                 _threshold:
+000278           	.BYTE 0x2
+                 _flag:
+00027a           	.BYTE 0x2
+                 
+                 	.CSEG
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:11 WORDS
+                 SUBOPT_0x0:
+000671 920a      	ST   -Y,R0
+000672 921a      	ST   -Y,R1
+000673 92fa      	ST   -Y,R15
+000674 936a      	ST   -Y,R22
+000675 937a      	ST   -Y,R23
+000676 938a      	ST   -Y,R24
+000677 939a      	ST   -Y,R25
+000678 93aa      	ST   -Y,R26
+000679 93ba      	ST   -Y,R27
+00067a 93ea      	ST   -Y,R30
+00067b 93fa      	ST   -Y,R31
+00067c b7ef      	IN   R30,SREG
+00067d 93ea      	ST   -Y,R30
+00067e 931a      	ST   -Y,R17
+00067f e010      	LDI  R17,0
+000680 e8e3      	LDI  R30,LOW(131)
+000681 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:3 WORDS
+                 SUBOPT_0x1:
+000682 e0f0      	LDI  R31,0
+000683 59ec      	SUBI R30,LOW(-_cabins_up_stops)
+000684 4ffd      	SBCI R31,HIGH(-_cabins_up_stops)
+000685 e0a0      	LDI  R26,LOW(0)
+000686 83a0      	STD  Z+0,R26
+000687 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:9 WORDS
+                 SUBOPT_0x2:
+000688 2fe1      	MOV  R30,R17
+000689 e0f0      	LDI  R31,0
+00068a 59ec      	SUBI R30,LOW(-_cabins_up_stops)
+00068b 4ffd      	SBCI R31,HIGH(-_cabins_up_stops)
+00068c 81a0      	LD   R26,Z
+00068d 30a1      	CPI  R26,LOW(0x1)
+00068e 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:6 WORDS
+                 SUBOPT_0x3:
+00068f e0e1      	LDI  R30,LOW(1)
+000690 93e0 027a 	STS  _flag,R30
+000692 91e0 0262 	LDS  R30,_cabins_floors
+000694 5fef      	SUBI R30,-LOW(1)
+000695 93e0 0262 	STS  _cabins_floors,R30
+000697 91a0 0262 	LDS  R26,_cabins_floors
+000699 171a      	CP   R17,R26
+00069a 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+                 SUBOPT_0x4:
+00069b 931a      	ST   -Y,R17
+00069c e7a5      	LDI  R26,LOW(117)
+00069d dc1d      	RCALL _off_LED
+00069e 2fe1      	MOV  R30,R17
+00069f cfe2      	RJMP SUBOPT_0x1
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:7 WORDS
+                 SUBOPT_0x5:
+0006a0 2fe1      	MOV  R30,R17
+0006a1 e0f0      	LDI  R31,0
+0006a2 59e2      	SUBI R30,LOW(-_cabins_down_stops)
+0006a3 4ffd      	SBCI R31,HIGH(-_cabins_down_stops)
+0006a4 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x6:
+0006a5 931a      	ST   -Y,R17
+0006a6 e6a4      	LDI  R26,LOW(100)
+0006a7 dc13      	RCALL _off_LED
+0006a8 cff7      	RJMP SUBOPT_0x5
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:12 WORDS
+                 SUBOPT_0x7:
+0006a9 e0e0      	LDI  R30,LOW(0)
+0006aa bfe3      	OUT  0x33,R30
+0006ab bfe2      	OUT  0x32,R30
+0006ac e7e3      	LDI  R30,LOW(115)
+0006ad 93e0 0260 	STS  _cabins_states,R30
+0006af 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:6 WORDS
+                 SUBOPT_0x8:
+0006b0 e0e1      	LDI  R30,LOW(1)
+0006b1 93e0 027a 	STS  _flag,R30
+0006b3 91e0 0262 	LDS  R30,_cabins_floors
+0006b5 50e1      	SUBI R30,LOW(1)
+0006b6 93e0 0262 	STS  _cabins_floors,R30
+0006b8 91a0 0262 	LDS  R26,_cabins_floors
+0006ba 171a      	CP   R17,R26
+0006bb 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:9 WORDS
+                 SUBOPT_0x9:
+0006bc e0e3      	LDI  R30,LOW(3)
+0006bd 93e0 0278 	STS  _threshold,R30
+0006bf e0e1      	LDI  R30,LOW(1)
+0006c0 93e0 027a 	STS  _flag,R30
+0006c2 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
+                 SUBOPT_0xA:
+                +
+0006c3 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+0006c5 e0f0      	LDI  R31,0
+0006c6 0fae      	ADD  R26,R30
+0006c7 1fbf      	ADC  R27,R31
+0006c8 e0e0      	LDI  R30,LOW(0)
+0006c9 93ec      	ST   X,R30
+                +
+0006ca 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+0006cc 93ea      	ST   -Y,R30
+0006cd 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:12 WORDS
+                 SUBOPT_0xB:
+                +
+0006ce e6a9     +LDI R26 , LOW ( _cabins_up_stops + ( 5 ) )
+0006cf e0b2     +LDI R27 , HIGH ( _cabins_up_stops + ( 5 ) )
+                 	__POINTW2MN _cabins_up_stops,5
+0006d0 27ee      	CLR  R30
+0006d1 0fa1      	ADD  R26,R17
+0006d2 1fbe      	ADC  R27,R30
+0006d3 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:6 WORDS
+                 SUBOPT_0xC:
+0006d4 e0e1      	LDI  R30,LOW(1)
+                +
+0006d5 93e0 027b+STS _flag + ( 1 ) , R30
+                 	__PUTB1MN _flag,1
+                +
+0006d7 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+0006d9 5fef      	SUBI R30,-LOW(1)
+                +
+0006da 93e0 0263+STS _cabins_floors + ( 1 ) , R30
+                 	__PUTB1MN _cabins_floors,1
+                +
+0006dc 91a0 0263+LDS R26 , _cabins_floors + ( 1 )
+                 	__GETB2MN _cabins_floors,1
+0006de 171a      	CP   R17,R26
+0006df 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:12 WORDS
+                 SUBOPT_0xD:
+                +
+0006e0 e7a3     +LDI R26 , LOW ( _cabins_down_stops + ( 5 ) )
+0006e1 e0b2     +LDI R27 , HIGH ( _cabins_down_stops + ( 5 ) )
+                 	__POINTW2MN _cabins_down_stops,5
+0006e2 27ee      	CLR  R30
+0006e3 0fa1      	ADD  R26,R17
+0006e4 1fbe      	ADC  R27,R30
+0006e5 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:12 WORDS
+                 SUBOPT_0xE:
+0006e6 e0e0      	LDI  R30,LOW(0)
+0006e7 bde5      	OUT  0x25,R30
+0006e8 bde4      	OUT  0x24,R30
+0006e9 e7e3      	LDI  R30,LOW(115)
+                +
+0006ea 93e0 0261+STS _cabins_states + ( 1 ) , R30
+                 	__PUTB1MN _cabins_states,1
+0006ec 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
+                 SUBOPT_0xF:
+                +
+0006ed 91e0 0263+LDS R30 , _cabins_floors + ( 1 )
+                 	__GETB1MN _cabins_floors,1
+0006ef 50e1      	SUBI R30,LOW(1)
+                +
+0006f0 93e0 0263+STS _cabins_floors + ( 1 ) , R30
+                 	__PUTB1MN _cabins_floors,1
+                +
+0006f2 91a0 0263+LDS R26 , _cabins_floors + ( 1 )
+                 	__GETB2MN _cabins_floors,1
+0006f4 171a      	CP   R17,R26
+0006f5 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:9 WORDS
+                 SUBOPT_0x10:
+0006f6 e0e3      	LDI  R30,LOW(3)
+                +
+0006f7 93e0 0279+STS _threshold + ( 1 ) , R30
+                 	__PUTB1MN _threshold,1
+0006f9 e0e1      	LDI  R30,LOW(1)
+                +
+0006fa 93e0 027b+STS _flag + ( 1 ) , R30
+                 	__PUTB1MN _flag,1
+0006fc 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
+                 SUBOPT_0x11:
+0006fd 93aa      	ST   -Y,R26
+0006fe b3eb      	IN   R30,0x1B
+0006ff 70ef      	ANDI R30,LOW(0xF)
+000700 2fae      	MOV  R26,R30
+000701 81e8      	LD   R30,Y
+000702 7fe0      	ANDI R30,LOW(0xF0)
+000703 2bea      	OR   R30,R26
+000704 bbeb      	OUT  0x1B,R30
+000705 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x12:
+000706 e0a2      	LDI  R26,LOW(2)
+000707 e0b0      	LDI  R27,0
+000708 940c 077b 	JMP  _delay_ms
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:6 WORDS
+                 SUBOPT_0x13:
+00070a 81ee      	LDD  R30,Y+6
+00070b e0f0      	LDI  R31,0
+00070c 5ae0      	SUBI R30,LOW(-_cabins_states)
+00070d 4ffd      	SBCI R31,HIGH(-_cabins_states)
+00070e 81a0      	LD   R26,Z
+00070f 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 20 TIMES, CODE SIZE REDUCTION:35 WORDS
+                 SUBOPT_0x14:
+000710 81ee      	LDD  R30,Y+6
+000711 e0f0      	LDI  R31,0
+000712 59ee      	SUBI R30,LOW(-_cabins_floors)
+000713 4ffd      	SBCI R31,HIGH(-_cabins_floors)
+000714 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x15:
+000715 1bea      	SUB  R30,R26
+000716 e0a3      	LDI  R26,LOW(3)
+000717 02ea      	MULS R30,R26
+000718 2d10      	MOV  R17,R0
+000719 cff6      	RJMP SUBOPT_0x14
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 7 TIMES, CODE SIZE REDUCTION:33 WORDS
+                 SUBOPT_0x16:
+00071a e0a5      	LDI  R26,LOW(5)
+00071b 9f0a      	MUL  R16,R26
+00071c 01f0      	MOVW R30,R0
+00071d 59ec      	SUBI R30,LOW(-_cabins_up_stops)
+00071e 4ffd      	SBCI R31,HIGH(-_cabins_up_stops)
+00071f 30e1      	CPI  R30,LOW(0x1)
+000720 e0a0      	LDI  R26,HIGH(0x1)
+000721 07fa      	CPC  R31,R26
+000722 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 9 TIMES, CODE SIZE REDUCTION:45 WORDS
+                 SUBOPT_0x17:
+000723 e0a5      	LDI  R26,LOW(5)
+000724 9f0a      	MUL  R16,R26
+000725 01f0      	MOVW R30,R0
+000726 59e2      	SUBI R30,LOW(-_cabins_down_stops)
+000727 4ffd      	SBCI R31,HIGH(-_cabins_down_stops)
+000728 30e1      	CPI  R30,LOW(0x1)
+000729 e0a0      	LDI  R26,HIGH(0x1)
+00072a 07fa      	CPC  R31,R26
+00072b 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:18 WORDS
+                 SUBOPT_0x18:
+00072c e0f0      	LDI  R31,0
+00072d 940e 07ae 	CALL __SWAPW12
+00072f 1bea      	SUB  R30,R26
+000730 0bfb      	SBC  R31,R27
+000731 e0a3      	LDI  R26,LOW(3)
+000732 e0b0      	LDI  R27,HIGH(3)
+000733 940e 079b 	CALL __MULW12
+000735 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:6 WORDS
+                 SUBOPT_0x19:
+000736 e0a3      	LDI  R26,LOW(3)
+000737 02ea      	MULS R30,R26
+000738 01f0      	MOVW R30,R0
+000739 5fe6      	SUBI R30,-LOW(10)
+00073a 2f1e      	MOV  R17,R30
+00073b 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x1A:
+00073c 93ea      	ST   -Y,R30
+00073d e0e0      	LDI  R30,LOW(0)
+00073e 93ea      	ST   -Y,R30
+00073f e7a5      	LDI  R26,LOW(117)
+000740 cba9      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x1B:
+000741 93ea      	ST   -Y,R30
+000742 e0e1      	LDI  R30,LOW(1)
+000743 93ea      	ST   -Y,R30
+000744 e7a5      	LDI  R26,LOW(117)
+000745 cba4      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x1C:
+000746 93ea      	ST   -Y,R30
+000747 e0e1      	LDI  R30,LOW(1)
+000748 93ea      	ST   -Y,R30
+000749 e6a4      	LDI  R26,LOW(100)
+00074a cb9f      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x1D:
+00074b 93ea      	ST   -Y,R30
+00074c e0e2      	LDI  R30,LOW(2)
+00074d 93ea      	ST   -Y,R30
+00074e e7a5      	LDI  R26,LOW(117)
+00074f cb9a      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x1E:
+000750 93ea      	ST   -Y,R30
+000751 e0e2      	LDI  R30,LOW(2)
+000752 93ea      	ST   -Y,R30
+000753 e6a4      	LDI  R26,LOW(100)
+000754 cb95      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x1F:
+000755 93ea      	ST   -Y,R30
+000756 e0e3      	LDI  R30,LOW(3)
+000757 93ea      	ST   -Y,R30
+000758 e7a5      	LDI  R26,LOW(117)
+000759 cb90      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x20:
+00075a 93ea      	ST   -Y,R30
+00075b e0e3      	LDI  R30,LOW(3)
+00075c 93ea      	ST   -Y,R30
+00075d e6a4      	LDI  R26,LOW(100)
+00075e cb8b      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x21:
+00075f 93ea      	ST   -Y,R30
+000760 e0e4      	LDI  R30,LOW(4)
+000761 93ea      	ST   -Y,R30
+000762 e6a4      	LDI  R26,LOW(100)
+000763 cb86      	RJMP _calc_distance_time
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:5 WORDS
+                 SUBOPT_0x22:
+000764 2fe1      	MOV  R30,R17
+000765 e0f0      	LDI  R31,0
+000766 5ae0      	SUBI R30,LOW(-_cabins_states)
+000767 4ffd      	SBCI R31,HIGH(-_cabins_states)
+000768 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
+                 SUBOPT_0x23:
+000769 e0a5      	LDI  R26,LOW(5)
+00076a 9f1a      	MUL  R17,R26
+00076b 01f0      	MOVW R30,R0
+00076c 59ec      	SUBI R30,LOW(-_cabins_up_stops)
+00076d 4ffd      	SBCI R31,HIGH(-_cabins_up_stops)
+00076e 01df      	MOVW R26,R30
+00076f 27ee      	CLR  R30
+000770 0fa0      	ADD  R26,R16
+000771 1fbe      	ADC  R27,R30
+000772 91ac      	LD   R26,X
+000773 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x24:
+000774 83a0      	STD  Z+0,R26
+000775 2fe1      	MOV  R30,R17
+000776 e0f0      	LDI  R31,0
+000777 58e8      	SUBI R30,LOW(-_threshold)
+000778 4ffd      	SBCI R31,HIGH(-_threshold)
+000779 e0a3      	LDI  R26,LOW(3)
+00077a 9508      	RET
+                 
+                 
+                 	.CSEG
+                 _delay_ms:
+00077b 9610      	adiw r26,0
+00077c f039      	breq __delay_ms1
+                 __delay_ms0:
+                +
+00077d ed80     +LDI R24 , LOW ( 0x7D0 )
+00077e e097     +LDI R25 , HIGH ( 0x7D0 )
+                +__DELAY_USW_LOOP :
+00077f 9701     +SBIW R24 , 1
+000780 f7f1     +BRNE __DELAY_USW_LOOP
+                 	__DELAY_USW 0x7D0
+000781 95a8      	wdr
+000782 9711      	sbiw r26,1
+000783 f7c9      	brne __delay_ms0
+                 __delay_ms1:
+000784 9508      	ret
+                 
+                 __ANEGW1:
+000785 95f1      	NEG  R31
+000786 95e1      	NEG  R30
+000787 40f0      	SBCI R31,0
+000788 9508      	RET
+                 
+                 __EQB12:
+000789 17ea      	CP   R30,R26
+00078a e0e1      	LDI  R30,1
+00078b f009      	BREQ __EQB12T
+00078c 27ee      	CLR  R30
+                 __EQB12T:
+00078d 9508      	RET
+                 
+                 __LEB12U:
+00078e 17ea      	CP   R30,R26
+00078f e0e1      	LDI  R30,1
+000790 f408      	BRSH __LEB12U1
+000791 27ee      	CLR  R30
+                 __LEB12U1:
+000792 9508      	RET
+                 
+                 __MULW12U:
+000793 9ffa      	MUL  R31,R26
+000794 2df0      	MOV  R31,R0
+000795 9feb      	MUL  R30,R27
+000796 0df0      	ADD  R31,R0
+000797 9fea      	MUL  R30,R26
+000798 2de0      	MOV  R30,R0
+000799 0df1      	ADD  R31,R1
+00079a 9508      	RET
+                 
+                 __MULW12:
+00079b d004      	RCALL __CHKSIGNW
+00079c dff6      	RCALL __MULW12U
+00079d f40e      	BRTC __MULW121
+00079e dfe6      	RCALL __ANEGW1
+                 __MULW121:
+00079f 9508      	RET
+                 
+                 __CHKSIGNW:
+0007a0 94e8      	CLT
+0007a1 fff7      	SBRS R31,7
+0007a2 c002      	RJMP __CHKSW1
+0007a3 dfe1      	RCALL __ANEGW1
+0007a4 9468      	SET
+                 __CHKSW1:
+0007a5 ffb7      	SBRS R27,7
+0007a6 c006      	RJMP __CHKSW2
+0007a7 95a0      	COM  R26
+0007a8 95b0      	COM  R27
+0007a9 9611      	ADIW R26,1
+0007aa f800      	BLD  R0,0
+0007ab 9403      	INC  R0
+0007ac fa00      	BST  R0,0
+                 __CHKSW2:
+0007ad 9508      	RET
+                 
+                 __SWAPW12:
+0007ae 2e1b      	MOV  R1,R27
+0007af 2fbf      	MOV  R27,R31
+0007b0 2df1      	MOV  R31,R1
+                 
+                 __SWAPB12:
+0007b1 2e1a      	MOV  R1,R26
+0007b2 2fae      	MOV  R26,R30
+0007b3 2de1      	MOV  R30,R1
+0007b4 9508      	RET
+                 
+                 __SAVELOCR4:
+0007b5 933a      	ST   -Y,R19
+                 __SAVELOCR3:
+0007b6 932a      	ST   -Y,R18
+                 __SAVELOCR2:
+0007b7 931a      	ST   -Y,R17
+0007b8 930a      	ST   -Y,R16
+0007b9 9508      	RET
+                 
+                 __LOADLOCR4:
+0007ba 813b      	LDD  R19,Y+3
+                 __LOADLOCR3:
+0007bb 812a      	LDD  R18,Y+2
+                 __LOADLOCR2:
+0007bc 8119      	LDD  R17,Y+1
+0007bd 8108      	LD   R16,Y
+0007be 9508      	RET
+                 
+                 ;END OF CODE MARKER
+                 __END_OF_CODE:
+
+
+RESOURCE USE INFORMATION
+------------------------
+
+Notice:
+The register and instruction counts are symbol table hit counts,
+and hence implicitly used resources are not counted, eg, the
+'lpm' instruction without operands implicitly uses r0 and z,
+none of which are counted.
+
+x,y,z are separate entities in the symbol table and are
+counted separately from r26..r31 here.
+
+.dseg memory usage only counts static data declared with .byte
+
+ATmega32 register use summary:
+r0 :  20 r1 :   8 r2 :   0 r3 :   0 r4 :   3 r5 :   3 r6 :   3 r7 :   3 
+r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   2 
+r16:  98 r17: 133 r18:  18 r19:  18 r20:   0 r21:   0 r22:   6 r23:   2 
+r24:  17 r25:   6 r26: 290 r27:  34 r28:  27 r29:   1 r30: 588 r31:  52 
+x  :  20 y  : 145 z  :  58 
+Registers used: 24 out of 35 (68.6%)
+
+ATmega32 instruction use summary:
+.lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   7 add   :  13 
+adiw  :  27 and   :   0 andi  :   6 asr   :   0 bclr  :   0 bld   :   1 
+brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :  21 
+brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :  37 
+brlt  :   0 brmi  :   0 brne  :  92 brpl  :   0 brsh  :  29 brtc  :   1 
+brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   1 call  :   9 
+cbi   :  29 cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 
+clr   :  16 cls   :   0 clt   :   1 clv   :   0 clz   :   0 com   :   2 
+cp    :  40 cpc   :   6 cpi   : 104 cpse  :   0 dec   :   3 des   :   0 
+eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 
+in    :   3 inc   :   5 jmp   :  23 ld    :  63 ldd   :  45 ldi   : 255 
+lds   :  75 lpm   :   7 lsl   :   0 lsr   :   0 mov   :  67 movw  :  33 
+mul   :   6 muls  :   4 mulsu :   0 neg   :   2 nop   :   0 or    :   3 
+ori   :   2 out   :  54 pop   :   0 push  :   0 rcall : 163 ret   :  44 
+reti  :   1 rjmp  : 173 rol   :   0 ror   :   0 sbc   :   1 sbci  :  17 
+sbi   :  19 sbic  :   0 sbis  :  18 sbiw  :  10 sbr   :   0 sbrc  :   0 
+sbrs  :   2 sec   :   0 seh   :   0 sei   :   1 sen   :   0 ser   :   0 
+ses   :   0 set   :   1 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
+st    :  68 std   :  40 sts   :  62 sub   :   8 subi  :  85 swap  :   1 
+tst   :   0 wdr   :   1 
+Instructions used: 56 out of 116 (48.3%)
+
+ATmega32 memory use summary [bytes]:
+Segment   Begin    End      Code   Data   Used    Size   Use%
+---------------------------------------------------------------
+[.cseg] 0x000000 0x000f7e   3954     12   3966   32768  12.1%
+[.dseg] 0x000060 0x00027c      0     28     28    2048   1.4%
+[.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
+
+Assembly complete, 0 errors, 4 warnings

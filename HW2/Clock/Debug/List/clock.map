@@ -1,0 +1,40 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+time_string                                                                       0x0260      17
+state                                                                             0x0271       1
+ALARM                                                                             0x0272       1
+string                                                                            0x0273      17
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+counter                                                                           R5           1
+seconds                                                                           R4           1
+minutes                                                                           R7           1
+hours                                                                             R6           1
+stop_watch_counter                                                                R9           1
+stop_watch_seconds                                                                R8           1
+stop_watch_minutes                                                                R11          1
+stop_watch_hours                                                                  R10          1
+alarm_minutes                                                                     R13          1
+alarm_hours                                                                       R12          1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+timer0_ovf_isr                                                                    0x00060     77
+timer2_ovf_isr                                                                    0x000AD     28
+lcd_init                                                                          0x000C9     17
+lcd_send_char                                                                     0x000DF     13
+lcd_send_string                                                                   0x000EC     24
+lcd_clear                                                                         0x00104      3
+lcd_go_to_xy                                                                      0x00107     15
+updateTimeString                                                                  0x00116     85
+check_push_buttons                                                                0x0016B    191
+update_lcd                                                                        0x0022A    300
+main                                                                              0x00356     56

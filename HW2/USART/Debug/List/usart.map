@@ -1,0 +1,50 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+received_string                                                                   0x0260      40
+sending_string                                                                    0x0288      40
+message_string                                                                    0x02B0      17
+rx_buffer                                                                         0x02C1      16
+tx_buffer                                                                         0x02D1      16
+tx_counter                                                                        0x02E1       1
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+i                                                                                 R5           1
+j                                                                                 R4           1
+sending                                                                           R7           1
+sender_set                                                                        R6           1
+MY_ID                                                                             R9           1
+rx_wr_index                                                                       R8           1
+rx_rd_index                                                                       R11          1
+rx_counter                                                                        R10          1
+rx_buffer_overflow                                                                R2.0      1bit
+tx_wr_index                                                                       R13          1
+tx_rd_index                                                                       R12          1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+usart_rx_isr                                                                      0x0006D     31
+getchar                                                                           0x0008C     18
+usart_tx_isr                                                                      0x0009E     27
+putchar                                                                           0x000B9     33
+lcd_init                                                                          0x000DA     16
+lcd_send_char                                                                     0x000EF     13
+lcd_send_string                                                                   0x000FC     16
+lcd_clear                                                                         0x0010C      3
+lcd_go_to_xy                                                                      0x0010F     14
+show_message                                                                      0x0011D     51
+show_sending                                                                      0x00150     46
+send                                                                              0x0017E     22
+process                                                                           0x00194     22
+receive                                                                           0x001AA     26
+GetKeyPressed                                                                     0x001C4     41
+receive_command                                                                   0x001ED    249
+set_my_id                                                                         0x002E6    165
+main                                                                              0x0038B     52

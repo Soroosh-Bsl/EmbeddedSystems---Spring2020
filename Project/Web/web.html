@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<title> Air Quality System </title>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+	
+</head>
+
+
+<body style="background-color:black;">
+<script>
+function myFunction(x) {
+	document.getElementById("location").src = x;
+}
+</script>
+<script src='./require.js'></script>
+<script>
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+</script>
+<script>
+
+array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+async function makeData(){
+	var num_of_devices = 3;
+	for (var i = 0; i < 3; i++)
+		for (var j = 0; j < 20; j++)
+			array[i][j] = 0;
+			
+	for (var i = 1; i < num_of_devices+1; i++){
+		var d = "";
+			postData('http://localhost:9200/iot/_search',
+			{
+				"from":0,
+				"size": 20,
+				"query":{
+					"match":{
+						"device": i
+					}
+				},
+				"sort":{
+					"i":{"order":"desc"}
+				}
+			})
+			.then(data => {
+				for (var j = 0; j < 20; j++){
+					d = data['hits']['hits'][j]['_source']['data'].slice(42, -3).split(",");
+					for (var k = 0; k < 3; k++){
+					//console.log(parseFloat(d[k]));
+						array[k][j] += (parseFloat(d[k])/num_of_devices);
+					}
+				}
+			});
+	}
+}
+</script>
+
+<script src="require.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data_gauge = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['CO2', 0],
+          ['CO', 0],
+          ['AirIdx', 0]
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          minorTicks: 5, max: 500
+        };
+
+        var gauge = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        gauge.draw(data_gauge, options);
+
+        setInterval(function() {
+			var x1 = array[0][0];
+			var x2 = array[1][0];
+			var x3 = array[2][0];
+			if (x1 > 0 && x2 > 0 && x3 > 0){
+				data_gauge.setValue(0, 1, x1);
+				data_gauge.setValue(1, 1, x2);
+				data_gauge.setValue(2, 1, x3);
+			}
+          gauge.draw(data_gauge, options);
+        }, 1000);
+		
+      }
+</script>
+	
+<script>
+window.onload = function () {
+var dps = []; // dataPoints
+var dps2 = [];
+var dps3 = [];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "Average History"
+	},
+	axisY: {
+		title: "Amount",
+		includeZero: false,
+	},
+	legend:{
+		cursor: "pointer",
+		fontSize: 16,
+	},
+	toolTip:{
+		shared: true
+	},
+	data: [
+	{
+		name: "CO",
+		type: "spline",
+		showInLegend: true,
+		dataPoints: dps2,
+	},
+	{
+		name: "CO2",
+		type: "spline",
+		showInLegend: true,
+		dataPoints: dps
+	},
+	{
+		name: "AirIdx",
+		type: "spline",
+		showInLegend: true,
+		dataPoints: dps3,
+	}]
+});
+
+var xVal = 0;
+var yVal = 0; 
+var updateInterval = 2000;
+var dataLength = 20; // number of dataPoints visible at any point
+
+var updateChart = async function (count) {
+
+	count = count || 1;
+	
+	for (var j = 0; j < 1; j++) {
+		await makeData();
+		setTimeout(function() {
+		//console.log(array[0][19]);
+		yVal = array[0][0];
+		if (yVal > 0.){
+		dps.push({
+			x: xVal,
+			y: yVal
+		});}}, 500);
+		
+		setTimeout(function() {
+		yVal = array[1][0];
+		if (yVal > 0.){
+		dps2.push({
+			x: xVal,
+			y: yVal
+		});}}, 500);
+		
+		setTimeout(function() {
+		yVal = array[2][0];
+		var xmax = (array[2][0] > array[1][0])?(array[2][0]>array[0][0]?array[2][0]:array[0][0]):(array[1][0]>array[0][0]?array[1][0]:array[0][0]);
+		console.log(xmax);
+		if (xmax >= 0 && xmax <= 50)
+		{
+			document.getElementById('Healthy').style.height = "30px";
+			document.getElementById('Healthy').style.width = "30px";
+			document.getElementById('OK').style.height = "20px";
+			document.getElementById('OK').style.width = "20px";
+			document.getElementById('UnhealthySome').style.height = "20px";
+			document.getElementById('UnhealthySome').style.width = "20px";
+			document.getElementById('Unhealthy').style.height = "20px";
+			document.getElementById('Unhealthy').style.width = "20px";
+			document.getElementById('VeryUnhealthy').style.height = "20px";
+			document.getElementById('VeryUnhealthy').style.width = "20px";
+			document.getElementById('Dangerous').style.height = "20px";
+			document.getElementById('Dangerous').style.width = "20px";
+			document.getElementById('Status').innerHTML = "Healthy";
+		}			
+		else if (xmax >= 51 && xmax <= 100)
+		{
+			document.getElementById('Healthy').style.height = "20px";
+			document.getElementById('Healthy').style.width = "20px";
+			document.getElementById('OK').style.height = "30px";
+			document.getElementById('OK').style.width = "30px";
+			document.getElementById('UnhealthySome').style.height = "20px";
+			document.getElementById('UnhealthySome').style.width = "20px";
+			document.getElementById('Unhealthy').style.height = "20px";
+			document.getElementById('Unhealthy').style.width = "20px";
+			document.getElementById('VeryUnhealthy').style.height = "20px";
+			document.getElementById('VeryUnhealthy').style.width = "20px";
+			document.getElementById('Dangerous').style.height = "20px";
+			document.getElementById('Dangerous').style.width = "20px";
+			document.getElementById('Status').innerHTML = "OK";
+		}
+		else if (xmax >= 101 && xmax <= 150)
+		{
+			document.getElementById('Healthy').style.height = "20px";
+			document.getElementById('Healthy').style.width = "20px";
+			document.getElementById('OK').style.height = "20px";
+			document.getElementById('OK').style.width = "20px";
+			document.getElementById('UnhealthySome').style.height = "30px";
+			document.getElementById('UnhealthySome').style.width = "30px";
+			document.getElementById('Unhealthy').style.height = "20px";
+			document.getElementById('Unhealthy').style.width = "20px";
+			document.getElementById('VeryUnhealthy').style.height = "20px";
+			document.getElementById('VeryUnhealthy').style.width = "20px";
+			document.getElementById('Dangerous').style.height = "20px";
+			document.getElementById('Dangerous').style.width = "20px";
+			document.getElementById('Status').innerHTML = "Unhealthy For Some";
+		}
+		else if (xmax >= 151 && xmax <= 200)
+		{
+			document.getElementById('Healthy').style.height = "20px";
+			document.getElementById('Healthy').style.width = "20px";
+			document.getElementById('OK').style.height = "20px";
+			document.getElementById('OK').style.width = "20px";
+			document.getElementById('UnhealthySome').style.height = "20px";
+			document.getElementById('UnhealthySome').style.width = "20px";
+			document.getElementById('Unhealthy').style.height = "30px";
+			document.getElementById('Unhealthy').style.width = "30px";
+			document.getElementById('VeryUnhealthy').style.height = "20px";
+			document.getElementById('VeryUnhealthy').style.width = "20px";
+			document.getElementById('Dangerous').style.height = "20px";
+			document.getElementById('Dangerous').style.width = "20px";
+			document.getElementById('Status').innerHTML = "Unhealthy";
+		}			
+		else if (xmax >= 201 && xmax <= 300)
+		{
+			document.getElementById('Healthy').style.height = "20px";
+			document.getElementById('Healthy').style.width = "20px";
+			document.getElementById('OK').style.height = "20px";
+			document.getElementById('OK').style.width = "20px";
+			document.getElementById('UnhealthySome').style.height = "20px";
+			document.getElementById('UnhealthySome').style.width = "20px";
+			document.getElementById('Unhealthy').style.height = "20px";
+			document.getElementById('Unhealthy').style.width = "20px";
+			document.getElementById('VeryUnhealthy').style.height = "30px";
+			document.getElementById('VeryUnhealthy').style.width = "30px";
+			document.getElementById('Dangerous').style.height = "20px";
+			document.getElementById('Dangerous').style.width = "20px";
+			document.getElementById('Status').innerHTML = "Really Unhealthy";
+		}			
+		else
+		{
+			document.getElementById('Healthy').style.height = "20px";
+			document.getElementById('Healthy').style.width = "20px";
+			document.getElementById('OK').style.height = "20px";
+			document.getElementById('OK').style.width = "20px";
+			document.getElementById('UnhealthySome').style.height = "20px";
+			document.getElementById('UnhealthySome').style.width = "20px";
+			document.getElementById('Unhealthy').style.height = "20px";
+			document.getElementById('Unhealthy').style.width = "20px";
+			document.getElementById('VeryUnhealthy').style.height = "20px";
+			document.getElementById('VeryUnhealthy').style.width = "20px";
+			document.getElementById('Dangerous').style.height = "30px";
+			document.getElementById('Dangerous').style.width = "30px";
+			document.getElementById('Status').innerHTML = "Dangerous";
+		}
+		if (yVal > 0.){
+		dps3.push({
+			x: xVal,
+			y: yVal
+		});}}, 500);
+		
+		xVal++;
+	}
+
+	if (dps.length > dataLength) {
+		dps.shift();
+		dps2.shift();
+		dps3.shift();
+	}
+
+	chart.render();
+};
+
+updateChart(dataLength);
+setInterval(async function(){updateChart()}, updateInterval);
+
+}
+</script>
+
+<div id = "Head" style="width:1000; height:500; border:1 solid white; background-color:red; text-color: white; text-align: center; text-align:center";> Air Quality System </div>
+<br><br>
+
+<div id="chartContainer" style="height: 370px; width:40%; margin:auto"></div> <br>
+
+<table style="margin:auto">
+<tbody>
+<tr>
+<td>
+<div id= "Healthy" style="width:20px; height:20px; border:1px solid white; background-color: green";></div>
+</td>
+<td>
+<div id= "OK" style="width:20px; height:20px; border:1px solid white; background-color: yellow";></div>
+</td>
+<td>
+<div id= "UnhealthySome" style="width:20px; height:20px; border:1px solid white; background-color: orange";></div>
+</td>
+<td>
+<div id= "Unhealthy" style="width:20px; height:20px; border:1px solid white; background-color: red";> </div>
+</td>
+<td>
+<div id= "VeryUnhealthy" style="width:20px; height:20px; border:1px solid white; background-color: purple";> </div>
+</td>
+<td>
+<div id= "Dangerous" style="width:20px; height:20px; border:1px solid white; background-color: brown";> </div>
+</td>
+
+
+</tr>
+
+
+<tr>
+<td colspan = 6>
+<div id = "Status" style="width:150; height:20; border:1 solid white; background-color:white; text-align:center";> Healthy </div>
+</td>
+</tr>
+</tbody>
+</table>
+
+<div id="chart_div" style="width: 400px; height: 120px; margin:0 auto;"></div>
+
+<div id="loc1_container" style="height: 500px; width:100%; margin-top:15px;">
+<h3 style="color:white; text-align:center;"> Location 1 </h1>
+<iframe id=location src="http://localhost:8080" title="Location 1" style="height: 475px; width:100%;"></iframe></div>
+
+<div id="loc2_container" style="height: 500px; width:100%;  margin-top:15px;">
+<h3 style="color:white; text-align:center;"> Location 2 </h1>
+<b><b>
+<iframe id=location src="http://localhost:8081" title="Location 2" style="height: 475px; width:100%;"></iframe></div>
+
+<div id="loc3_container" style="height: 500px; width:100%; margin-top:15px;">
+<h3 style="color:white; text-align:center;"> Location 3 </h1>
+<iframe id=location src="http://localhost:8082" title="Location 3" style="height: 475px; width:100%;"></iframe></div>
+</body>
+</html>
